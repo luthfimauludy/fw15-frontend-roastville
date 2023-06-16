@@ -3,7 +3,7 @@ import Headers from '@/components/Headers'
 import { FaCamera } from 'react-icons/fa'
 import Footer from '@/components/Footer'
 
-function NewPromo() {
+function EditPromo() {
   return (
     <>
       <div>
@@ -13,30 +13,28 @@ function NewPromo() {
         <div className='flex w-full justify-center items-center'>
           <div className='flex-auto flex-col items-center justify-center gap-7'>
             <div className='flex flex-col gap-5 justify-center items-center'>
-              <div className='text-xs'>Favorite & Promo - <span className='font-bold'> Add new promo</span> </div>
+              <div className='text-xs'>Favorite & Promo - <span className='font-bold'> Edit promo</span> </div>
               <div className='flex flex-col justify-center items-start gap-5'>
                 <div className='flex flex-col justify-center items-center gap-5'>
-                  <div>
-                    <div className='bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center '>
-                      <FaCamera size={40} />
+                  <div className='bg-secondary/50 w-full h-auto flex justify-center items-center flex-col gap-4 rounded-xl'>
+                    <div className='flex flex-col justify-center items-center p-6 gap-4'>
+                      <div className='bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center '>
+                        <FaCamera size={40} />
+                      </div>
+                      <div className='flex flex-col items-center gap-2'>
+                        <span className='text-2xl font-extrabold'>Beef Spaghetti</span>
+                        <span className='text-xl font-extrabold'>20% OFF</span>
+                      </div>
+                      <div className='w-[200px] flex text-center justify-center'>
+                        <span className='text-sm font-semibold'>Buy 1 Choco Oreo and get 20% off for Beef Spaghetti</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className='flex flex-col gap-3'>
-                    <label className='btn btn-primary text-gray-100 normal-case'>Take a picture</label>
-                    <label className='btn btn-secondary text-black normal-case'>
-                      <span className='text-white'>Choose from gallery</span>
-                      <input type="file" className='hidden' />
-                    </label>
-                  </div>
-                </div>
-                <div className='flex flex-col'>
-                  <span className='text-sm font-semibold'>Enter the discount :</span>
-                  <div className="dropdown">
-                    <label tabIndex={0} className="btn m-1 normal-case">Input discount</label>
-                    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                      <li><a>Item 1</a></li>
-                      <li><a>Item 2</a></li>
-                    </ul>
+                    <hr className='w-full border-t-black border-dashed' />
+                    <div className='flex flex-col justify-center items-center gap-4 p-6'>
+                      <span className='text-sm font-semibold'>COUPON CODE</span>
+                      <span className='text-xl font-bold'>FNPR15RG</span>
+                      <span className='text-xs'>Valid untill October 10th 2020</span>
+                    </div>
                   </div>
                 </div>
                 <div className='flex-col flex gap-1'>
@@ -84,28 +82,28 @@ function NewPromo() {
                     <span className='text-xs opacity-50'>Click product size you want to use for this promo</span>
                   </div>
                   <div className='flex gap-4'>
-                    <div className='bg-secondary w-10 h-10 rounded-full flex justify-center items-center'>
+                    <div className='bg-gray-300 w-10 h-10 rounded-full flex justify-center items-center'>
                       <span className='font-bold text-white'>R</span>
                     </div>
-                    <div className='bg-secondary w-10 h-10 rounded-full flex justify-center items-center'>
+                    <div className='bg-gray-300 w-10 h-10 rounded-full flex justify-center items-center'>
                       <span className='font-bold text-white'>L</span>
                     </div>
-                    <div className='bg-secondary w-10 h-10 rounded-full flex justify-center items-center'>
+                    <div className='bg-gray-300 w-10 h-10 rounded-full flex justify-center items-center'>
                       <span className='font-bold text-white'>XL</span>
                     </div>
-                    <div className='bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center'>
+                    <div className='bg-secondary/50 w-10 h-10 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center'>
                       <span>
                         250
                       </span>
                       <span>gr</span>
                     </div>
-                    <div className='bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center'>
+                    <div className='bg-secondary/50 w-10 h-10 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center'>
                       <span>
                         300
                       </span>
                       <span>gr</span>
                     </div>
-                    <div className='bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center'>
+                    <div className='bg-secondary/50 w-10 h-10 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center'>
                       <span>
                         500
                       </span>
@@ -134,9 +132,11 @@ function NewPromo() {
                       </label>
                     </div>
                   </div>
+                  <div>
+                    <span className='text-sm font-bold'>Enter the discount :</span>
+                  </div>
                   <div className='flex-col flex gap-4 max-w-md'>
-                    <button className='btn btn-primary normal-case'>Save Promo</button>
-                    <button className='btn btn-default normal-case'>Cancel</button>
+                    <button className='btn btn-primary normal-case'>Save Change</button>
                   </div>
                 </div>
               </div>
@@ -151,4 +151,4 @@ function NewPromo() {
   )
 }
 
-export default NewPromo
+export default EditPromo
