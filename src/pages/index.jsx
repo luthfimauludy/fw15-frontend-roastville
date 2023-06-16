@@ -1,11 +1,8 @@
 import Image from "next/image"
-import Coffee from "../../public/coffee.png"
 import { FiArrowLeft, FiArrowRight, FiSearch } from "react-icons/fi"
-import Link from "next/link"
 import { BiUser } from "react-icons/bi"
 import { MdLocationPin } from "react-icons/md"
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai"
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"
 import Checkbox from "../../public/checkbox.png"
 import TeamWork from "../../public/team-work.png"
 import Hazelnut from "../../public/hazelnutcoffee.png"
@@ -18,46 +15,13 @@ import Reddit from "../../public/reddit.png"
 import Netflix from "../../public/netflix.png"
 import Discord from "../../public/discord.png"
 import ProfilePhoto from "../../public/profilephoto.png"
+import Headers from "@/components/Headers"
+import Footer from "@/components/Footer"
 
 export default function Home() {
   return (
     <>
-      <div className="flex w-full justify-between items-center px-36 h-24 bg-white">
-        <div className="flex justify-center items-center gap-5">
-          <div>
-            <Image src={Coffee} alt="coffee_image"></Image>
-          </div>
-          <div className="text-black tracking-wide font-extrabold">
-            Coffee Shop
-          </div>
-        </div>
-        <div>
-          <ul className="flex justify-center items-center gap-5 text-gray-600">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/">Product</Link>
-            </li>
-            <li>
-              <Link href="/">Your Cart</Link>
-            </li>
-            <li>
-              <Link href="/">History</Link>
-            </li>
-          </ul>
-        </div>
-        <div className="flex justify-center items-center gap-10">
-          <div>
-            <button className="text-black">Login</button>
-          </div>
-          <div className="max-w-lg">
-            <button className="btn btn-primary normal-case text-white rounded-3xl w-full max-w-lg">
-              Sign Up
-            </button>
-          </div>
-        </div>
-      </div>
+      <Headers />
       <div className="w-full h-[645px] bg-home bg-no-repeat bg-cover px-10">
         <div className="flex w-full justify-between px-36">
           <div className="flex flex-col max-w-lg pt-28 gap-10">
@@ -403,50 +367,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="py-14">
-          <div className="w-full flex justify-around">
-            <div className="max-w-lg flex flex-col gap-8">
-              <div className="flex items-center gap-2">
-                <div>
-                  <Image src={Coffee} alt="" />
-                </div>
-                <div className="font-bold text-xl">Coffee Shop</div>
-              </div>
-              <div>
-                Coffee Shop is a store that sells some good meals, and
-                especially coffee. We provide high quality beans
-              </div>
-              <div className="flex gap-2">
-                <FaFacebook size={25} />
-                <FaTwitter size={25} />
-                <FaInstagram size={25} />
-              </div>
-              <div>©2020CoffeeStore</div>
-            </div>
-            <div className="flex gap-20">
-              <div className="flex flex-col gap-3">
-                <div className="text-xl font-bold">Product</div>
-                <div className="flex flex-col gap-3">
-                  <Link href="/">Download</Link>
-                  <Link href="/">Pricing</Link>
-                  <Link href="/">Locations</Link>
-                  <Link href="/">Countries</Link>
-                  <Link href="/">Blog</Link>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="text-xl font-bold">Engage</div>
-                <div className="flex flex-col gap-3">
-                  <Link href="/">Coffee Shop</Link>
-                  <Link href="/">FAQ</Link>
-                  <Link href="/">About Us</Link>
-                  <Link href="/">Privacy Policy</Link>
-                  <Link href="/">Terms of Service</Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Footer />
       </footer>
     </>
   )

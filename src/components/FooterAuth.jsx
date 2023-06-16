@@ -1,6 +1,6 @@
 import React from "react"
 import Image from "next/image"
-import logo from "../assets/img/logo_roastville.png"
+import logo from "public/assets/img/logo_roastville.png"
 import {
   AiFillFacebook,
   AiFillInstagram,
