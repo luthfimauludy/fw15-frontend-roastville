@@ -134,7 +134,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex justify-around items-center h-[550px]">
+      <div className="flex justify-around items-center h-[550px] mt-28">
         <div>
           <Image alt="" src={TeamWork}></Image>
         </div>
