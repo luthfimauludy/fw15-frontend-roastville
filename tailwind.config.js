@@ -1,3 +1,5 @@
+const daisyui = require("daisyui")
+
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
@@ -27,13 +29,13 @@ module.exports = {
     extend: {
       backgroundImage: {
         home: "url('../../public/bg-home.png')",
+        login: "url('../../src/assets/img/bg-login.jpg')",
+        login_mobile: "url('../../src/assets/img/bg-login-mobile.png')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        profile: "url('../../public/profileBg.png')",
-        payment: "url('../../public/paymentBg.png')",
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [daisyui],
 }
