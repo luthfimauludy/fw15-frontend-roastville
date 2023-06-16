@@ -31,6 +31,7 @@ module.exports = {
         home: "url('../../public/bg-home.png')",
         login: "url('../../public/assets/img/bg-login.jpg')",
         login_mobile: "url('../../public/assets/img/bg-login-mobile.png')",
+        payment: "url('../../public/assets/img/bg-payment.jpg')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
