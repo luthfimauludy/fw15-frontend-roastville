@@ -90,46 +90,40 @@ export default function Home() {
           </div>
         </div>
         <div className="flex justify-around items-center w-full h-[200px] bg-white mt-28 rounded-2xl shadow-2xl">
-          <div className="">
-            <div className="relative">
-              <div className="flex gap-5 items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-primary"></div>
-                <div>
-                  <div className="font-black">90+</div>
-                  <div>Staff</div>
-                </div>
-              </div>
-              <div className="absolute top-4 left-4">
-                <BiUser size={25} color="white" />
+          <div className="relative">
+            <div className="flex gap-5 items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-primary"></div>
+              <div>
+                <div className="font-black">90+</div>
+                <div>Staff</div>
               </div>
             </div>
-          </div>
-          <div className="">
-            <div className="relative">
-              <div className="flex gap-5 items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-primary"></div>
-                <div>
-                  <div className="font-black">30+</div>
-                  <div>Stores</div>
-                </div>
-              </div>
-              <div className="absolute top-4 left-4">
-                <MdLocationPin size={25} color="white" />
-              </div>
+            <div className="absolute top-4 left-4">
+              <BiUser size={25} color="white" />
             </div>
           </div>
-          <div className="">
-            <div className="relative">
-              <div className="flex gap-5 items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-primary"></div>
-                <div>
-                  <div className="font-black">800+</div>
-                  <div>Customers</div>
-                </div>
+          <div className="relative">
+            <div className="flex gap-5 items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-primary"></div>
+              <div>
+                <div className="font-black">30+</div>
+                <div>Stores</div>
               </div>
-              <div className="absolute top-4 left-4">
-                <AiOutlineHeart size={25} color="white" />
+            </div>
+            <div className="absolute top-4 left-4">
+              <MdLocationPin size={25} color="white" />
+            </div>
+          </div>
+          <div className="relative">
+            <div className="flex gap-5 items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-primary"></div>
+              <div>
+                <div className="font-black">800+</div>
+                <div>Customers</div>
               </div>
+            </div>
+            <div className="absolute top-4 left-4">
+              <AiOutlineHeart size={25} color="white" />
             </div>
           </div>
         </div>
@@ -255,7 +249,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col items-center justify-center px-20">
         <div className="text-4xl font-bold">Our Partner</div>
         <div className="flex w-full justify-between items-center">
           <div>
@@ -393,44 +387,63 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <footer className="w-full flex justify-around bg-[#F8F8F8]">
-        <div className="max-w-lg flex flex-col gap-8">
-          <div className="flex items-center gap-2">
+      <footer className="w-full flex flex-col justify-around bg-[#F8F8F8] mt-36">
+        <div className="w-full px-20 mt-[-110px]">
+          <div className="flex justify-around items-center w-full h-[200px] bg-white rounded-2xl shadow-2xl">
             <div>
-              <Image src={Coffee} alt="" />
+              <div>
+                <div className="font-bold text-xl">Check our promo today</div>
+              </div>
+              <div>
+                <div>Let&apos;s see the deals and pick yours!</div>
+              </div>
             </div>
-            <div className="font-bold text-xl">Coffee Shop</div>
+            <div>
+              <button className="btn btn-primary">See Promo</button>
+            </div>
           </div>
-          <div>
-            Coffee Shop is a store that sells some good meals, and especially
-            coffee. We provide high quality beans
-          </div>
-          <div className="flex gap-2">
-            <FaFacebook size={25} />
-            <FaTwitter size={25} />
-            <FaInstagram size={25} />
-          </div>
-          <div>©2020CoffeeStore</div>
         </div>
-        <div className="flex gap-20">
-          <div className="flex flex-col gap-3">
-            <div className="text-xl font-bold">Product</div>
-            <div className="flex flex-col gap-3">
-              <Link href="/">Download</Link>
-              <Link href="/">Pricing</Link>
-              <Link href="/">Locations</Link>
-              <Link href="/">Countries</Link>
-              <Link href="/">Blog</Link>
+        <div className="py-14">
+          <div className="w-full flex justify-around">
+            <div className="max-w-lg flex flex-col gap-8">
+              <div className="flex items-center gap-2">
+                <div>
+                  <Image src={Coffee} alt="" />
+                </div>
+                <div className="font-bold text-xl">Coffee Shop</div>
+              </div>
+              <div>
+                Coffee Shop is a store that sells some good meals, and
+                especially coffee. We provide high quality beans
+              </div>
+              <div className="flex gap-2">
+                <FaFacebook size={25} />
+                <FaTwitter size={25} />
+                <FaInstagram size={25} />
+              </div>
+              <div>©2020CoffeeStore</div>
             </div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <div className="text-xl font-bold">Engage</div>
-            <div className="flex flex-col gap-3">
-              <Link href="/">Coffee Shop</Link>
-              <Link href="/">FAQ</Link>
-              <Link href="/">About Us</Link>
-              <Link href="/">Privacy Policy</Link>
-              <Link href="/">Terms of Service</Link>
+            <div className="flex gap-20">
+              <div className="flex flex-col gap-3">
+                <div className="text-xl font-bold">Product</div>
+                <div className="flex flex-col gap-3">
+                  <Link href="/">Download</Link>
+                  <Link href="/">Pricing</Link>
+                  <Link href="/">Locations</Link>
+                  <Link href="/">Countries</Link>
+                  <Link href="/">Blog</Link>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <div className="text-xl font-bold">Engage</div>
+                <div className="flex flex-col gap-3">
+                  <Link href="/">Coffee Shop</Link>
+                  <Link href="/">FAQ</Link>
+                  <Link href="/">About Us</Link>
+                  <Link href="/">Privacy Policy</Link>
+                  <Link href="/">Terms of Service</Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
