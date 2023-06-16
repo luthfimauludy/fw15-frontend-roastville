@@ -133,308 +133,308 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="flex justify-around items-center h-[550px]">
-          <div>
-            <Image alt="" src={TeamWork}></Image>
-          </div>
-          <div className="flex flex-col gap-5 max-w-lg">
-            <div className="text-4xl">
-              We Provide Good Coffee and Healthy Meals
-            </div>
-            <div>
-              You can explore the menu that we provide with fun and have their
-              own taste and make your day better.
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-2">
-                <Image alt="" src={Checkbox} />
-                <div>High quality beans</div>
-              </div>
-              <div className="flex gap-2">
-                <Image alt="" src={Checkbox} />
-                <div>Healthy meals, you can request the ingredients</div>
-              </div>
-              <div className="flex gap-2">
-                <Image alt="" src={Checkbox} />
-                <div>
-                  Chat with our staff to get better experience for ordering
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Image alt="" src={Checkbox} />
-                <div>
-                  Free member card with a minimum purchase of IDR 200.000.
-                </div>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div className="flex justify-around items-center h-[550px]">
+        <div>
+          <Image alt="" src={TeamWork}></Image>
         </div>
-        <div className="w-full flex flex-col gap-10 items-center h-[900px]">
-          <div className="flex flex-col justify-between gap-10 items-center">
-            <div className="text-4xl font-bold">
-              Here is People&apos;s Favorite
-            </div>
-            <div>
-              Let&apos;s choose and have a bit taste of poeple&apos;s favorite.
-              It might be yours too!
-            </div>
+        <div className="flex flex-col gap-5 max-w-lg">
+          <div className="text-4xl">
+            We Provide Good Coffee and Healthy Meals
           </div>
           <div>
-            <div className="flex gap-20">
-              <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[760px] border-2 rounded-xl">
-                <div className="w-28 h-28 rounded-full overflow-hidden">
-                  <Image alt="" src={ChickenWings}></Image>
-                </div>
-                <div className="font-bold">Hazelnut Latte</div>
-                <div className="flex flex-col gap-2">
-                  <div>HazelnutSyrup</div>
-                  <div>Wanilla Whipped Cream</div>
-                  <div>Ice / Hot</div>
-                  <div>Sliced Banana on Top</div>
-                </div>
-                <div className="flex flex-col gap-5 justify-center items-center">
-                  <div className="font-bold text-3xl">IDR 25.000</div>
-                  <div>
-                    <button className="btn rounded-full">Order Now</button>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[760px] border-2 rounded-xl">
-                <div className="w-28 h-28 rounded-full overflow-hidden">
-                  <Image alt="" src={Hazelnut}></Image>
-                </div>
-                <div className="font-bold">Hazelnut Latte</div>
-                <div className="flex flex-col gap-2">
-                  <div>HazelnutSyrup</div>
-                  <div>Wanilla Whipped Cream</div>
-                  <div>Ice / Hot</div>
-                  <div>Sliced Banana on Top</div>
-                </div>
-                <div className="flex flex-col gap-5 justify-center items-center">
-                  <div className="font-bold text-3xl">IDR 25.000</div>
-                  <div>
-                    <button className="btn rounded-full">Order Now</button>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[760px] border-2 rounded-xl">
-                <div className="w-28 h-28 rounded-full overflow-hidden">
-                  <Image alt="" src={PinkyPromise}></Image>
-                </div>
-                <div className="font-bold">Hazelnut Latte</div>
-                <div className="flex flex-col gap-2">
-                  <div>HazelnutSyrup</div>
-                  <div>Wanilla Whipped Cream</div>
-                  <div>Ice / Hot</div>
-                  <div>Sliced Banana on Top</div>
-                </div>
-                <div className="flex flex-col gap-5 justify-center items-center">
-                  <div className="font-bold text-3xl">IDR 25.000</div>
-                  <div>
-                    <button className="btn rounded-full">Order Now</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            You can explore the menu that we provide with fun and have their own
+            taste and make your day better.
           </div>
-        </div>
-        <div className="flex justify-center items-center h-[850px]">
-          <div className="flex flex-col gap-14 justify-center items-center">
-            <div className="max-w-md flex flex-col gap-5 text-center justify-center items-center">
-              <div className="text-4xl font-bold">
-                Visit Our Store in the Spot on the Map Below
-              </div>
-              <div>
-                See our store in every city on the spot and spen your good day
-                there. See you soon!
-              </div>
-            </div>
-            <div>
-              <Image alt="" src={Maps}></Image>
-            </div>
-          </div>
-        </div>
-        <div className="w-full flex flex-col items-center justify-center">
-          <div className="text-4xl font-bold">Our Partner</div>
-          <div className="flex w-full justify-between items-center">
-            <div>
-              <Image src={Netflix} alt="partner" />
-            </div>
-            <div>
-              <Image src={Reddit} alt="partner" />
-            </div>
-            <div>
-              <Image src={Spotify} alt="partner" />
-            </div>
-            <div>
-              <Image src={Amazon} alt="partner" />
-            </div>
-            <div>
-              <Image src={Discord} alt="partner" />
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-14 w-full justify-center items-center">
-          <div className="text-3xl font-bold">
-            Loved by Thousands of Happy Customer
-          </div>
-          <div>
-            These are the stories of our customers who have visited us with
-            great pleasure.
-          </div>
-          <div className="flex w-[1200px] gap-10 overflow-scroll items-center">
-            <div className="inline-flex gap-20 w-auto">
-              <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5">
-                    <div>
-                      <Image src={ProfilePhoto} alt="" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">Viezeh Robert</div>
-                      <div>Warsaw, Poland</div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center gap-2">
-                    <div>4.5</div>
-                    <div>
-                      <AiFillStar color="F2BE22" />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  “Wow... I am very happy to spend my whole day here. the Wi-fi
-                  is good, and the coffee and meals tho. I like it here!! Very
-                  recommended!
-                </div>
-              </div>
-              <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5">
-                    <div>
-                      <Image src={ProfilePhoto} alt="" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">Yessica Christy</div>
-                      <div>Yessica Christy</div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center gap-2">
-                    <div>4.5</div>
-                    <div>
-                      <AiFillStar color="F2BE22" />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  “I like it because I like to travel far and still can make my
-                  day better just by drinking their Hazelnut Latte
-                </div>
-              </div>
-              <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5">
-                    <div>
-                      <Image src={ProfilePhoto} alt="" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">Kim Young Jou</div>
-                      <div>Seoul, South Korea</div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center gap-2">
-                    <div>4.5</div>
-                    <div>
-                      <AiFillStar color="F2BE22" />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  “This is very unusual for my taste, I haven&apos;t liked
-                  coffee before but their coffee is the best! and yup, you have
-                  to order the chicken wings, the best in town!
-                </div>
-              </div>
-              <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
-                <div className="flex w-full justify-between items-center">
-                  <div className="flex gap-5">
-                    <div>
-                      <Image src={ProfilePhoto} alt="" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">Viezeh Robert</div>
-                      <div>Warsaw, Poland</div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center gap-2">
-                    <div>4.5</div>
-                    <div>
-                      <AiFillStar color="F2BE22" />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  “Wow... I am very happy to spend my whole day here. the Wi-fi
-                  is good, and the coffee and meals tho. I like it here!! Very
-                  recommended!
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-[1200px]">
-            <div className="flex justify-end gap-5">
-              <div className="rounded-full border-2 p-2 border-gray-300">
-                <FiArrowLeft size={30} />
-              </div>
-              <div className="rounded-full border-2 p-2 border-gray-300 bg-primary">
-                <FiArrowRight size={30} color="white" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <footer className="w-full flex justify-around bg-[#F8F8F8]">
-          <div className="max-w-lg flex flex-col gap-8">
-            <div className="flex items-center gap-2">
-              <div>
-                <Image src={Coffee} alt="" />
-              </div>
-              <div className="font-bold text-xl">Coffee Shop</div>
-            </div>
-            <div>
-              Coffee Shop is a store that sells some good meals, and especially
-              coffee. We provide high quality beans
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <Image alt="" src={Checkbox} />
+              <div>High quality beans</div>
             </div>
             <div className="flex gap-2">
-              <FaFacebook size={25} />
-              <FaTwitter size={25} />
-              <FaInstagram size={25} />
+              <Image alt="" src={Checkbox} />
+              <div>Healthy meals, you can request the ingredients</div>
             </div>
-            <div>©2020CoffeeStore</div>
-          </div>
-          <div className="flex gap-20">
-            <div className="flex flex-col gap-3">
-              <div className="text-xl font-bold">Product</div>
-              <div className="flex flex-col gap-3">
-                <Link href="/">Download</Link>
-                <Link href="/">Pricing</Link>
-                <Link href="/">Locations</Link>
-                <Link href="/">Countries</Link>
-                <Link href="/">Blog</Link>
+            <div className="flex gap-2">
+              <Image alt="" src={Checkbox} />
+              <div>
+                Chat with our staff to get better experience for ordering
               </div>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="text-xl font-bold">Engage</div>
-              <div className="flex flex-col gap-3">
-                <Link href="/">Coffee Shop</Link>
-                <Link href="/">FAQ</Link>
-                <Link href="/">About Us</Link>
-                <Link href="/">Privacy Policy</Link>
-                <Link href="/">Terms of Service</Link>
+            <div className="flex gap-2">
+              <Image alt="" src={Checkbox} />
+              <div>
+                Free member card with a minimum purchase of IDR 200.000.
               </div>
             </div>
           </div>
-        </footer>
+        </div>
       </div>
+      <div className="w-full flex flex-col gap-10 items-center h-[900px]">
+        <div className="flex flex-col justify-between gap-10 items-center">
+          <div className="text-4xl font-bold">
+            Here is People&apos;s Favorite
+          </div>
+          <div>
+            Let&apos;s choose and have a bit taste of poeple&apos;s favorite. It
+            might be yours too!
+          </div>
+        </div>
+        <div>
+          <div className="flex gap-20">
+            <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[760px] border-2 rounded-xl">
+              <div className="w-28 h-28 rounded-full overflow-hidden">
+                <Image alt="" src={ChickenWings}></Image>
+              </div>
+              <div className="font-bold">Hazelnut Latte</div>
+              <div className="flex flex-col gap-2">
+                <div>HazelnutSyrup</div>
+                <div>Wanilla Whipped Cream</div>
+                <div>Ice / Hot</div>
+                <div>Sliced Banana on Top</div>
+              </div>
+              <div className="flex flex-col gap-5 justify-center items-center">
+                <div className="font-bold text-3xl">IDR 25.000</div>
+                <div>
+                  <button className="btn rounded-full">Order Now</button>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[760px] border-2 rounded-xl">
+              <div className="w-28 h-28 rounded-full overflow-hidden">
+                <Image alt="" src={Hazelnut}></Image>
+              </div>
+              <div className="font-bold">Hazelnut Latte</div>
+              <div className="flex flex-col gap-2">
+                <div>HazelnutSyrup</div>
+                <div>Wanilla Whipped Cream</div>
+                <div>Ice / Hot</div>
+                <div>Sliced Banana on Top</div>
+              </div>
+              <div className="flex flex-col gap-5 justify-center items-center">
+                <div className="font-bold text-3xl">IDR 25.000</div>
+                <div>
+                  <button className="btn rounded-full">Order Now</button>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[760px] border-2 rounded-xl">
+              <div className="w-28 h-28 rounded-full overflow-hidden">
+                <Image alt="" src={PinkyPromise}></Image>
+              </div>
+              <div className="font-bold">Hazelnut Latte</div>
+              <div className="flex flex-col gap-2">
+                <div>HazelnutSyrup</div>
+                <div>Wanilla Whipped Cream</div>
+                <div>Ice / Hot</div>
+                <div>Sliced Banana on Top</div>
+              </div>
+              <div className="flex flex-col gap-5 justify-center items-center">
+                <div className="font-bold text-3xl">IDR 25.000</div>
+                <div>
+                  <button className="btn rounded-full">Order Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center items-center h-[850px]">
+        <div className="flex flex-col gap-14 justify-center items-center">
+          <div className="max-w-md flex flex-col gap-5 text-center justify-center items-center">
+            <div className="text-4xl font-bold">
+              Visit Our Store in the Spot on the Map Below
+            </div>
+            <div>
+              See our store in every city on the spot and spen your good day
+              there. See you soon!
+            </div>
+          </div>
+          <div>
+            <Image alt="" src={Maps}></Image>
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex flex-col items-center justify-center">
+        <div className="text-4xl font-bold">Our Partner</div>
+        <div className="flex w-full justify-between items-center">
+          <div>
+            <Image src={Netflix} alt="partner" />
+          </div>
+          <div>
+            <Image src={Reddit} alt="partner" />
+          </div>
+          <div>
+            <Image src={Spotify} alt="partner" />
+          </div>
+          <div>
+            <Image src={Amazon} alt="partner" />
+          </div>
+          <div>
+            <Image src={Discord} alt="partner" />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-14 w-full justify-center items-center">
+        <div className="text-3xl font-bold">
+          Loved by Thousands of Happy Customer
+        </div>
+        <div>
+          These are the stories of our customers who have visited us with great
+          pleasure.
+        </div>
+        <div className="flex w-[1200px] gap-10 overflow-scroll items-center">
+          <div className="inline-flex gap-20 w-auto">
+            <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
+              <div className="flex w-full justify-between items-center">
+                <div className="flex gap-5">
+                  <div>
+                    <Image src={ProfilePhoto} alt="" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg">Viezeh Robert</div>
+                    <div>Warsaw, Poland</div>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center gap-2">
+                  <div>4.5</div>
+                  <div>
+                    <AiFillStar color="F2BE22" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                “Wow... I am very happy to spend my whole day here. the Wi-fi is
+                good, and the coffee and meals tho. I like it here!! Very
+                recommended!
+              </div>
+            </div>
+            <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
+              <div className="flex w-full justify-between items-center">
+                <div className="flex gap-5">
+                  <div>
+                    <Image src={ProfilePhoto} alt="" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg">Yessica Christy</div>
+                    <div>Yessica Christy</div>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center gap-2">
+                  <div>4.5</div>
+                  <div>
+                    <AiFillStar color="F2BE22" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                “I like it because I like to travel far and still can make my
+                day better just by drinking their Hazelnut Latte
+              </div>
+            </div>
+            <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
+              <div className="flex w-full justify-between items-center">
+                <div className="flex gap-5">
+                  <div>
+                    <Image src={ProfilePhoto} alt="" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg">Kim Young Jou</div>
+                    <div>Seoul, South Korea</div>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center gap-2">
+                  <div>4.5</div>
+                  <div>
+                    <AiFillStar color="F2BE22" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                “This is very unusual for my taste, I haven&apos;t liked coffee
+                before but their coffee is the best! and yup, you have to order
+                the chicken wings, the best in town!
+              </div>
+            </div>
+            <div className="flex flex-col p-6 w-[400px] justify-around items-center rounded-lg border-2">
+              <div className="flex w-full justify-between items-center">
+                <div className="flex gap-5">
+                  <div>
+                    <Image src={ProfilePhoto} alt="" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-lg">Viezeh Robert</div>
+                    <div>Warsaw, Poland</div>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center gap-2">
+                  <div>4.5</div>
+                  <div>
+                    <AiFillStar color="F2BE22" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                “Wow... I am very happy to spend my whole day here. the Wi-fi is
+                good, and the coffee and meals tho. I like it here!! Very
+                recommended!
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-[1200px]">
+          <div className="flex justify-end gap-5">
+            <div className="rounded-full border-2 p-2 border-gray-300">
+              <FiArrowLeft size={30} />
+            </div>
+            <div className="rounded-full border-2 p-2 border-gray-300 bg-primary">
+              <FiArrowRight size={30} color="white" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer className="w-full flex justify-around bg-[#F8F8F8]">
+        <div className="max-w-lg flex flex-col gap-8">
+          <div className="flex items-center gap-2">
+            <div>
+              <Image src={Coffee} alt="" />
+            </div>
+            <div className="font-bold text-xl">Coffee Shop</div>
+          </div>
+          <div>
+            Coffee Shop is a store that sells some good meals, and especially
+            coffee. We provide high quality beans
+          </div>
+          <div className="flex gap-2">
+            <FaFacebook size={25} />
+            <FaTwitter size={25} />
+            <FaInstagram size={25} />
+          </div>
+          <div>©2020CoffeeStore</div>
+        </div>
+        <div className="flex gap-20">
+          <div className="flex flex-col gap-3">
+            <div className="text-xl font-bold">Product</div>
+            <div className="flex flex-col gap-3">
+              <Link href="/">Download</Link>
+              <Link href="/">Pricing</Link>
+              <Link href="/">Locations</Link>
+              <Link href="/">Countries</Link>
+              <Link href="/">Blog</Link>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="text-xl font-bold">Engage</div>
+            <div className="flex flex-col gap-3">
+              <Link href="/">Coffee Shop</Link>
+              <Link href="/">FAQ</Link>
+              <Link href="/">About Us</Link>
+              <Link href="/">Privacy Policy</Link>
+              <Link href="/">Terms of Service</Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   )
 }
