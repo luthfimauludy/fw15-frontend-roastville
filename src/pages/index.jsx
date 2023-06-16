@@ -16,7 +16,7 @@ import Netflix from "../../public/netflix.png"
 import Discord from "../../public/discord.png"
 import ProfilePhoto from "../../public/profilephoto.png"
 import Headers from "@/components/Headers"
-import Footer from "@/components/Footer"
+import Footers from "@/components/Footer"
 
 export default function Home() {
   return (
@@ -367,7 +367,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footers />
       </footer>
     </>
   )
