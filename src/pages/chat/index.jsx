@@ -1,40 +1,13 @@
 import React from "react"
-import Image from "next/image"
-import Coffee from "../../../public/coffee.png"
 import { FiSearch, FiUser } from "react-icons/fi"
+import Headers from "@/components/Headers"
+import Footer from "@/components/Footer"
 
 export default function Chat() {
   return (
     <>
-      <nav className="flex w-full justify-between items-center px-36 h-24 bg-white">
-        <div className="flex justify-center items-center gap-5">
-          <div>
-            <Image src={Coffee} alt="coffee_image"></Image>
-          </div>
-          <div className="text-black tracking-wide font-extrabold">
-            Coffee Shop
-          </div>
-        </div>
-        <div>
-          <ul className="flex justify-center items-center gap-5 text-gray-600">
-            <li>Home</li>
-            <li>Product</li>
-            <li>Your Cart</li>
-            <li>History</li>
-          </ul>
-        </div>
-        <div className="flex justify-center items-center gap-10">
-          <div>
-            <button className="text-black">Login</button>
-          </div>
-          <div>
-            <button className="btn btn-primary normal-case text-white rounded-3xl">
-              Sign Up
-            </button>
-          </div>
-        </div>
-      </nav>
-      <div className="w-full h-full bg-gray-400">
+      <Headers />
+      <div className="w-full h-full bg-chat bg-no-repeat bg-cover ">
         <div className="flex justify-center gap-4 p-20">
           <div className="flex flex-col gap-11 max-w-[448px] min-h-[1000px] rounded-xl px-12 py-14 bg-primary">
             <div className="flex gap-3 px-9 py-5 rounded-full bg-gray-200">
@@ -119,6 +92,7 @@ export default function Chat() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }
