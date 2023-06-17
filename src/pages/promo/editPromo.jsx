@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 function EditPromo() {
   return (
     <>
-      <div>
+      <div className="header pb-24">
         <Headers />
       </div>
       <div className='flex justify-center items-center h-screen w-full px-10'>

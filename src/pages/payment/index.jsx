@@ -11,7 +11,9 @@ import {
 const PaymentAndDeliveryCust = () => {
   return (
     <>
-      <Headers />
+      <div className="header pb-24">
+        <Headers />
+      </div>
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
         <div className="px-28 py-10 flex flex-col gap-5">
           <div className="relative w-96 self-center">

@@ -7,9 +7,9 @@ import Footer from '@/components/Footer'
 function NewProduct() {
   return (
     <>
-    <div>
-      <Headers/>
-    </div>
+    <div className="header pb-24">
+        <Headers />
+      </div>
       <div>
         <div className='flex justify-center items-center h-screen w-full px-10'>
           <div className='flex w-full justify-center items-center'>
