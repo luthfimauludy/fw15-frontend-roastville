@@ -6,7 +6,7 @@ import logo from "public/assets/img/logo_roastville.png"
 function Headers() {
   return (
     <>
-      <div className="flex w-full justify-between items-center px-36 h-24 bg-white">
+      <div className="flex w-full justify-between items-center px-36 h-24 bg-white border-b-2">
         <div className="flex justify-center items-center gap-2">
           <div className="h-20 w-20">
             <Image src={logo} alt="coffee_image"></Image>

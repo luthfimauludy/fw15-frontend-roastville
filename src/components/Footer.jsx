@@ -7,7 +7,7 @@ import Image from "next/image"
 function Footer() {
   return (
     <>
-      <div className="py-14">
+      <div className="py-4 h-84 bg-gray-100">
         <div className="w-full flex justify-around">
           <div className="max-w-lg flex flex-col gap-8">
             <div className="flex items-center gap-2">
@@ -31,7 +31,7 @@ function Footer() {
                 <FaInstagram size={25} />
               </div>
             </div>
-            <div className="bg-gray-100"> ©Roastville&nbsp;2023</div>
+            <div> ©Roastville&nbsp;2023</div>
           </div>
           <div className="flex gap-20">
             <div className="flex flex-col gap-3">
