@@ -124,7 +124,7 @@ function SignIn() {
                           )}
                           <Link href="/auth/forgot-password">
                             <label className="label">
-                              <p className="text-primary font-bold">
+                              <p className="text-primary font-bold cursor-pointer">
                                 Forgot Password
                               </p>
                             </label>
