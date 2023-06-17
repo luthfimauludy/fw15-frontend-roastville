@@ -10,46 +10,13 @@ import { FaInstagram } from "react-icons/fa"
 import Filter from "../../../public/filter.png"
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"
 import Stacked from "../../../public/stacked.png"
+import Headers from "@/components/Headers"
 
 export default function Dashboard() {
   return (
     <>
-      <div className="flex w-full justify-between items-center px-36 h-24 bg-white">
-        <div className="flex justify-center items-center gap-5">
-          <div>
-            <Image src={Coffee} alt="coffee_image"></Image>
-          </div>
-          <div className="text-black tracking-wide font-extrabold">
-            Coffee Shop
-          </div>
-        </div>
-        <div>
-          <ul className="flex justify-center items-center gap-5 text-gray-600">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/">Product</Link>
-            </li>
-            <li>
-              <Link href="/">Your Cart</Link>
-            </li>
-            <li>
-              <Link href="/">History</Link>
-            </li>
-          </ul>
-        </div>
-        <div className="flex justify-center items-center gap-10">
-          <button>
-            <FiSearch size={25} />
-          </button>
-          <button>
-            <BsChatLeftText size={25} />
-          </button>
-          <Link href="/" className="w-8 h-8 rounded-full overflow-hidden">
-            <Image src={ProfilePhoto} alt="" />
-          </Link>
-        </div>
+      <div className="header pb-24">
+        <Headers />
       </div>
       <div className="w-full h-[1050px]">
         <div className="text-primary font-bold text-2xl w-full flex items-center justify-center h-[100px]">
