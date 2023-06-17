@@ -163,7 +163,7 @@ function SignIn() {
                           <div className="border-b-2 w-[50%]"></div>
                         </div>
                         <div className="md:pt-4 md:block hidden">
-                          <Link href="/auth/sign-up">
+                          <Link href="/auth/register">
                             <button className="btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
                               Sign Up
                             </button>

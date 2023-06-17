@@ -7,7 +7,7 @@ import Image from "next/image"
 function Footer() {
   return (
     <>
-      <div className="py-14">
+      <div className="py-14 bg-gray-200">
         <div className="w-full flex justify-around">
           <div className="max-w-lg flex flex-col gap-8">
             <div className="flex items-center gap-2">

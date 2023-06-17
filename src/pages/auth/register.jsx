@@ -41,7 +41,7 @@ function SignUp() {
                 <div className="text-[20px] font-bold ">RoastVille</div>
               </div>
               <div className="flex items-center">
-                <span className="text-[20px] font-bold">SignUp</span>
+                <span className="text-[20px] font-bold">Register</span>
               </div>
             </div>
             <div className="flex justify-center w-full px-0 md:px-24">
@@ -182,7 +182,7 @@ function SignUp() {
                           <div className="border-b-2 w-[50%]"></div>
                         </div>
                         <div className="md:pt-4 md:block hidden">
-                          <Link href="/auth/sign-in">
+                          <Link href="/auth/login">
                             <button className="btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
                               Login Here
                             </button>
