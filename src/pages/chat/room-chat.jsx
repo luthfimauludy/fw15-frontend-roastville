@@ -9,7 +9,9 @@ import Footer from "@/components/Footer"
 export default function RoomChat() {
   return (
     <>
-      <Headers />
+      <div className="header pb-24">
+        <Headers />
+      </div>
       <div className="w-full h-full bg-gray-400 bg-chat bg-no-repeat bg-cover">
         <div className="flex justify-center gap-4 p-20">
           <div className="flex flex-col gap-11 max-w-[448px] min-h-[1000px] rounded-xl px-12 py-14 bg-primary">

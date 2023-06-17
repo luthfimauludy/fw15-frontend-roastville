@@ -5,7 +5,9 @@ import Image from "next/image"
 const Profile = () => {
   return (
     <>
-      <Headers />
+      <div className="header pb-24">
+        <Headers />
+      </div>
       <div className="bg-profile bg-cover bg-center font-poppins bg-primary p-10">
         <div className="flex lg:px-[5rem] py-5">
           <span className="text-white text-2xl font-bold">User Profile</span>
