@@ -34,6 +34,12 @@ function Headers() {
               <span className="hover:text-secondary">
                 <Link href="/">History</Link>
               </span>
+              <span className="hover:text-secondary">
+                <Link href="/">Orders</Link>
+              </span>
+              <span className="hover:text-secondary">
+                <Link href="/">Dashboard</Link>
+              </span>
             </div>
           </div>
           <div className="flex justify-center items-center gap-10">
