@@ -31,7 +31,7 @@ function Footer() {
                 <FaInstagram size={25} />
               </div>
             </div>
-            <div className="bg-gray-100"> ©Roastville&nbsp;2023</div>
+            <div> ©Roastville&nbsp;2023</div>
           </div>
           <div className="flex gap-20">
             <div className="flex flex-col gap-3">
