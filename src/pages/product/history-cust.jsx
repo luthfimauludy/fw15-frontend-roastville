@@ -1,11 +1,24 @@
 import Image from "next/image"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-const HistoryCust = () => {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+const HistoryCust = ({ token }) => {
   return (
     <div className="max-w-full max-h-full">
-      <Header />
+      <Header token={token} />
       <div className="bg-payment bg-no-repeat bg-cover pb-[100px]">
         <div className="flex flex-col justify-center items-center leading-10 pt-[100px]">
           <h1 className="text-white text-4xl font-bold">

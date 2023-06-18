@@ -8,15 +8,41 @@ import logo from "public/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import FooterAuth from "@/components/footer-auth"
+import http from "@/helpers/http"
 
 function SignUp() {
   const [openEye, setOpenEye] = useState(false)
-  // const [load, setLoad] = React.useState(false);
+  const [load, setLoad] = React.useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
     password: Yup.string().required("Password is empty !"),
     phoneNumber: Yup.string().required("PhoneNumber is empty !"),
   })
+
+  const doRegister = async (values) => {
+    try {
+      setLoad(true)
+      const form = new URLSearchParams({
+        email: values.email,
+        password: values.password,
+        phoneNumber: values.phoneNumber,
+      }).toString()
+
+      const { data } = await http().post("/auth/register", form)
+      if (data.success === false) {
+        setErrorMessage("email or password is invalid")
+        setLoad(false)
+      }
+      if (data.success === true) {
+        router.push("/")
+        setLoad(false)
+      }
+    } catch (err) {
+      const message = err?.response?.data?.results[0].msg
+      console.log(message)
+    }
+    setLoad(false)
+  }
 
   function showEye() {
     setOpenEye(!openEye)
@@ -48,7 +74,7 @@ function SignUp() {
               <Formik
                 initialValues={{ email: "", password: "", phoneNumber: "" }}
                 validationSchema={validationSchema}
-                // onSubmit={dologin}
+                onSubmit={doRegister}
               >
                 {({
                   values,
@@ -150,21 +176,21 @@ function SignUp() {
                           )}
                         </div>
                         <div className="w-full pt-4">
-                          {/* {load ? (
+                          {load ? (
                             <button
                               type="submit"
                               className="w-full btn btn-primary normal-case text-white"
                             >
                               <span className="loading loading-spinner loading-sm"></span>
                             </button>
-                          ) : ( */}
-                          <button
-                            type="submit"
-                            className=" w-full btn btn-primary normal-case text-white"
-                          >
-                            Sign Up
-                          </button>
-                          {/* )} */}
+                          ) : (
+                            <button
+                              type="submit"
+                              className=" w-full btn btn-primary normal-case text-white"
+                            >
+                              Sign Up
+                            </button>
+                          )}
                         </div>
                         <div className="btn bg-white mt-4 hidden md:flex gap-4 items-center justify-center shadow-2xl normal-case ">
                           <div>

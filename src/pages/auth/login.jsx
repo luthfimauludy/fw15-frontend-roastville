@@ -14,29 +14,18 @@ import axios from "axios"
 import { MdError } from "react-icons/md"
 import { useRouter } from "next/router"
 
-export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req, res }) {
-    const token = req.session?.token
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+  const token = req.session.token || null
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
 
-    if (token) {
-      res.setHeader("location", "/")
-      res.statusCode = 302
-      res.end()
-      return {
-        props: {
-          token,
-        },
-      }
-    }
+function SignIn({ token }) {
+  console.log(token)
 
-    return {
-      props: {},
-    }
-  },
-  cookieConfig
-)
-
-function SignIn() {
   const [openEye, setOpenEye] = useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
@@ -63,7 +52,11 @@ function SignIn() {
       setLoad(false)
     }
   }
-
+  React.useEffect(() => {
+    if (token) {
+      router.push("/")
+    }
+  })
   function showEye() {
     setOpenEye(!openEye)
   }

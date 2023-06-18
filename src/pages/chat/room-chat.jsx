@@ -3,12 +3,25 @@ import { FiSearch, FiUser } from "react-icons/fi"
 import { FaCamera } from "react-icons/fa"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-export default function RoomChat() {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+export default function RoomChat({ token }) {
   return (
     <>
-      <div className="header pb-24">
-        <Header />
+      <div className="header">
+        <Header token={token} />
       </div>
       <div className="w-full h-full bg-gray-400 bg-chat bg-no-repeat bg-cover">
         <div className="flex justify-center gap-4 p-20">

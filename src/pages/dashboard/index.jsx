@@ -16,7 +16,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Headers token={token} />
       </div>
       <div className="w-full h-[1050px]">
         <div className="text-primary font-bold text-2xl w-full flex items-center justify-center h-[100px]">

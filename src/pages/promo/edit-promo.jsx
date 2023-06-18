@@ -2,12 +2,25 @@ import React from "react"
 import Header from "@/components/header"
 import { FaCamera } from "react-icons/fa"
 import Footer from "@/components/footer"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-function EditPromo() {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+function EditPromo({ token }) {
   return (
     <>
-      <div className="header pb-24">
-        <Header />
+      <div className="header">
+        <Header token={token} />
       </div>
       <div className="flex justify-center items-center h-screen w-full px-10">
         <div className="flex w-full justify-center items-center">
