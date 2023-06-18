@@ -18,7 +18,17 @@ import ProfilePhoto from "../../public/profilephoto.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
-export default function Home() {
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+  const token = req.session.token || null
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+export default function Home({ token }) {
+  console.log(token)
   return (
     <>
       <div className="header pb-24">
