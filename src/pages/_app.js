@@ -1,7 +1,7 @@
 import "@/styles/globals.css"
 import { Rubik } from "next/font/google"
 import { Provider } from "react-redux"
-import store from "../redux/store"
+import { store } from "../redux/store"
 
 const rubik = Rubik({
   weight: "400",
