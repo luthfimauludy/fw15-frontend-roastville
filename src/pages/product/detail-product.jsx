@@ -5,12 +5,25 @@ import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import bg_detail from "public/bg-detail-product.jpg"
 import { FiTrash2 } from "react-icons/fi"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-function detailProduct() {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+function detailProduct({ token }) {
   return (
     <div className="h-min-screen">
-      <div className="pb-24 header">
-        <Header />
+      <div className=" header">
+        <Header token={token} />
       </div>
       <div className="h-[100%] px-24 py-8">
         <div className="flex h-full">

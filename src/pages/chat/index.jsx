@@ -1,13 +1,32 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { FiSearch, FiUser } from "react-icons/fi"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { withIronSessionSsr } from "iron-session/next"
+import cookieConfig from "@/helpers/cookieConfig"
+import checkCredentials from "@/helpers/checkCredentials"
 
-export default function Chat() {
+// import axios from "axios"
+
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+export default function Chat({ token }) {
+  // useEffect(() => {
+  //   if (!token) {
+  //     router.push("/auth/login")
+  //   }
+  // })
   return (
     <>
-      <div className="header pb-24">
-        <Header />
+      <div className="header">
+        <Header token={token} />
       </div>
       <div className="w-full h-full bg-chat bg-no-repeat bg-cover ">
         <div className="flex justify-center gap-4 p-20">

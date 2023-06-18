@@ -1,38 +1,27 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Image from "next/image"
+import React from "react"
+import { FiEdit2 } from "react-icons/fi"
+
+import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
-import React from "react"
-import axios from "axios"
-import { FiEdit2 } from "react-icons/fi"
-import { withIronSessionSsr } from "iron-session/next"
 
-export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req, res }) {
-    const token = req.session?.token
-    checkCredentials(token, res, "/auth/login")
-    const { data } = await axios.get("http://localhost:8080/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-
-    return {
-      props: {
-        token,
-        user: data.results,
-      },
-    }
-  },
-  cookieConfig
-)
-
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
 const Profile = ({ token }) => {
   return (
     <>
-      <div className="header pb-24">
-        <Header />
+      <div className="header">
+        <Header token={token} />
       </div>
       <div className="bg-profile bg-cover bg-center font-poppins bg-primary p-10">
         <div className="flex lg:px-[5rem] py-5">

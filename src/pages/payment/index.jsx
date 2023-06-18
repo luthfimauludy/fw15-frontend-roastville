@@ -7,12 +7,25 @@ import {
   BsBank2,
   BsCashCoin,
 } from "react-icons/bs"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-const PaymentAndDeliveryCust = () => {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+const PaymentAndDeliveryCust = ({ token }) => {
   return (
     <>
-      <div className="header pb-24">
-        <Header />
+      <div className="header">
+        <Header token={token} />
       </div>
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
         <div className="px-28 py-10 flex flex-col gap-5">

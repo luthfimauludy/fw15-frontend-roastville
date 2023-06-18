@@ -11,12 +11,25 @@ import img5 from "/public/img-product5.png"
 import img6 from "/public/img-product6.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-function ProductCust() {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+function ProductCust({ token }) {
   return (
     <div className="h-min-screen">
-      <div className="pb-24 header">
-        <Header />
+      <div className="header">
+        <Header token={token} />
       </div>
       <div className="flex">
         <div className="w-[425px] border-r-2 px-20 py-7">

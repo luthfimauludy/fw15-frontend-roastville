@@ -9,9 +9,22 @@ import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai"
 import { RxCross2 } from "react-icons/rx"
 import { useRouter } from "next/router"
 import axios from "axios"
+import cookieConfig from "@/helpers/cookieConfig"
+import { withIronSessionSsr } from "iron-session/next"
 
-function Headers() {
-  const [search, setSearch] = React.useState(false)
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+  const token = req.session.token || null
+  console.log(token)
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+export default function Headers({ token }) {
+  console.log(token)
+  const [search, setSearch] = useState(false)
   const [modal, setCheckModal] = useState(false)
   const router = useRouter()
   const doLogout = async () => {
@@ -66,142 +79,144 @@ function Headers() {
           </div>
           <div className="bg-white"></div>
           <div className=" flex justify-center items-center gap-10 absolute top-5 right-20">
-            <div className="flex gap-5">
-              <Link href="/auth/login">
-                <div>
-                  <button className="btn btn-ghost font-bold normal-case rounded-3xl">
-                    Login
-                  </button>
-                </div>
-              </Link>
-              <div className="max-w-lg">
-                <Link href="/auth/register">
-                  <button className="btn btn-primary normal-case text-md text-white rounded-3xl w-full max-w-lg">
-                    Sign Up
-                  </button>
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex justify-center items-center gap-8">
-              {search && (
-                <form className="relative">
-                  <input
-                    type="text"
-                    className="input input-bordered bordered-primary w-full px-4"
-                    name="search"
-                    placeholder="search here..."
-                  />
-                  <button
-                    type="reset"
-                    onClick={() => resetForm()}
-                    className="absolute top-2 right-12 "
-                  >
-                    <FiDelete size={25} />
-                  </button>{" "}
-                  <div className="absolute top-2 right-4 ">
+            {token ? (
+              <div className="flex justify-center items-center gap-8">
+                {search && (
+                  <form className="relative">
+                    <input
+                      type="text"
+                      className="input input-bordered bordered-primary w-full px-4"
+                      name="search"
+                      placeholder="search here..."
+                    />
                     <button
-                      onClick={() => handleHide()}
-                      className="text-accent font-bold "
+                      type="reset"
+                      onClick={() => resetForm()}
+                      className="absolute top-2 right-12 "
                     >
-                      <RxCross2 size={25} />
+                      <FiDelete size={25} />
+                    </button>{" "}
+                    <div className="absolute top-2 right-4 ">
+                      <button
+                        onClick={() => handleHide()}
+                        className="text-accent font-bold "
+                      >
+                        <RxCross2 size={25} />
+                      </button>
+                    </div>
+                  </form>
+                )}
+                {!search && (
+                  <div>
+                    <button
+                      onClick={() => handleShow()}
+                      className="text-accent font-bold"
+                    >
+                      <FiSearch size={25} />
                     </button>
                   </div>
-                </form>
-              )}
-              {!search && (
-                <div>
-                  <button
-                    onClick={() => handleShow()}
-                    className="text-accent font-bold"
-                  >
-                    <FiSearch size={25} />
-                  </button>
-                </div>
-              )}
+                )}
 
-              <Link href="/chat" className="cursor-pointer">
-                <BsChatLeftText size={25} />
-              </Link>
-              <div className="dropdown dropdown-bottom dropdown-end ">
-                <label
-                  tabIndex={0}
-                  className="btn m-1 bg-white outline-none border-0 hover:bg-white "
-                >
-                  <div className="rounded-full overflow-hidden h-12 w-12 border-4 border-secondary">
-                    <Image
-                      src={default_picture}
-                      className="w-full h-full"
-                      alt="picture_logo"
-                    />
-                  </div>
-                </label>
-                <ul
-                  tabIndex={0}
-                  className="border-2 dropdown-content menu p-2 shadow  bg-base-100 rounded-box w-[200px] px-2s flex flex-col items-center justify-between "
-                >
-                  <li>
-                    <Link href="/profile" className="hover:bg-white">
-                      <div className="flex gap-4 hover:bg-white items-center justify-center">
-                        <div>
-                          <AiOutlineUser size={30} />
+                <Link href="/chat" className="cursor-pointer">
+                  <BsChatLeftText size={25} />
+                </Link>
+                <div className="dropdown dropdown-bottom dropdown-end ">
+                  <label
+                    tabIndex={0}
+                    className="btn m-1 bg-white outline-none border-0 hover:bg-white "
+                  >
+                    <div className="rounded-full overflow-hidden h-12 w-12 border-4 border-secondary">
+                      <Image
+                        src={default_picture}
+                        className="w-full h-full"
+                        alt="picture_logo"
+                      />
+                    </div>
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="border-2 dropdown-content menu p-2 shadow  bg-base-100 rounded-box w-[200px] px-2s flex flex-col items-center justify-between "
+                  >
+                    <li>
+                      <Link href="/profile" className="hover:bg-white">
+                        <div className="flex gap-4 hover:bg-white items-center justify-center">
+                          <div>
+                            <AiOutlineUser size={30} />
+                          </div>
+                          <div className="font-bold text-medium hover:bg-white hover:text-accent ">
+                            My Profile
+                          </div>
                         </div>
-                        <div className="font-bold text-medium hover:bg-white hover:text-accent ">
-                          My Profile
+                      </Link>
+                    </li>
+                    <div className="border-b-2 w-full hover:bg-white"></div>
+                    <li className="font-bold text-primary">
+                      <div className="hover:bg-white flex gap2 ">
+                        <AiOutlineLogout size={25} color="red" />
+                        <div>
+                          <button
+                            onClick={checkModal}
+                            className="font-bold text-[#FF0000]"
+                          >
+                            Logout
+                          </button>
                         </div>
                       </div>
-                    </Link>
-                  </li>
-                  <div className="border-b-2 w-full hover:bg-white"></div>
-                  <li className="font-bold text-primary">
-                    <div className="hover:bg-white flex gap2 ">
-                      <AiOutlineLogout size={25} color="red" />
-                      <div>
+                    </li>
+                  </ul>
+                  <input
+                    type="checkbox"
+                    id="my_modal_6"
+                    className="modal-toggle"
+                    checked={modal}
+                  />
+                  <div className="modal bg-red-100  ">
+                    <div className=" modal-box bg-gray-300 border-4 border-rose-600 p-12">
+                      <h3 className="font-bold text-lg text-center">
+                        Attention !
+                      </h3>
+                      <p className="py-4 text-center">
+                        Are you sure to Logout?
+                      </p>
+                      <div className="modal-action justify-center">
+                        <button
+                          onClick={doLogout}
+                          className="btn btn-primary hover:bg-success bg-gray-300 border-2 text-black normal-case w-20 h-8"
+                        >
+                          Yes
+                        </button>
                         <button
                           onClick={checkModal}
-                          className="font-bold text-[#FF0000]"
+                          className="btn btn-secondary hover:bg-error  bg-gray-300 border-2 text-black normal-case w-20"
                         >
-                          Logout
+                          No
                         </button>
                       </div>
                     </div>
-                  </li>
-                </ul>
-                <input
-                  type="checkbox"
-                  id="my_modal_6"
-                  className="modal-toggle"
-                  checked={modal}
-                />
-                <div className="modal bg-red-100  ">
-                  <div className=" modal-box bg-gray-300 border-4 border-rose-600 p-12">
-                    <h3 className="font-bold text-lg text-center">
-                      Attention !
-                    </h3>
-                    <p className="py-4 text-center">Are you sure to Logout?</p>
-                    <div className="modal-action justify-center">
-                      <button
-                        onClick={doLogout}
-                        className="btn btn-primary hover:bg-success bg-gray-300 border-2 text-black normal-case w-20 h-8"
-                      >
-                        Yes
-                      </button>
-                      <button
-                        onClick={checkModal}
-                        className="btn btn-secondary hover:bg-error  bg-gray-300 border-2 text-black normal-case w-20"
-                      >
-                        No
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex gap-5">
+                <Link href="/auth/login">
+                  <div>
+                    <button className="btn btn-ghost font-bold normal-case rounded-3xl">
+                      Login
+                    </button>
+                  </div>
+                </Link>
+                <div className="max-w-lg">
+                  <Link href="/auth/register">
+                    <button className="btn btn-primary normal-case text-md text-white rounded-3xl w-full max-w-lg">
+                      Sign Up
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </>
   )
 }
-
-export default Headers
