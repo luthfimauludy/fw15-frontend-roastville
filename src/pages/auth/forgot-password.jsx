@@ -24,7 +24,7 @@ function SignUp() {
             alt="picture_side"
           />
         </aside>
-        <div className="bg-login md:bg-login_mobile flex flex-col flex-1">
+        <div className="bg-login md:bg-login_mobile  bg-no-repeat bg-cover flex flex-col flex-1">
           <div className="flex h-[75%] flex-col gap-12 items-center p-5">
             <div className=" flex flex-col justify-center items-center w-full">
               <div className="flex gap-2 items-center">
