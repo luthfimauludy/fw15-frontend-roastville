@@ -1,13 +1,13 @@
 import React, { useState } from "react"
-import side_picture from "public/assets/img/picture_auth.jpg"
+import side_picture from "public/picture_auth.jpg"
 import Link from "next/link"
 import { FcGoogle } from "react-icons/fc"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import Image from "next/image"
-import logo from "public/assets/img/logo_roastville.png"
+import logo from "public/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
-import FooterAuth from "@/components/FooterAuth"
+import FooterAuth from "@/components/footer-auth"
 
 function SignUp() {
   const [openEye, setOpenEye] = useState(false)
@@ -24,7 +24,7 @@ function SignUp() {
   return (
     <>
       <div className="h-min-screen flex">
-        <aside className="md:flex md:flex-1 md:block hidden">
+        <aside className="md:flex md:flex-1 hidden">
           <Image
             src={side_picture}
             className="object-cover"
@@ -166,7 +166,7 @@ function SignUp() {
                           </button>
                           {/* )} */}
                         </div>
-                        <div className="btn bg-white mt-4 md:block hidden md:flex gap-4 flex items-center justify-center shadow-2xl normal-case ">
+                        <div className="btn bg-white mt-4 hidden md:flex gap-4 items-center justify-center shadow-2xl normal-case ">
                           <div>
                             <FcGoogle size={25} />
                           </div>

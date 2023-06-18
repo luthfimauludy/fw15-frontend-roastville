@@ -15,16 +15,27 @@ import Reddit from "../../public/reddit.png"
 import Netflix from "../../public/netflix.png"
 import Discord from "../../public/discord.png"
 import ProfilePhoto from "../../public/profilephoto.png"
-import Headers from "@/components/Headers"
-import Footers from "@/components/Footer"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import cookieConfig from "@/helpers/cookieConfig"
+import { withIronSessionSsr } from "iron-session/next"
 
-export default function Home() {
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+  const token = req.session.token || null
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+export default function Home({ token }) {
+  console.log(token)
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
-
       <div className="w-full h-[645px] bg-home bg-no-repeat bg-cover px-10">
         <div className="flex w-full justify-between px-36">
           <div className="flex flex-col max-w-lg pt-28 gap-10">
@@ -370,7 +381,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Footers />
+        <Footer />
       </footer>
     </>
   )

@@ -10,7 +10,7 @@ import { FaInstagram } from "react-icons/fa"
 import Filter from "../../../public/filter.png"
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"
 import Stacked from "../../../public/stacked.png"
-import Headers from "@/components/Headers"
+import Headers from "@/components/header"
 
 export default function Dashboard() {
   return (

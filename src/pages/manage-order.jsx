@@ -1,15 +1,19 @@
-import React from 'react'
-import Headers from "@/components/Headers"
-import Footers from "@/components/Footer"
+import React from "react"
+import Header from "@/components/header"
+import Footer from "@/components/Footer"
 import Image from "next/image"
-
-import { BsCheck, BsFillCreditCardFill, BsBank2, BsCashCoin } from "react-icons/bs";
+import {
+  BsCheck,
+  BsFillCreditCardFill,
+  BsBank2,
+  BsCashCoin,
+} from "react-icons/bs"
 
 function ManageOrder() {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
         <div className="px-28 py-10 flex flex-col gap-5">
@@ -56,7 +60,7 @@ function ManageOrder() {
               <div className="text-center font-bold text-[35px] font-poppins">
                 Dine in for Zulaikha
               </div>
-              <div className='text-xl text-center'>Table 4</div>
+              <div className="text-xl text-center">Table 4</div>
               <div className="flex flex-col gap-[19px] mt-[10%]">
                 <div className="flex gap:[20px] md:gap-[33px]">
                   <div>
@@ -136,7 +140,7 @@ function ManageOrder() {
           </div>
         </div>
       </div>
-      <Footers />
+      <Footer />
     </>
   )
 }

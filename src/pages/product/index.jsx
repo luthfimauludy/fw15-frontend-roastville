@@ -1,6 +1,5 @@
 import React from "react"
 import Image from "next/image"
-
 import image from "/public/img-coupon.png"
 import image2 from "/public/img-coupon2.png"
 import image3 from "/public/img-coupon3.png"
@@ -10,14 +9,14 @@ import img3 from "/public/img-product3.png"
 import img4 from "/public/img-product4.png"
 import img5 from "/public/img-product5.png"
 import img6 from "/public/img-product6.png"
-import Headers from "@/components/Headers"
-import Footers from "@/components/Footer"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 function ProductCust() {
   return (
     <div className="h-min-screen">
       <div className="pb-24 header">
-        <Headers />
+        <Header />
       </div>
       <div className="flex">
         <div className="w-[425px] border-r-2 px-20 py-7">
@@ -217,7 +216,7 @@ function ProductCust() {
           </div>
         </div>
       </div>
-      <Footers />
+      <Footer />
     </div>
   )
 }

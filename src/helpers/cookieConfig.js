@@ -1,8 +1,9 @@
 const cookieConfig = {
   cookieName: "roastville",
-  password: "cmX56pNL%0W&HB8cUzVux9lR&23*a224r",
+  password: "jkVKXS^&SNr?KNVY@Mw4!WQf-fzKb9km",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
   },
 }
+
 export default cookieConfig
