@@ -24,7 +24,6 @@ export default function Home() {
       <div className="header pb-24">
         <Header />
       </div>
-
       <div className="w-full h-[645px] bg-home bg-no-repeat bg-cover px-10">
         <div className="flex w-full justify-between px-36">
           <div className="flex flex-col max-w-lg pt-28 gap-10">
