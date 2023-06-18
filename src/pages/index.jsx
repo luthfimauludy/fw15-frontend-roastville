@@ -17,6 +17,8 @@ import Discord from "../../public/discord.png"
 import ProfilePhoto from "../../public/profilephoto.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import cookieConfig from "@/helpers/cookieConfig"
+import { withIronSessionSsr } from "iron-session/next"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
