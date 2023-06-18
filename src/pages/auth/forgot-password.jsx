@@ -17,7 +17,7 @@ function SignUp() {
   return (
     <>
       <div className="h-min-screen flex">
-        <aside className="md:flex md:flex-1 md:block hidden">
+        <aside className="md:flex md:flex-1 hidden">
           <Image
             src={side_picture}
             className="object-cover"

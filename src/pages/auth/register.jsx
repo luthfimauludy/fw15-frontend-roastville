@@ -24,7 +24,7 @@ function SignUp() {
   return (
     <>
       <div className="h-min-screen flex">
-        <aside className="md:flex md:flex-1 md:block hidden">
+        <aside className="md:flex md:flex-1 hidden">
           <Image
             src={side_picture}
             className="object-cover"
@@ -166,7 +166,7 @@ function SignUp() {
                           </button>
                           {/* )} */}
                         </div>
-                        <div className="btn bg-white mt-4 md:block hidden md:flex gap-4 flex items-center justify-center shadow-2xl normal-case ">
+                        <div className="btn bg-white mt-4 hidden md:flex gap-4 items-center justify-center shadow-2xl normal-case ">
                           <div>
                             <FcGoogle size={25} />
                           </div>
