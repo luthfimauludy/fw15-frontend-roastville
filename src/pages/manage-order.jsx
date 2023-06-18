@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react"
 import Headers from "@/components/Headers"
 import Footers from "@/components/Footer"
 import Image from "next/image"
-
-import { BsCheck, BsFillCreditCardFill, BsBank2, BsCashCoin } from "react-icons/bs";
+import {
+  BsCheck,
+  BsFillCreditCardFill,
+  BsBank2,
+  BsCashCoin,
+} from "react-icons/bs"
 
 function ManageOrder() {
   return (
@@ -56,7 +60,7 @@ function ManageOrder() {
               <div className="text-center font-bold text-[35px] font-poppins">
                 Dine in for Zulaikha
               </div>
-              <div className='text-xl text-center'>Table 4</div>
+              <div className="text-xl text-center">Table 4</div>
               <div className="flex flex-col gap-[19px] mt-[10%]">
                 <div className="flex gap:[20px] md:gap-[33px]">
                   <div>
