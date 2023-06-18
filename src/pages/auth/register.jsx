@@ -9,9 +9,11 @@ import { Formik } from "formik"
 import * as Yup from "yup"
 import FooterAuth from "@/components/footer-auth"
 import http from "@/helpers/http"
+import { MdError } from "react-icons/md"
 
 function SignUp() {
   const [openEye, setOpenEye] = useState(false)
+  const [errorMessage, setErrorMessage] = React.useState("")
   const [load, setLoad] = React.useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
@@ -39,7 +41,7 @@ function SignUp() {
       }
     } catch (err) {
       const message = err?.response?.data?.results[0].msg
-      console.log(message)
+      setErrorMessage(message)
     }
     setLoad(false)
   }
@@ -69,6 +71,14 @@ function SignUp() {
               <div className="flex items-center">
                 <span className="text-[20px] font-bold">Register</span>
               </div>
+            </div>
+            <div className="flex justify-center">
+              {errorMessage && (
+                <div className="max-w-[400px] flex flex-col gap-0 justify-center alert alert-error shadow-xl text-white text-lg">
+                  <MdError size={25} />
+                  {errorMessage}
+                </div>
+              )}
             </div>
             <div className="flex justify-center w-full px-0 md:px-24">
               <Formik
