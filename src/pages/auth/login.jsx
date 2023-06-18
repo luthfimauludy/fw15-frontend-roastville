@@ -17,16 +17,20 @@ import { useRouter } from "next/router"
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
     const token = req.session?.token
+
     if (token) {
-      res.setHeader("location", "/auth/register")
+      res.setHeader("location", "/")
       res.statusCode = 302
       res.end()
-      return { props: { token } }
+      return {
+        props: {
+          token,
+        },
+      }
     }
+
     return {
-      props: {
-        token: null,
-      },
+      props: {},
     }
   },
   cookieConfig
