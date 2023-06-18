@@ -1,14 +1,12 @@
-import Footer from "@/components/Footer"
-import Headers from "@/components/Headers"
-import { Field } from "formik"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 import Image from "next/image"
-import { FiEdit2 } from "react-icons/fi"
-
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
-import { withIronSessionSsr } from "iron-session/next"
 import React from "react"
 import axios from "axios"
+import { FiEdit2 } from "react-icons/fi"
+import { withIronSessionSsr } from "iron-session/next"
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
@@ -34,7 +32,7 @@ const Profile = ({ token }) => {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
       <div className="bg-profile bg-cover bg-center font-poppins bg-primary p-10">
         <div className="flex lg:px-[5rem] py-5">
@@ -93,7 +91,7 @@ const Profile = ({ token }) => {
                 </span>
                 <div className="flex justify-center items-center bg-secondary w-10 h-10 rounded-full">
                   <button className="flex justify-center items-center">
-                    <FiEdit2 size={20}/>
+                    <FiEdit2 size={20} />
                   </button>
                 </div>
               </div>
@@ -104,10 +102,11 @@ const Profile = ({ token }) => {
                       Email adress :
                     </span>
                     <div className="text-[18px] font-rubik ">
-                      <input 
-                      type="email"
-                      className="input input-bordered w-full max-w-xs opacity-50"
-                      name="email" />
+                      <input
+                        type="email"
+                        className="input input-bordered w-full max-w-xs opacity-50"
+                        name="email"
+                      />
                     </div>
                     <hr className="border-[1px] border-black" />
                   </div>
@@ -115,9 +114,10 @@ const Profile = ({ token }) => {
                     <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]">
                       Delivery adress :
                     </span>
-                    <input 
-                    type="text"
-                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <input
+                      type="text"
+                      className="input input-bordered w-full max-w-xs opacity-50"
+                    />
                     <hr className="border-[1px] border-black" />
                   </div>
                 </div>
@@ -126,9 +126,10 @@ const Profile = ({ token }) => {
                     <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
                       Mobile number :
                     </span>
-                    <input 
-                    type="number" 
-                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <input
+                      type="number"
+                      className="input input-bordered w-full max-w-xs opacity-50"
+                    />
                     <hr className="border-[1px] border-black" />
                   </div>
                 </div>
@@ -142,27 +143,30 @@ const Profile = ({ token }) => {
                     <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
                       Display Name :
                     </span>
-                    <input 
-                    type="text" 
-                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <input
+                      type="text"
+                      className="input input-bordered w-full max-w-xs opacity-50"
+                    />
                     <hr className="border-[1px] border-black" />
                   </div>
                   <div className="flex flex-col gap-4">
                     <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
                       First name :
                     </span>
-                    <input 
-                    type="text" 
-                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <input
+                      type="text"
+                      className="input input-bordered w-full max-w-xs opacity-50"
+                    />
                     <hr className="border-[1px] border-black" />
                   </div>
                   <div className="flex flex-col gap-4">
                     <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
                       Last name :
                     </span>
-                    <input 
-                    type="text" 
-                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <input
+                      type="text"
+                      className="input input-bordered w-full max-w-xs opacity-50"
+                    />
                     <hr className="border-[1px] border-black" />
                   </div>
                 </div>
@@ -170,9 +174,10 @@ const Profile = ({ token }) => {
                   <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
                     Mobile number :
                   </span>
-                  <input 
-                  type="number" 
-                  className="input input-bordered w-full max-w-xs opacity-50" />
+                  <input
+                    type="number"
+                    className="input input-bordered w-full max-w-xs opacity-50"
+                  />
                   <hr className="border-[1px] border-black" />
                 </div>
               </div>

@@ -15,14 +15,14 @@ import Reddit from "../../public/reddit.png"
 import Netflix from "../../public/netflix.png"
 import Discord from "../../public/discord.png"
 import ProfilePhoto from "../../public/profilephoto.png"
-import Headers from "@/components/Headers"
-import Footers from "@/components/Footer"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 export default function Home() {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
 
       <div className="w-full h-[645px] bg-home bg-no-repeat bg-cover px-10">
@@ -370,7 +370,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Footers />
+        <Footer />
       </footer>
     </>
   )

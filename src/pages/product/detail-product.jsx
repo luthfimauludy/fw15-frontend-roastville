@@ -1,5 +1,5 @@
-import Footer from "@/components/Footer"
-import Headers from "@/components/Headers"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 import React from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
@@ -10,7 +10,7 @@ function detailProduct() {
   return (
     <div className="h-min-screen">
       <div className="pb-24 header">
-        <Headers />
+        <Header />
       </div>
       <div className="h-[100%] px-24 py-8">
         <div className="flex h-full">
@@ -72,7 +72,7 @@ function detailProduct() {
                     <option>Extra Large</option>
                   </select>
                 </div>
-                <div className="flex flex gap-4 w-full h-16">
+                <div className="flex gap-4 w-full h-16">
                   <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
                     <button className="p-2 text-[20px] ">-</button>
                     <div className="p-2">0</div>

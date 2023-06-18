@@ -1,16 +1,14 @@
 import React from "react"
-import Image from "next/image"
-import Coffee from "../../../public/coffee.png"
 import { FiSearch, FiUser } from "react-icons/fi"
 import { FaCamera } from "react-icons/fa"
-import Headers from "@/components/Headers"
-import Footer from "@/components/Footer"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 export default function RoomChat() {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
       <div className="w-full h-full bg-gray-400 bg-chat bg-no-repeat bg-cover">
         <div className="flex justify-center gap-4 p-20">

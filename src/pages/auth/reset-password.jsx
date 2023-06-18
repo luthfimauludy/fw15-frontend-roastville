@@ -6,7 +6,7 @@ import Image from "next/image"
 import logo from "public/assets/img/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
-import FooterAuth from "@/components/FooterAuth"
+import FooterAuth from "@/components/footer-auth"
 
 function SignUp() {
   const [openEye, setOpenEye] = useState(false)

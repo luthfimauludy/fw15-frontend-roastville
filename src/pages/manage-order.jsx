@@ -1,6 +1,6 @@
 import React from "react"
-import Headers from "@/components/Headers"
-import Footers from "@/components/Footer"
+import Header from "@/components/header"
+import Footer from "@/components/Footer"
 import Image from "next/image"
 import {
   BsCheck,
@@ -13,7 +13,7 @@ function ManageOrder() {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
         <div className="px-28 py-10 flex flex-col gap-5">
@@ -140,7 +140,7 @@ function ManageOrder() {
           </div>
         </div>
       </div>
-      <Footers />
+      <Footer />
     </>
   )
 }

@@ -1,13 +1,13 @@
 import React from "react"
 import { FiSearch, FiUser } from "react-icons/fi"
-import Headers from "@/components/Headers"
-import Footer from "@/components/Footer"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 export default function Chat() {
   return (
     <>
       <div className="header pb-24">
-        <Headers />
+        <Header />
       </div>
       <div className="w-full h-full bg-chat bg-no-repeat bg-cover ">
         <div className="flex justify-center gap-4 p-20">
