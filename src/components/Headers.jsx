@@ -1,24 +1,32 @@
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
+import React, { useState } from "react"
 import logo from "public/assets/img/logo_roastville.png"
 import { FiDelete, FiSearch } from "react-icons/fi"
 import { BsChatLeftText } from "react-icons/bs"
 import default_picture from "/public/assets/img/default.jpg"
 import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai"
 import { RxCross2 } from "react-icons/rx"
+import { useRouter } from "next/router"
+import axios from "axios"
 
 function Headers() {
   const [search, setSearch] = React.useState(false)
-  const [search1, setSearch1] = React.useState(false)
+  const [modal, setCheckModal] = useState(false)
+  const router = useRouter()
+  const doLogout = async () => {
+    await axios.get("/api/logout")
+    router.replace("/auth/login")
+  }
   const handleShow = () => {
     setSearch(true)
   }
   const handleHide = () => {
     setSearch(false)
   }
-  const handleClick = () => {
-    setSearch1(!search1)
+
+  function checkModal() {
+    setCheckModal(!modal)
   }
 
   return (
@@ -148,12 +156,45 @@ function Headers() {
                   <li className="font-bold text-primary">
                     <div className="hover:bg-white flex gap2 ">
                       <AiOutlineLogout size={25} color="red" />
-                      <div className="text-[#ff0000] font-bold hover:text-[16px] ">
-                        Logout
+                      <div>
+                        <button
+                          onClick={checkModal}
+                          className="font-bold text-[#FF0000]"
+                        >
+                          Logout
+                        </button>
                       </div>
                     </div>
                   </li>
                 </ul>
+                <input
+                  type="checkbox"
+                  id="my_modal_6"
+                  className="modal-toggle"
+                  checked={modal}
+                />
+                <div className="modal bg-red-100  ">
+                  <div className=" modal-box bg-gray-300 border-4 border-rose-600 p-12">
+                    <h3 className="font-bold text-lg text-center">
+                      Attention !
+                    </h3>
+                    <p className="py-4 text-center">Are you sure to Logout?</p>
+                    <div className="modal-action justify-center">
+                      <button
+                        onClick={doLogout}
+                        className="btn btn-primary hover:bg-success bg-gray-300 border-2 text-black normal-case w-20 h-8"
+                      >
+                        Yes
+                      </button>
+                      <button
+                        onClick={checkModal}
+                        className="btn btn-secondary hover:bg-error  bg-gray-300 border-2 text-black normal-case w-20"
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
