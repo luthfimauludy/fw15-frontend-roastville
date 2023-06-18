@@ -4,7 +4,33 @@ import { Field } from "formik"
 import Image from "next/image"
 import { FiEdit2 } from "react-icons/fi"
 
-const Profile = () => {
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
+import { withIronSessionSsr } from "iron-session/next"
+import React from "react"
+import axios from "axios"
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req, res }) {
+    const token = req.session?.token
+    checkCredentials(token, res, "/auth/login")
+    const { data } = await axios.get("http://localhost:8080/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return {
+      props: {
+        token,
+        user: data.results,
+      },
+    }
+  },
+  cookieConfig
+)
+
+const Profile = ({ token }) => {
   return (
     <>
       <div className="header pb-24">

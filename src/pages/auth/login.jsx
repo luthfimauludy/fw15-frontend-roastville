@@ -8,14 +8,58 @@ import logo from "/public/assets/img/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import FooterAuth from "@/components/FooterAuth"
+import cookieConfig from "@/helpers/cookieConfig"
+import { withIronSessionSsr } from "iron-session/next"
+import axios from "axios"
+import { MdError } from "react-icons/md"
+import { useRouter } from "next/router"
+
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req, res }) {
+    const token = req.session?.token
+    if (token) {
+      res.setHeader("location", "/auth/register")
+      res.statusCode = 302
+      res.end()
+      return { props: { token } }
+    }
+    return {
+      props: {
+        token: null,
+      },
+    }
+  },
+  cookieConfig
+)
 
 function SignIn() {
   const [openEye, setOpenEye] = useState(false)
-  // const [load, setLoad] = React.useState(false);
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
     password: Yup.string().required("Password is empty !"),
   })
+  const router = useRouter()
+  const [load, setLoad] = React.useState(false)
+  const [errorMessage, setErrorMessage] = React.useState("")
+
+  const dologin = async (values) => {
+    setLoad(true)
+    const form = new URLSearchParams({
+      email: values.email,
+      password: values.password,
+    }).toString()
+
+    const { data } = await axios.post("http://localhost:3000/api/login", form)
+    console.log(data.success)
+    if (data.success === false) {
+      setErrorMessage("email or password is invalid")
+      setLoad(false)
+    }
+    if (data.success === true) {
+      router.push("/")
+      setLoad(false)
+    }
+  }
 
   function showEye() {
     setOpenEye(!openEye)
@@ -43,11 +87,19 @@ function SignIn() {
                 <span className="text-[20px] font-bold">Login</span>
               </div>
             </div>
+            <div className="flex justify-center">
+              {errorMessage && (
+                <div className="max-w-[400px] flex flex-col gap-0 justify-center alert alert-error shadow-xl text-white text-lg">
+                  <MdError size={25} />
+                  {errorMessage}
+                </div>
+              )}
+            </div>
             <div className="flex justify-center w-full px-0 md:px-24">
               <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={validationSchema}
-                // onSubmit={dologin}
+                onSubmit={dologin}
               >
                 {({
                   values,
@@ -130,22 +182,22 @@ function SignIn() {
                             </label>
                           </Link>
                         </div>
-                        <div className="w-full pt-4">
-                          {/* {load ? (
+                        <div className="w-full pt-8">
+                          {load ? (
                             <button
                               type="submit"
                               className="w-full btn btn-primary normal-case text-white"
                             >
                               <span className="loading loading-spinner loading-sm"></span>
                             </button>
-                          ) : ( */}
-                          <button
-                            type="submit"
-                            className=" w-full btn btn-primary normal-case text-white"
-                          >
-                            Sign In
-                          </button>
-                          {/* )} */}
+                          ) : (
+                            <button
+                              type="submit"
+                              className=" w-full btn btn-primary normal-case text-white"
+                            >
+                              Sign In
+                            </button>
+                          )}
                         </div>
                         <div className="btn bg-white mt-4 md:block hidden md:flex gap-4 flex items-center justify-center shadow-2xl normal-case ">
                           <div>
