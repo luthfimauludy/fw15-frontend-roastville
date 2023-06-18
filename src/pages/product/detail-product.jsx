@@ -3,7 +3,7 @@ import Footer from "@/components/footer"
 import React from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
-import bg_detail from "public/assets/img/bg-detail-product.jpg"
+import bg_detail from "public/bg-detail-product.jpg"
 import { FiTrash2 } from "react-icons/fi"
 
 function detailProduct() {
