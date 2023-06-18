@@ -1,10 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import React, { useState } from "react"
-import logo from "public/assets/img/logo_roastville.png"
+import logo from "public/logo_roastville.png"
 import { FiDelete, FiSearch } from "react-icons/fi"
 import { BsChatLeftText } from "react-icons/bs"
-import default_picture from "/public/assets/img/default.jpg"
+import default_picture from "/public/default.jpg"
 import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai"
 import { RxCross2 } from "react-icons/rx"
 import { useRouter } from "next/router"
@@ -31,7 +31,7 @@ function Headers() {
 
   return (
     <>
-      <div className="fixed w-full z-10 border-b-2 relative">
+      <div className="w-full z-10 border-b-2 relative">
         <div className="flex w-full justify-between items-center px-36 h-24 bg-white">
           <Link href="/" className="flex justify-center items-center gap-2">
             <div className="h-20 w-20">
@@ -138,7 +138,7 @@ function Headers() {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="border border-2 dropdown-content menu p-2 shadow  bg-base-100 rounded-box w-[200px] px-2s flex flex-col items-center justify-between "
+                  className="border-2 dropdown-content menu p-2 shadow  bg-base-100 rounded-box w-[200px] px-2s flex flex-col items-center justify-between "
                 >
                   <li>
                     <Link href="/profile" className="hover:bg-white">

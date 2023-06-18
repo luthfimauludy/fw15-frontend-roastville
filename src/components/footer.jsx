@@ -1,6 +1,6 @@
 import React from "react"
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"
-import logo from "public/assets/img/logo_roastville.png"
+import logo from "public/logo_roastville.png"
 import Link from "next/link"
 import Image from "next/image"
 

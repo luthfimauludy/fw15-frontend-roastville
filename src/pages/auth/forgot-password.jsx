@@ -1,10 +1,10 @@
 import React, { useState } from "react"
-import side_picture from "public/assets/img/picture_auth.jpg"
+import side_picture from "public/picture_auth.jpg"
 import Image from "next/image"
-import logo from "public/assets/img/logo_roastville.png"
+import logo from "public/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
-import FooterAuth from "@/components/FooterAuth"
+import FooterAuth from "@/components/footer-auth"
 
 function SignUp() {
   // const [load, setLoad] = React.useState(false);
@@ -17,7 +17,7 @@ function SignUp() {
   return (
     <>
       <div className="h-min-screen flex">
-        <aside className="md:flex md:flex-1 md:block hidden">
+        <aside className="md:flex md:flex-1 hidden">
           <Image
             src={side_picture}
             className="object-cover"

@@ -29,11 +29,11 @@ module.exports = {
     extend: {
       backgroundImage: {
         home: "url('../../public/bg-home.png')",
-        login: "url('../../public/assets/img/bg-login.jpg')",
-        login_mobile: "url('../../public/assets/img/bg-login-mobile.png')",
-        payment: "url('../../public/assets/img/bg-payment.jpg')",
-        profile: "url('../../public/assets/img/bg-profile.jpg')",
-        chat: "url('../../public/assets/img/bg-chat.jpg')",
+        login: "url('../../public/bg-login.jpg')",
+        login_mobile: "url('../../public/bg-login-mobile.png')",
+        payment: "url('../../public/bg-payment.jpg')",
+        profile: "url('../../public/bg-profile.jpg')",
+        chat: "url('../../public/bg-chat.jpg')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

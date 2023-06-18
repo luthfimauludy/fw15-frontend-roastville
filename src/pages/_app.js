@@ -1,5 +1,7 @@
 import "@/styles/globals.css"
 import { Rubik } from "next/font/google"
+import { Provider } from "react-redux"
+import { store } from "../redux/store"
 
 const rubik = Rubik({
   weight: "400",
@@ -8,8 +10,10 @@ const rubik = Rubik({
 
 export default function App({ Component, pageProps }) {
   return (
-    <main className={rubik.className}>
-      <Component {...pageProps} />
-    </main>
+    <Provider store={store}>
+      <main className={rubik.className}>
+        <Component {...pageProps} />
+      </main>
+    </Provider>
   )
 }

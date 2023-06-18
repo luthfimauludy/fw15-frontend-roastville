@@ -15,6 +15,7 @@ import defaultProfile from '../../../public/assets/img/picture_auth.jpg'
 import Link from "next/link"
 import { useRouter } from "next/router"
 
+
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
     const token = req.session?.token
@@ -101,12 +102,17 @@ const Profile = ({ token, user }) => {
   return (
     <>
       <div className="header pb-24">
+
         <Headers token={token} user={user} />
+
+        <Header />
+
       </div>
       <div className="bg-profile bg-cover bg-center font-poppins bg-primary p-10">
         <div className="flex lg:px-[5rem] py-5">
           <span className="text-white text-2xl font-bold">User Profile</span>
         </div>
+
         <Formik initialValues={{
           email: user.email,
           phoneNumber: user?.phoneNumber,
@@ -143,9 +149,12 @@ const Profile = ({ token, user }) => {
                   <div className="text-xl font-bold">
                     {!user.displayName && (<div className="opacity-50 text-2xl text-red-500">No Set</div>)}
                     {user?.displayName && (<div className="text-2xl font-bold">{user.displayName}</div>)}
+
+       
                   </div>
                   <span className="font-semibold text-sm opacity-75">{user?.email}</span>
                 </div>
+
                 <div className="flex flex-col gap-5">
                   <div>
                     <label className='w-48 md:w-32 lg:w-48 btn btn-primary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl'>
@@ -164,6 +173,8 @@ const Profile = ({ token, user }) => {
                   <label className="w-48 md:w-32 lg:w-48 btn btn-default text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
                     Edit Password
                   </label>
+
+             
                 </div>
                 <span className="max-w-[200px] text-center font-bold text-primary ">
                   Do you want to save the change?
