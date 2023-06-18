@@ -53,8 +53,7 @@ function SignIn() {
       password: values.password,
     }).toString()
 
-    const { data } = await axios.post("http://localhost:3000/api/login", form)
-    console.log(data.success)
+    const { data } = await axios.post("../api/login", form)
     if (data.success === false) {
       setErrorMessage("email or password is invalid")
       setLoad(false)
