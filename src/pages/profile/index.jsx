@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer"
 import Headers from "@/components/Headers"
+import { Field } from "formik"
 import Image from "next/image"
+import { FiEdit2 } from "react-icons/fi"
 
 const Profile = () => {
   return (
@@ -17,10 +19,10 @@ const Profile = () => {
             <div className="rounded-full overflow-hidden bg-blue-600 flex justify-center items-center w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
               <Image
                 src="/coffee.png"
-                width={200}
-                height={200}
+                width={100}
+                height={100}
                 alt=""
-                className="rounded-full"
+                className="rounded-full object-cover"
               />
             </div>
             <div className="flex flex-col justify-center items-center m-2">
@@ -58,88 +60,117 @@ const Profile = () => {
             </div>
           </div>
           <div className="shadow-[0_0px_50px_1px_rgba(0,0,0,0.3)] rounded-lg md:w-[60%] lg:flex flex-col p-10 border-b-[12px] border-primary gap-14">
-            <span className="text-[#4F5665] text-[25px] font-bold self-start">
-              Contacts
-            </span>
-            <div className="grid grid-cols-2 gap-10">
-              <div className="flex flex-col gap-7">
-                <div className="flex flex-col gap-4">
-                  <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
-                    Email adress :
-                  </span>
-                  <span className="text-[18px] font-rubik ">email</span>
-                  <hr className="border-[1px] border-black" />
-                </div>
-                <div className="flex flex-col gap-4">
-                  <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]">
-                    Delivery adress :
-                  </span>
-                  <span className="text-[18px] font-rubik ">address</span>
-                  <hr className="border-[1px] border-black" />
+            <form className="flex-col flex gap-10">
+              <div className="flex items-center justify-between">
+                <span className="text-[#4F5665] text-[25px] font-bold self-start">
+                  Contacts
+                </span>
+                <div className="flex justify-center items-center bg-secondary w-10 h-10 rounded-full">
+                  <button className="flex justify-center items-center">
+                    <FiEdit2 size={20}/>
+                  </button>
                 </div>
               </div>
-              <div className="">
+              <div className="grid grid-cols-2 gap-10">
+                <div className="flex flex-col gap-7">
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
+                      Email adress :
+                    </span>
+                    <div className="text-[18px] font-rubik ">
+                      <input 
+                      type="email"
+                      className="input input-bordered w-full max-w-xs opacity-50"
+                      name="email" />
+                    </div>
+                    <hr className="border-[1px] border-black" />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]">
+                      Delivery adress :
+                    </span>
+                    <input 
+                    type="text"
+                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <hr className="border-[1px] border-black" />
+                  </div>
+                </div>
+                <div className="">
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
+                      Mobile number :
+                    </span>
+                    <input 
+                    type="number" 
+                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <hr className="border-[1px] border-black" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-[#4F5665] text-[25px] font-bold">
+                Details
+              </span>
+              <div className="grid grid-cols-2 gap-10">
+                <div>
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
+                      Display Name :
+                    </span>
+                    <input 
+                    type="text" 
+                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <hr className="border-[1px] border-black" />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
+                      First name :
+                    </span>
+                    <input 
+                    type="text" 
+                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <hr className="border-[1px] border-black" />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
+                      Last name :
+                    </span>
+                    <input 
+                    type="text" 
+                    className="input input-bordered w-full max-w-xs opacity-50" />
+                    <hr className="border-[1px] border-black" />
+                  </div>
+                </div>
                 <div className="flex flex-col gap-4">
                   <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
                     Mobile number :
                   </span>
-                  <span className="text-[18px] font-rubik ">phone</span>
+                  <input 
+                  type="number" 
+                  className="input input-bordered w-full max-w-xs opacity-50" />
                   <hr className="border-[1px] border-black" />
                 </div>
               </div>
-            </div>
-            <span className="text-[#4F5665] text-[25px] font-bold">
-              Details
-            </span>
-            <div className="grid grid-cols-2 gap-10">
-              <div>
-                <div className="flex flex-col gap-4">
-                  <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
-                    Display Name :
-                  </span>
-                  <span className="text-[18px] font-rubik ">Name</span>
-                  <hr className="border-[1px] border-black" />
+              <div className="flex flex-col-2 justify-center gap-10 p-10">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]"
+                  />
+                  <label>
+                    {/* <label name='gender' value='0' type='radio' className='radio radio-primary'/> */}
+                    <span>Male</span>
+                  </label>
                 </div>
-                <div className="flex flex-col gap-4">
-                  <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
-                    First name :
-                  </span>
-                  <span className="text-[18px] font-rubik ">name</span>
-                  <hr className="border-[1px] border-black" />
-                </div>
-                <div className="flex flex-col gap-4">
-                  <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
-                    Last name :
-                  </span>
-                  <span className="text-[18px] font-rubik ">name</span>
-                  <hr className="border-[1px] border-black" />
-                </div>
-              </div>
-              <div className="flex flex-col gap-4">
-                <span className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px] ">
-                  Mobile number :
-                </span>
-                <span className="text-[18px] font-rubik ">phone</span>
-                <hr className="border-[1px] border-black" />
-              </div>
-            </div>
-            <div className="flex flex-col-2 justify-center gap-10 p-10">
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]"
-                />
-                <label htmlFor="">Male</label>
-              </div>
 
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]"
-                />
-                <label htmlFor="">Female</label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    className="text-[#9F9F9F] text-[18px] font-[500] leading-[30px]"
+                  />
+                  <label htmlFor="">Female</label>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
