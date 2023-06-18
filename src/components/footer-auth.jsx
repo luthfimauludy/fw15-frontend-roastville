@@ -10,7 +10,7 @@ import {
 function FooterAuth() {
   return (
     <>
-      <footer className="md:flex md:gap-8 flex-1 pl-4 py-4 md:block hidden">
+      <footer className="md:flex md:gap-8 flex-1 pl-4 py-4 hidden">
         <div className="w-[50%] p-4">
           <div>
             <div className="flex gap-2 items-center">
