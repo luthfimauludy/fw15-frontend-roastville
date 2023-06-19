@@ -22,10 +22,10 @@ function SignUp() {
   const [load, setLoad] = React.useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
-    newPassword: Yup.string().required("New Password is empty !"),
-    confirmPassword: Yup.string().required("confirm new password si empty !"),
+    newPassword: Yup.string().required("New password is empty !"),
+    confirmPassword: Yup.string().required("Confirm password is empty !"),
     confirmPassword: Yup.string()
-      .required("confirm new password si empty !")
+      .required("Confirm password is empty !")
       .oneOf([Yup.ref("newPassword"), null], "Password must be match"),
   })
 
@@ -148,7 +148,11 @@ function SignUp() {
                             onBlur={handleBlur}
                             value={values.email}
                             placeholder="Enter your email adress"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.email
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           {errors.email && touched.email && (
                             <label htmlFor="email" className="label p-0">
@@ -157,7 +161,6 @@ function SignUp() {
                               </span>
                             </label>
                           )}
-                          <label className="label"></label>
                         </div>
                         <div className="form-control w-full relative">
                           <label className="label">
@@ -172,8 +175,12 @@ function SignUp() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.newPassword}
-                            placeholder="Enter your newPassword"
-                            className="input input-bordered w-full  px-3"
+                            placeholder="Enter new password"
+                            className={
+                              errors.newPassword
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           <button type="button" onClick={showEye}>
                             {openEye ? (
@@ -209,8 +216,12 @@ function SignUp() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.confirmPassword}
-                            placeholder="Enter your confirmPassword"
-                            className="input input-bordered w-full  px-3"
+                            placeholder="Enter confirm password"
+                            className={
+                              errors.confirmPassword
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           <button type="button" onClick={showEye}>
                             {openEye ? (

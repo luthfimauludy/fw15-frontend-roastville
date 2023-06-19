@@ -40,6 +40,16 @@ const Profile = ({ token, user }) => {
   const [pictureURI, setPictureURI] = React.useState("")
   const [editProfileUser, setEditProfilUser] = React.useState(false)
   const router = useRouter()
+  const [profile, setProfile] = React.useState([])
+
+  React.useEffect(() =>{
+    async function getDataProfile(){
+      const {data} = await http(token).get('/profile/user')
+      console.log(data)
+      setProfile(data.results)
+    }
+    getDataProfile()
+  },[token])
 
   const updateDisplay = () => {
     dispatch(getProfileAction(token))
@@ -67,14 +77,16 @@ const Profile = ({ token, user }) => {
     fileToDataUrl(file)
   }
 
-  React.useEffect(() => {}, [selectedPicture])
+  React.useEffect(() => { }, [selectedPicture])
 
   const editProfile = async (values) => {
     setOpenModal(true)
     const form = new FormData()
     Object.keys(values).forEach((key) => {
       if (key === "birthDate") {
-        form.append(key, moment(values[key]).format("YYYY/MM/DD"))
+        if (values[key] instanceof Date) {
+          form.append(key, moment(values[key]).format("YYYY/MM/DD"))
+        }
       } else {
         form.append(key, values[key])
       }
@@ -83,17 +95,19 @@ const Profile = ({ token, user }) => {
       form.append("picture", selectedPicture)
     }
     try {
-      await http(token).patch("/profile", form, {
+      const { data } = await http(token).patch("/profile", form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
+      console.log(data)
     } catch (err) {
       console.log(err)
     }
     setEditProfilUser(false)
     setOpenModal(false)
     updateDisplay()
+    setProfile(data.results)
   }
   return (
     <>
@@ -106,14 +120,14 @@ const Profile = ({ token, user }) => {
         </div>
         <Formik
           initialValues={{
-            email: user.email,
+            email: user?.email,
             phoneNumber: user?.phoneNumber,
             address: user?.address,
             displayName: user?.displayName,
             firstName: user?.firstName,
             lastName: user?.lastName,
             gender: user?.gender ? "1" : "0",
-            birthDate: user?.birthDate,
+            birthDate: user?.birthDate
           }}
           onSubmit={editProfile}
           enableReinitialize
@@ -200,7 +214,7 @@ const Profile = ({ token, user }) => {
                   Do you want to save the change?
                 </span>
                 <div className="flex flex-col gap-5">
-                  <button className="w-48 md:w-32 lg:w-48 btn btn-primary text-white border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
+                  <button className="w-48 md:w-32 lg:w-48 btn btn-primary text-white border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl" disabled={!editProfileUser}>
                     Save Change
                   </button>
                   <label className="w-48 md:w-32 lg:w-48 btn btn-secondary text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
@@ -274,7 +288,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.address === null ? (
+                              {user?.address === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 user?.address
@@ -304,7 +318,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.phoneNumber === null ? (
+                              {user?.phoneNumber === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 user?.phoneNumber
@@ -367,7 +381,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.firstName === null ? (
+                              {user?.firstName === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 user?.firstName
@@ -395,7 +409,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.lastName === null ? (
+                              {user?.lastName === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 user?.lastName
@@ -427,7 +441,7 @@ const Profile = ({ token, user }) => {
                             {user?.birthDate === null ? (
                               <span className="text-red-500">Not Set</span>
                             ) : (
-                              moment(user?.birthDate).format("YYYY/MM/DD")
+                              moment().format("YYYY/MM/DD")
                             )}
                           </span>
                         )}
