@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
+import { persistStore } from "redux-persist"
 import reducer from "./reducers"
 
-export const store = configureStore({
+const store = configureStore({
   reducer,
   middleware: [thunk],
 })
+
+const persistor = persistStore(store)
+
+export { store, persistor }
