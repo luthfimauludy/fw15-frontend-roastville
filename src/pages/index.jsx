@@ -32,7 +32,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 export default function Home({ token }) {
   return (
     <>
-      <div className="header">
+      <div className="header pb-24">
         <Header token={token} />
       </div>
       <div className="w-full h-[645px] bg-home bg-no-repeat bg-cover px-10 z-0">
@@ -52,7 +52,7 @@ export default function Home({ token }) {
             </div>
           </div>
           <div>
-            <div className="pt-14">
+            <div className="pt-14 z-10">
               <div className="relative">
                 <input
                   type="text"
