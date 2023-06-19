@@ -129,7 +129,11 @@ function SignUp() {
                             onBlur={handleBlur}
                             value={values.email}
                             placeholder="Enter your email adress"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.email
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           {errors.email && touched.email && (
                             <label htmlFor="email" className="label p-0">
@@ -138,7 +142,6 @@ function SignUp() {
                               </span>
                             </label>
                           )}
-                          <label className="label"></label>
                         </div>
                         <div className="form-control w-full relative">
                           <label className="label">
@@ -154,7 +157,11 @@ function SignUp() {
                             onBlur={handleBlur}
                             value={values.password}
                             placeholder="Enter your password"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.password
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           <button type="button" onClick={showEye}>
                             {openEye ? (
@@ -191,7 +198,11 @@ function SignUp() {
                             onBlur={handleBlur}
                             value={values.phoneNumber}
                             placeholder="Enter your phoneNumber"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.phoneNumber
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
 
                           {errors.phoneNumber && touched.phoneNumber && (

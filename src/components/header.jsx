@@ -11,7 +11,6 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
-
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
   console.log(token)
@@ -23,9 +22,9 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 }, cookieConfig)
 
 export default function Headers({ token }) {
-  console.log(token)
   const [search, setSearch] = useState(false)
   const [modal, setCheckModal] = useState(false)
+  const [inputValue, setInputValue] = useState("")
   const router = useRouter()
   const doLogout = async () => {
     await axios.get("/api/logout")
@@ -36,6 +35,14 @@ export default function Headers({ token }) {
   }
   const handleHide = () => {
     setSearch(false)
+  }
+
+  const clearInput = () => {
+    setInputValue("")
+  }
+
+  const handleCheckboxChange = () => {
+    setCheckModal(!modal)
   }
 
   function checkModal() {
@@ -89,10 +96,12 @@ export default function Headers({ token }) {
                         className="input input-bordered bordered-primary w-full px-4"
                         name="search"
                         placeholder="search here..."
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
                       />
                       <button
                         type="reset"
-                        onClick={() => resetForm()}
+                        onClick={() => clearInput()}
                         className="absolute top-2 right-12 "
                       >
                         <FiDelete size={25} />
@@ -169,10 +178,11 @@ export default function Headers({ token }) {
                       type="checkbox"
                       id="my_modal_6"
                       className="modal-toggle"
+                      onChange={handleCheckboxChange}
                       checked={modal}
                     />
                     <div className="modal bg-red-100  ">
-                      <div className=" modal-box bg-gray-300 border-4 border-rose-600 p-12">
+                      <div className=" modal-box bg-gray-300 p-12">
                         <h3 className="font-bold text-lg text-center">
                           Attention !
                         </h3>
