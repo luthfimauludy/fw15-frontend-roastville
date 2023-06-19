@@ -1,11 +1,6 @@
 import Footer from "@/components/Footer"
-import Headers from "@/components/Headers"
 import { Field, Formik } from "formik"
 import Image from "next/image"
-
-import React from "react"
-import { FiEdit2 } from "react-icons/fi"
-
 import { FiEdit2, FiUser } from "react-icons/fi"
 import React from 'react'
 import checkCredentials from "@/helpers/checkCredentials"
@@ -15,10 +10,9 @@ import axios from "axios"
 import http from "@/helpers/http"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import moment from "moment/moment"
-import defaultProfile from '../../../public/assets/img/picture_auth.jpg'
 import Link from "next/link"
 import { useRouter } from "next/router"
-
+import Headers from "../../components/header"
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
@@ -30,26 +24,15 @@ export const getServerSideProps = withIronSessionSsr(
       },
     })
 
-
-import { withIronSessionSsr } from "iron-session/next"
-import checkCredentials from "@/helpers/checkCredentials"
-import cookieConfig from "@/helpers/cookieConfig"
-
-
-export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
-  const token = req.session.token || null
-  checkCredentials(token, res, "/auth/login")
-  return {
-    props: {
-      token,
-    },
-  }
-}, cookieConfig)
-const Profile = ({ token }) => {
-  return (
-    <>
-      <div className="header">
-        <Header token={token} />
+    return {
+      props: {
+        token,
+        user: data.results,
+      },
+    }
+  },
+  cookieConfig
+)
 
 const Profile = ({ token, user }) => {
   const [selectedPicture, setSelectedPicture] = React.useState(false)
@@ -117,18 +100,12 @@ const Profile = ({ token, user }) => {
   return (
     <>
       <div className="header pb-24">
-
         <Headers token={token} user={user} />
-
-        <Header />
-
-
       </div>
       <div className="bg-profile bg-cover bg-center font-poppins bg-primary p-10">
         <div className="flex lg:px-[5rem] py-5">
           <span className="text-white text-2xl font-bold">User Profile</span>
         </div>
-
         <Formik initialValues={{
           email: user.email,
           phoneNumber: user?.phoneNumber,
@@ -158,19 +135,15 @@ const Profile = ({ token, user }) => {
                         <Image className='rounded object-fit bg-cover object-cover' src={pictureURI} alt='profile' width={250} height={250} />
                       </div>
                     )}
-                    {console.log(pictureURI, user.picture, "foto")}
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center m-2 gap-3">
                   <div className="text-xl font-bold">
-                    {!user.displayName && (<div className="opacity-50 text-2xl text-red-500">No Set</div>)}
+                    {!user?.displayName && (<div className="opacity-50 text-2xl text-red-500">No Set</div>)}
                     {user?.displayName && (<div className="text-2xl font-bold">{user.displayName}</div>)}
-
-       
                   </div>
                   <span className="font-semibold text-sm opacity-75">{user?.email}</span>
                 </div>
-
                 <div className="flex flex-col gap-5">
                   <div>
                     <label className='w-48 md:w-32 lg:w-48 btn btn-primary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl'>
@@ -189,8 +162,6 @@ const Profile = ({ token, user }) => {
                   <label className="w-48 md:w-32 lg:w-48 btn btn-default text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
                     Edit Password
                   </label>
-
-             
                 </div>
                 <span className="max-w-[200px] text-center font-bold text-primary ">
                   Do you want to save the change?
