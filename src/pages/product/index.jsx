@@ -20,22 +20,26 @@ function ProductCust() {
   const dispatch = useDispatch();
   const router = useRouter()
   const [product, setProduct] = React.useState([]);
-  const [category, setCategory] = React.useState("");
-  const [page, setPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(null);
-  const [search, setSearch] = React.useState("");
+  const [errMsg, setErrorMsg] = React.useState("");
+
 
   const getProduct = React.useCallback(async () => {
-    const { data } = await http().get('/products')
-    setProduct(data.results)
-
-  }, [setProduct])
+    try {
+      const { data } = await http().get('/products')
+      setProduct(data.results)
+  
+    } catch (error) {
+      if (error.isAxiosError && !error.response) {
+        router.replace('product/error-response')
+  
+      }
+    }
+  }, [setProduct, router])
 
   React.useEffect(() => {
     getProduct()
   }, [getProduct])
 
-  // console.log(product[0].variant[0].price)
 
   const dispatchEvent = (item) => {
       const encodedProductName = encodeURIComponent(item.name);
