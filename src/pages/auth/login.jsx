@@ -11,7 +11,7 @@ import FooterAuth from "@/components/footer-auth"
 import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
 import axios from "axios"
-import { MdError } from "react-icons/md"
+import { clearMessage } from "@/redux/reducers/message"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 

@@ -11,9 +11,25 @@ import Stacked from "../../../public/stacked.png"
 import Headers from "@/components/header"
 import { withIronSessionSsr } from "iron-session/next"
 import cookieConfig from "@/helpers/cookieConfig"
+import http from "@/helpers/http"
+import { useEffect, useState } from "react"
+import Error from "next/error"
+import jwtDecode from "jwt-decode"
+import { useRouter } from "next/router"
+import { useDispatch, useSelector } from "react-redux"
+import { setMessage } from "@/redux/reducers/message"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
@@ -23,6 +39,29 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 }, cookieConfig)
 
 export default function Dashboard({ token }) {
+  const [roleId, setRoleId] = useState("")
+  const dispatch = useDispatch()
+  const router = useRouter()
+
+  useEffect(() => {
+    async function getRoleId() {
+      try {
+        const { data } = await http(token).get("/users")
+        setRoleId(data.results)
+      } catch (err) {
+        throw Error("Error get role id")
+      }
+    }
+    if (token) {
+      getRoleId()
+    }
+
+    if (roleId == 2) {
+      router.push("/auth/login")
+      dispatch(setMessage("You're not an admin yet!"))
+    }
+  }, [token, roleId, router, dispatch])
+
   return (
     <>
       <div className="header">
