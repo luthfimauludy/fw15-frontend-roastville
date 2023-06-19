@@ -34,7 +34,7 @@ function FooterAuth() {
                 <AiFillInstagram size={25} />
               </div>
             </div>
-            <div className="text-[#9F9F9F] pt-4">@RoastVille &nbsp; 2023</div>
+            <div className="text-[#9F9F9F] pt-4">@RoastVille&nbsp;2023</div>
           </div>
         </div>
         <div className="flex-1 p-5">
