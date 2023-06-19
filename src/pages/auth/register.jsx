@@ -10,8 +10,10 @@ import * as Yup from "yup"
 import FooterAuth from "@/components/footer-auth"
 import http from "@/helpers/http"
 import { MdError } from "react-icons/md"
+import { useRouter } from "next/router"
 
 function SignUp() {
+  const router = useRouter()
   const [openEye, setOpenEye] = useState(false)
   const [successMessage, setSuccessMessage] = useState("")
 
@@ -33,17 +35,13 @@ function SignUp() {
       }).toString()
 
       const { data } = await http().post("/auth/register", form)
+      console.log(data)
       if (data.success === false) {
         setErrorMessage("email or password is invalid")
         setLoad(false)
       }
-      if (data.success === true) {
-        setSuccessMessage("Register Succes")
-        router.push("/")
 
-        setLoad(false)
-      }
-      if (data?.results?.token) {
+      if (data.results.token) {
         router.push("/auth/login")
         setLoad(false)
       }
