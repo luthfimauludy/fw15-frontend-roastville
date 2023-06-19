@@ -148,12 +148,12 @@ export default function Headers({ token }) {
                       className="border-2 dropdown-content menu p-2 shadow  bg-base-100 rounded-box w-[200px] px-2s flex flex-col items-center justify-between "
                     >
                       <li>
-                        <Link href="/profile" className="hover:bg-white">
-                          <div className="flex gap-4 hover:bg-white items-center justify-center">
+                        <Link href="/profile" className="">
+                          <div className="flex gap-4  items-center justify-center">
                             <div>
                               <AiOutlineUser size={30} />
                             </div>
-                            <div className="font-bold text-medium hover:bg-white hover:text-accent ">
+                            <div className="font-bold text-medium hover:text-accent ">
                               My Profile
                             </div>
                           </div>
