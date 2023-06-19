@@ -6,9 +6,8 @@ const ErrorResponse = () => {
       <Head>
         <title>404 Network Error</title>
       </Head>
-      <div>
+      <div className='flex justify-center items-center h-screen'>
         <h1>404 Network Error</h1>
-        <p>There was a network error. Please try again later.</p>
       </div>
     </>
   );
