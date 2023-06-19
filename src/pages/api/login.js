@@ -16,8 +16,11 @@ export default withIronSessionApiRoute(async function loginRoute(req, res) {
       req.session.token = token
       await req.session.save()
     }
-
-    return res.json(response)
+    if (response.success === false) {
+      return res.status(400).json(response)
+    } else {
+      return res.json(response)
+    }
   } catch (err) {
     const message = err.response?.data?.message
     if (message) {

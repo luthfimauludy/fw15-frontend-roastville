@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { FcGoogle } from "react-icons/fc"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
@@ -13,6 +13,7 @@ import { withIronSessionSsr } from "iron-session/next"
 import axios from "axios"
 import { MdError } from "react-icons/md"
 import { useRouter } from "next/router"
+import { useDispatch, useSelector } from "react-redux"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
@@ -33,25 +34,50 @@ function SignIn({ token }) {
   })
   const router = useRouter()
   const [load, setLoad] = React.useState(false)
-  const [errorMessage, setErrorMessage] = React.useState("")
 
-  const dologin = async (values) => {
-    setLoad(true)
-    const form = new URLSearchParams({
-      email: values.email,
-      password: values.password,
-    }).toString()
+  const [message, setMessage] = useState("")
+  const msg = useSelector((state) => state.message.message)
+  const dispatch = useDispatch()
 
-    const { data } = await axios.post("../api/login", form)
-    if (data.success === false) {
-      setErrorMessage("email or password is invalid")
+  async function doLogin(values) {
+    try {
+      setLoad(true)
+      const email = values.email
+      const password = values.password
+      const form = new URLSearchParams({
+        email,
+        password,
+      }).toString()
+
+      const { data } = await axios.post("../api/login", form.toString())
       setLoad(false)
-    }
-    if (data.success === true) {
-      router.push("/")
+      if (data?.results?.token) {
+        router.push("/dashboard")
+      }
+
+      if (data?.message === "auth_wrong_password") {
+        setMessage("Wrong credentials")
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message
+
+      if (msg) {
+        setMessage("Wrong credentials")
+      }
+
+      setTimeout(() => {
+        setMessage(false)
+      }, 3000)
       setLoad(false)
     }
   }
+  useEffect(() => {
+    if (msg) {
+      setTimeout(() => {
+        dispatch(clearMessage())
+      }, 3000)
+    }
+  }, [dispatch, msg])
   React.useEffect(() => {
     if (token) {
       router.push("/")
@@ -84,10 +110,14 @@ function SignIn({ token }) {
               </div>
             </div>
             <div className="flex justify-center">
-              {errorMessage && (
-                <div className="max-w-[400px] flex flex-col gap-0 justify-center alert alert-error shadow-xl text-white text-lg">
-                  <MdError size={25} />
-                  {errorMessage}
+              {message && (
+                <div className="alert alert-error text-lg text-white">
+                  {message}
+                </div>
+              )}
+              {msg && (
+                <div className="alert alert-error text-lg text-white">
+                  {msg}
                 </div>
               )}
             </div>
@@ -95,7 +125,7 @@ function SignIn({ token }) {
               <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={validationSchema}
-                onSubmit={dologin}
+                onSubmit={doLogin}
               >
                 {({
                   values,
