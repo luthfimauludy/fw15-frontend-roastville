@@ -51,8 +51,8 @@ export default function Headers({ token }) {
 
   return (
     <>
-      <div className="fixed w-full">
-        <div className="w-full z-10 border-b-2 relative">
+      <div className="fixed w-full z-20">
+        <div className="w-full  border-b-2 relative">
           <div className="flex w-full justify-between items-center px-36 h-24 bg-white">
             <Link href="/" className="flex justify-center items-center gap-2">
               <div className="h-20 w-20">
