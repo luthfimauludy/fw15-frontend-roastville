@@ -41,18 +41,21 @@ function SignUp() {
         setLoad(false)
       }
 
-      if (data.results.token) {
-        router.push("/auth/login")
-        setLoad(false)
+      if (data.success === true) {
+        setTimeout(() => {
+          setSuccessMessage("Register Succes, Please Login")
+          router.push("/auth/login")
+          setLoad(false)
+        }, 1000)
       }
     } catch (err) {
       const message = err?.response?.data?.results[0].msg
       setErrorMessage(message)
     }
     setTimeout(() => {
-      setSuccessMessage(false)
+      setSuccessMessage(true)
       setErrorMessage(false)
-    }, 1000)
+    }, 2000)
     setLoad(false)
   }
 

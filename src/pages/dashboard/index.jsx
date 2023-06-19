@@ -14,6 +14,7 @@ import cookieConfig from "@/helpers/cookieConfig"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
+
   return {
     props: {
       token,
@@ -24,7 +25,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 export default function Dashboard({ token }) {
   return (
     <>
-      <div className="header pb-24">
+      <div className="header">
         <Headers token={token} />
       </div>
       <div className="w-full h-[1050px]">
