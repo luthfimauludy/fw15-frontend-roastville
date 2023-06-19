@@ -1,8 +1,8 @@
-import Footer from "@/components/Footer"
+import Footer from "@/components/footer"
 import { Field, Formik } from "formik"
 import Image from "next/image"
 import { FiEdit2, FiUser } from "react-icons/fi"
-import React from 'react'
+import React from "react"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
@@ -37,13 +37,13 @@ export const getServerSideProps = withIronSessionSsr(
 const Profile = ({ token, user }) => {
   const [selectedPicture, setSelectedPicture] = React.useState(false)
   const [openModal, setOpenModal] = React.useState(false)
-  const [pictureURI, setPictureURI] = React.useState('')
+  const [pictureURI, setPictureURI] = React.useState("")
   const [editProfileUser, setEditProfilUser] = React.useState(false)
   const router = useRouter()
 
   const updateDisplay = () => {
     dispatch(getProfileAction(token))
-  };
+  }
 
   const doLogout = async () => {
     await axios.get("/api/logout")
@@ -55,7 +55,7 @@ const Profile = ({ token, user }) => {
   }
   const fileToDataUrl = (file) => {
     const reader = new FileReader()
-    reader.addEventListener('load', () => {
+    reader.addEventListener("load", () => {
       setPictureURI(reader.result)
     })
     reader.readAsDataURL(file)
@@ -67,28 +67,26 @@ const Profile = ({ token, user }) => {
     fileToDataUrl(file)
   }
 
-  React.useEffect(() => {
-
-  }, [selectedPicture])
+  React.useEffect(() => {}, [selectedPicture])
 
   const editProfile = async (values) => {
     setOpenModal(true)
     const form = new FormData()
     Object.keys(values).forEach((key) => {
       if (key === "birthDate") {
-        form.append(key, moment(values[key]).format('YYYY/MM/DD'))
+        form.append(key, moment(values[key]).format("YYYY/MM/DD"))
       } else {
         form.append(key, values[key])
       }
     })
     if (selectedPicture) {
-      form.append('picture', selectedPicture)
+      form.append("picture", selectedPicture)
     }
     try {
-      await http(token).patch('/profile', form, {
+      await http(token).patch("/profile", form, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       })
     } catch (err) {
       console.log(err)
@@ -106,53 +104,88 @@ const Profile = ({ token, user }) => {
         <div className="flex lg:px-[5rem] py-5">
           <span className="text-white text-2xl font-bold">User Profile</span>
         </div>
-        <Formik initialValues={{
-          email: user.email,
-          phoneNumber: user?.phoneNumber,
-          address: user?.address,
-          displayName: user?.displayName,
-          firstName: user?.firstName,
-          lastName: user?.lastName,
-          gender: user?.gender ? "1" : "0",
-          birthDate: user?.birthDate
-        }}
+        <Formik
+          initialValues={{
+            email: user.email,
+            phoneNumber: user?.phoneNumber,
+            address: user?.address,
+            displayName: user?.displayName,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            gender: user?.gender ? "1" : "0",
+            birthDate: user?.birthDate,
+          }}
           onSubmit={editProfile}
           enableReinitialize
         >
           {({ handleSubmit, handleChange, handleBlur, values }) => (
-            <form onSubmit={handleSubmit} className="bg-no-repeat bg-cover bg-slate-100 lg:mx-20 rounded-lg p-10 flex flex-col md:flex-row justify-center gap-10">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-no-repeat bg-cover bg-slate-100 lg:mx-20 rounded-lg p-10 flex flex-col md:flex-row justify-center gap-10"
+            >
               <div className="flex flex-col gap-10 items-center md:w-80">
                 <div className="rounded-full overflow-hidden bg-blue-600 flex justify-center items-center w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
                   <div>
                     <div>
-                      {user.picture && <Image className="rounded object-fit object-cover bg-cover" src={user.picture} alt="picture" width={250} height={250} />}
+                      {user.picture && (
+                        <Image
+                          className="rounded object-fit object-cover bg-cover"
+                          src={user.picture}
+                          alt="picture"
+                          width={250}
+                          height={250}
+                        />
+                      )}
                     </div>
-                    {!selectedPicture && (<div>
-                      <FiUser size={100} />
-                    </div>)}
+                    {!selectedPicture && (
+                      <div>
+                        <FiUser size={100} />
+                      </div>
+                    )}
                     {selectedPicture && (
                       <div>
-                        <Image className='rounded object-fit bg-cover object-cover' src={pictureURI} alt='profile' width={250} height={250} />
+                        <Image
+                          className="rounded object-fit bg-cover object-cover"
+                          src={pictureURI}
+                          alt="profile"
+                          width={250}
+                          height={250}
+                        />
                       </div>
                     )}
                   </div>
                 </div>
                 <div className="flex flex-col justify-center items-center m-2 gap-3">
                   <div className="text-xl font-bold">
-                    {!user?.displayName && (<div className="opacity-50 text-2xl text-red-500">No Set</div>)}
-                    {user?.displayName && (<div className="text-2xl font-bold">{user.displayName}</div>)}
+                    {!user?.displayName && (
+                      <div className="opacity-50 text-2xl text-red-500">
+                        No Set
+                      </div>
+                    )}
+                    {user?.displayName && (
+                      <div className="text-2xl font-bold">
+                        {user.displayName}
+                      </div>
+                    )}
                   </div>
-                  <span className="font-semibold text-sm opacity-75">{user?.email}</span>
+                  <span className="font-semibold text-sm opacity-75">
+                    {user?.email}
+                  </span>
                 </div>
                 <div className="flex flex-col gap-5">
                   <div>
-                    <label className='w-48 md:w-32 lg:w-48 btn btn-primary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl'>
+                    <label className="w-48 md:w-32 lg:w-48 btn btn-primary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl">
                       <span>Chosse Photo</span>
-                      <input onChange={changePicture} type="file" className="hidden" name="picture" />
+                      <input
+                        onChange={changePicture}
+                        type="file"
+                        className="hidden"
+                        name="picture"
+                      />
                     </label>
                   </div>
                   <div>
-                    <label className='w-48 md:w-32 lg:w-48 btn btn-secondary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl'>
+                    <label className="w-48 md:w-32 lg:w-48 btn btn-secondary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl">
                       <span>Remove Photo</span>
                       <input type="file" className="hidden" name="picture" />
                     </label>
@@ -175,8 +208,11 @@ const Profile = ({ token, user }) => {
                   </label>
                 </div>
                 <div>
-                  <Link href='/'>
-                    <button onClick={doLogout} className="w-48 md:w-32 lg:w-48 btn btn-error text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
+                  <Link href="/">
+                    <button
+                      onClick={doLogout}
+                      className="w-48 md:w-32 lg:w-48 btn btn-error text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl"
+                    >
                       Logout
                     </button>
                   </Link>
@@ -189,9 +225,14 @@ const Profile = ({ token, user }) => {
                       Contacts
                     </span>
                     <div className="flex justify-center items-center bg-secondary w-10 h-10 rounded-full">
-                      {!editProfileUser && <button onClick={() => setEditProfilUser(true)} className="flex justify-center items-center">
-                        <FiEdit2 size={20} />
-                      </button>}
+                      {!editProfileUser && (
+                        <button
+                          onClick={() => setEditProfilUser(true)}
+                          className="flex justify-center items-center"
+                        >
+                          <FiEdit2 size={20} />
+                        </button>
+                      )}
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-7">
@@ -202,15 +243,26 @@ const Profile = ({ token, user }) => {
                         </span>
                         <div className="text-[18px] font-rubik ">
                           <div>
-                            {!editProfileUser && <span className='opacity-50'>{user?.email === null ? <span className='text-red-500'>Not Set</span> : user?.email}</span>}
-                            {editProfileUser && <input
-                              type="email"
-                              className="input input-ghost bg-transparent w-full max-w-xs"
-                              name="email"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.email}
-                              style={{ outline: 'none' }} />}
+                            {!editProfileUser && (
+                              <span className="opacity-50">
+                                {user?.email === null ? (
+                                  <span className="text-red-500">Not Set</span>
+                                ) : (
+                                  user?.email
+                                )}
+                              </span>
+                            )}
+                            {editProfileUser && (
+                              <input
+                                type="email"
+                                className="input input-ghost bg-transparent w-full max-w-xs"
+                                name="email"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.email}
+                                style={{ outline: "none" }}
+                              />
+                            )}
                           </div>
                         </div>
                         <hr className="border-[1px] border-black" />
@@ -220,15 +272,26 @@ const Profile = ({ token, user }) => {
                           Delivery adress :
                         </span>
                         <div>
-                          {!editProfileUser && <span className='opacity-50'>{user?.address === null ? <span className='text-red-500'>Not Set</span> : user?.address}</span>}
-                          {editProfileUser && <input
-                            type="text"
-                            className="input  input-ghost bg-transparent w-full max-w-xs"
-                            name="address"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.address}
-                            style={{ outline: 'none' }} />}
+                          {!editProfileUser && (
+                            <span className="opacity-50">
+                              {user?.address === null ? (
+                                <span className="text-red-500">Not Set</span>
+                              ) : (
+                                user?.address
+                              )}
+                            </span>
+                          )}
+                          {editProfileUser && (
+                            <input
+                              type="text"
+                              className="input  input-ghost bg-transparent w-full max-w-xs"
+                              name="address"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.address}
+                              style={{ outline: "none" }}
+                            />
+                          )}
                         </div>
                         <hr className="border-[1px] border-black" />
                       </div>
@@ -239,16 +302,26 @@ const Profile = ({ token, user }) => {
                           Mobile number :
                         </span>
                         <div>
-                          {!editProfileUser && <span className='opacity-50'>{user?.phoneNumber === null ? <span className='text-red-500'>Not Set</span> : user?.phoneNumber}</span>}
-                          {editProfileUser && <input
-                            type="number"
-                            className="input input-ghost bg-transparent w-full max-w-xs"
-                            name="phoneNumber"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.phoneNumber}
-                            style={{ outline: 'none' }}
-                          />}
+                          {!editProfileUser && (
+                            <span className="opacity-50">
+                              {user?.phoneNumber === null ? (
+                                <span className="text-red-500">Not Set</span>
+                              ) : (
+                                user?.phoneNumber
+                              )}
+                            </span>
+                          )}
+                          {editProfileUser && (
+                            <input
+                              type="number"
+                              className="input input-ghost bg-transparent w-full max-w-xs"
+                              name="phoneNumber"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.phoneNumber}
+                              style={{ outline: "none" }}
+                            />
+                          )}
                         </div>
                         <hr className="border-[1px] border-black" />
                       </div>
@@ -264,16 +337,26 @@ const Profile = ({ token, user }) => {
                           Display Name :
                         </span>
                         <div>
-                          {!editProfileUser && <span className='opacity-50'>{user?.displayName === null ? <span className='text-red-500'>Not Set</span> : user?.displayName}</span>}
-                          {editProfileUser && <input
-                            type="text"
-                            className="input  input-ghost bg-transparent w-full max-w-xs"
-                            name="displayName"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.displayName}
-                            style={{ outline: 'none' }}
-                          />}
+                          {!editProfileUser && (
+                            <span className="opacity-50">
+                              {user?.displayName === null ? (
+                                <span className="text-red-500">Not Set</span>
+                              ) : (
+                                user?.displayName
+                              )}
+                            </span>
+                          )}
+                          {editProfileUser && (
+                            <input
+                              type="text"
+                              className="input  input-ghost bg-transparent w-full max-w-xs"
+                              name="displayName"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.displayName}
+                              style={{ outline: "none" }}
+                            />
+                          )}
                         </div>
                         <hr className="border-[1px] border-black" />
                       </div>
@@ -282,16 +365,26 @@ const Profile = ({ token, user }) => {
                           First name :
                         </span>
                         <div>
-                          {!editProfileUser && <span className='opacity-50'>{user?.firstName === null ? <span className='text-red-500'>Not Set</span> : user?.firstName}</span>}
-                          {editProfileUser && <input
-                            type="text"
-                            className="input  input-ghost bg-transparent w-full max-w-xs"
-                            name="firstName"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.firstName}
-                            style={{ outline: 'none' }}
-                          />}
+                          {!editProfileUser && (
+                            <span className="opacity-50">
+                              {user?.firstName === null ? (
+                                <span className="text-red-500">Not Set</span>
+                              ) : (
+                                user?.firstName
+                              )}
+                            </span>
+                          )}
+                          {editProfileUser && (
+                            <input
+                              type="text"
+                              className="input  input-ghost bg-transparent w-full max-w-xs"
+                              name="firstName"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.firstName}
+                              style={{ outline: "none" }}
+                            />
+                          )}
                         </div>
                         <hr className="border-[1px] border-black" />
                       </div>
@@ -300,16 +393,26 @@ const Profile = ({ token, user }) => {
                           Last name :
                         </span>
                         <div>
-                          {!editProfileUser && <span className='opacity-50'>{user?.lastName === null ? <span className='text-red-500'>Not Set</span> : user?.lastName}</span>}
-                          {editProfileUser && <input
-                            type="text"
-                            className="input  input-ghost bg-transparent w-full max-w-xs"
-                            name="lastName"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.lastName}
-                            style={{ outline: 'none' }}
-                          />}
+                          {!editProfileUser && (
+                            <span className="opacity-50">
+                              {user?.lastName === null ? (
+                                <span className="text-red-500">Not Set</span>
+                              ) : (
+                                user?.lastName
+                              )}
+                            </span>
+                          )}
+                          {editProfileUser && (
+                            <input
+                              type="text"
+                              className="input  input-ghost bg-transparent w-full max-w-xs"
+                              name="lastName"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.lastName}
+                              style={{ outline: "none" }}
+                            />
+                          )}
                         </div>
                         <hr className="border-[1px] border-black" />
                       </div>
@@ -319,16 +422,26 @@ const Profile = ({ token, user }) => {
                         DD/MM/YY :
                       </span>
                       <div>
-                        {!editProfileUser && <span className='opacity-50'>{user?.birthDate === null ? <span className='text-red-500'>Not Set</span> : moment(user?.birthDate).format('YYYY/MM/DD')}</span>}
-                        {editProfileUser && <input
-                          type="date"
-                          className="input  input-ghost bg-transparent w-full max-w-xs"
-                          name="birthDate"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.birthDate}
-                          style={{ outline: 'none' }}
-                        />}
+                        {!editProfileUser && (
+                          <span className="opacity-50">
+                            {user?.birthDate === null ? (
+                              <span className="text-red-500">Not Set</span>
+                            ) : (
+                              moment(user?.birthDate).format("YYYY/MM/DD")
+                            )}
+                          </span>
+                        )}
+                        {editProfileUser && (
+                          <input
+                            type="date"
+                            className="input  input-ghost bg-transparent w-full max-w-xs"
+                            name="birthDate"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.birthDate}
+                            style={{ outline: "none" }}
+                          />
+                        )}
                       </div>
                       <hr className="border-[1px] border-black" />
                     </div>
@@ -336,14 +449,24 @@ const Profile = ({ token, user }) => {
                   <div className="flex flex-col-2 justify-evenly gap-10 p-10">
                     <div className="flex items-center gap-2">
                       <label className="flex gap-2">
-                        <Field name='gender' value='0' type='radio' className='radio radio-primary' />
+                        <Field
+                          name="gender"
+                          value="0"
+                          type="radio"
+                          className="radio radio-primary"
+                        />
                         <span className="font-bold">Male</span>
                       </label>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <label className="flex gap-2">
-                        <Field name='gender' value='1' type='radio' className='radio radio-primary' />
+                        <Field
+                          name="gender"
+                          value="1"
+                          type="radio"
+                          className="radio radio-primary"
+                        />
                         <span className="font-bold">Female</span>
                       </label>
                     </div>
@@ -354,11 +477,20 @@ const Profile = ({ token, user }) => {
           )}
         </Formik>
       </div>
-      <input type="checkbox" id="loading" className="modal-toggle" checked={openModal} />
+      <input
+        type="checkbox"
+        id="loading"
+        className="modal-toggle"
+        checked={openModal}
+      />
       <div className="modal">
         <div className="modal-box bg-transparent shadow-none">
-          <div className='justify-center flex '>
-            <AiOutlineLoading3Quarters className='animate-spin ' color='white' size={60} />
+          <div className="justify-center flex ">
+            <AiOutlineLoading3Quarters
+              className="animate-spin "
+              color="white"
+              size={60}
+            />
           </div>
         </div>
       </div>

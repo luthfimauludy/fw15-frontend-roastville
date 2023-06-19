@@ -1,8 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
 import Coffee from "../../../public/coffee.png"
-import { FiSearch } from "react-icons/fi"
-import { BsChatLeftText } from "react-icons/bs"
 import ProfilePhoto from "../../../public/profilephoto.png"
 import { FaFacebook } from "react-icons/fa"
 import { FaTwitter } from "react-icons/fa"
@@ -12,12 +10,11 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"
 import Stacked from "../../../public/stacked.png"
 import Headers from "@/components/header"
 import { withIronSessionSsr } from "iron-session/next"
-import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 
-export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
-  checkCredentials(token, res, "/auth/login")
+
   return {
     props: {
       token,
