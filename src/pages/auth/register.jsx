@@ -15,6 +15,8 @@ import { useRouter } from "next/router"
 function SignUp() {
   const router = useRouter()
   const [openEye, setOpenEye] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
+
   const [errorMessage, setErrorMessage] = React.useState("")
   const [load, setLoad] = React.useState(false)
   const validationSchema = Yup.object({
@@ -38,6 +40,7 @@ function SignUp() {
         setErrorMessage("email or password is invalid")
         setLoad(false)
       }
+
       if (data.results.token) {
         router.push("/auth/login")
         setLoad(false)
@@ -46,6 +49,10 @@ function SignUp() {
       const message = err?.response?.data?.results[0].msg
       setErrorMessage(message)
     }
+    setTimeout(() => {
+      setSuccessMessage(false)
+      setErrorMessage(false)
+    }, 1000)
     setLoad(false)
   }
 
@@ -62,7 +69,7 @@ function SignUp() {
             alt="picture_side"
           />
         </aside>
-        <div className="bg-login md:bg-login_mobile flex flex-col flex-1">
+        <div className="bg-login md:bg-login_mobile  bg-no-repeat bg-cover flex flex-col flex-1">
           <div className="flex h-[75%] flex-col gap-12 items-center p-5">
             <div className=" flex justify-between w-full">
               <div className="flex gap-2 items-center">
@@ -76,9 +83,13 @@ function SignUp() {
               </div>
             </div>
             <div className="flex justify-center">
+              {successMessage && (
+                <div className="alert alert-success text-lg text-center text-white">
+                  {successMessage}
+                </div>
+              )}
               {errorMessage && (
-                <div className="max-w-[400px] flex flex-col gap-0 justify-center alert alert-error shadow-xl text-white text-lg">
-                  <MdError size={25} />
+                <div className="alert alert-error text-lg text-center text-white">
                   {errorMessage}
                 </div>
               )}
