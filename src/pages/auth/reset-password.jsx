@@ -7,10 +7,17 @@ import logo from "public/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import FooterAuth from "@/components/footer-auth"
+import { useRouter } from "next/router"
+import http from "@/helpers/http"
+import { RiErrorWarningLine } from "react-icons/ri"
+import { AiOutlineCheckCircle } from "react-icons/ai"
 
 function SignUp() {
   const [openEye, setOpenEye] = useState(false)
-  // const [load, setLoad] = React.useState(false);
+  const [errorMsg, seterrorMsg] = useState("")
+  const [successMsg, setsuccessMsg] = useState("")
+  const router = useRouter()
+  const [load, setLoad] = React.useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
     newPassword: Yup.string().required("New Password is empty !"),
@@ -22,6 +29,40 @@ function SignUp() {
 
   function showEye() {
     setOpenEye(!openEye)
+  }
+  async function doSubmit(values) {
+    setLoad(true)
+    try {
+      const email = values.email
+      const newPassword = values.newPassword
+      const confirmPassword = values.confirmPassword
+
+      const form = new URLSearchParams({
+        email,
+        newPassword,
+        confirmPassword,
+      }).toString()
+      const { data } = await http().post("/auth/reset-password", form)
+      console.log(data)
+      setLoad(false)
+      if (data) {
+        setsuccessMsg("Password has been reset successfully")
+        router.replace("/auth/login")
+      }
+    } catch (err) {
+      const message = err.response?.data?.message
+      if (message) {
+        seterrorMsg("Error reset password")
+      }
+    }
+    setLoad(false)
+  }
+
+  if (errorMsg || successMsg) {
+    setTimeout(() => {
+      seterrorMsg(false)
+      setsuccessMsg(false)
+    }, 3000)
   }
   return (
     <>
@@ -46,6 +87,18 @@ function SignUp() {
                 Reset Your Password
               </div>
             </div>
+            {errorMsg && (
+              <div className="alert alert-error text-xl text-white text-center">
+                <RiErrorWarningLine />
+                {errorMsg}
+              </div>
+            )}
+            {successMsg && (
+              <div className="alert alert-success text-xl text-white text-center">
+                <AiOutlineCheckCircle />
+                {successMsg}
+              </div>
+            )}
             <div className="flex justify-center w-full px-0 md:px-24">
               <Formik
                 initialValues={{
@@ -54,7 +107,7 @@ function SignUp() {
                   confirmPassword: "",
                 }}
                 validationSchema={validationSchema}
-                // onSubmit={dologin}
+                onSubmit={doSubmit}
               >
                 {({
                   values,
@@ -70,7 +123,7 @@ function SignUp() {
                       <div className="flex flex-col gap-4 ">
                         <div className="form-control">
                           <label className="label">
-                            <span className="label-text text-[20px] font-bold">
+                            <span className="label-text text-[20px] font-bold md:text-black text-white">
                               Email Adress :
                             </span>
                           </label>
@@ -95,7 +148,7 @@ function SignUp() {
                         </div>
                         <div className="form-control w-full relative">
                           <label className="label">
-                            <span className="label-text text-[20px] font-bold">
+                            <span className="label-text text-[20px] font-bold  md:text-black text-white">
                               New Password :
                             </span>
                           </label>
@@ -132,7 +185,7 @@ function SignUp() {
                         </div>
                         <div className="form-control w-full relative">
                           <label className="label">
-                            <span className="label-text text-[20px] font-bold">
+                            <span className="label-text text-[20px] font-bold  md:text-black text-white">
                               Confirm New Password :
                             </span>
                           </label>
@@ -172,24 +225,24 @@ function SignUp() {
                             )}
                         </div>
                         <div className="w-full pt-4">
-                          {/* {load ? (
+                          {load ? (
                             <button
                               type="submit"
                               className="w-full btn btn-primary normal-case text-white"
                             >
                               <span className="loading loading-spinner loading-sm"></span>
                             </button>
-                          ) : ( */}
-                          <button
-                            type="submit"
-                            className=" w-full btn btn-primary normal-case text-white"
-                          >
-                            Confirm
-                          </button>
-                          {/* )} */}
+                          ) : (
+                            <button
+                              type="submit"
+                              className=" w-full btn btn-primary normal-case text-white"
+                            >
+                              Confirm
+                            </button>
+                          )}
                         </div>
 
-                        <button className="md:hidden btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold">
+                        <button className="md:hidden btn btn-secondary rounded-xl w-full normal-case text-[20px] font-bold">
                           <div className="flex gap-4 justify-center shadow-bottom-xl">
                             <div>
                               <FcGoogle size={25} />
