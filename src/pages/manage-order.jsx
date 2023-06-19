@@ -1,6 +1,6 @@
 import React from "react"
 import Header from "@/components/header"
-import Footer from "@/components/Footer"
+import Footer from "@/components/footer"
 import Image from "next/image"
 import {
   BsCheck,
@@ -8,6 +8,27 @@ import {
   BsBank2,
   BsCashCoin,
 } from "react-icons/bs"
+import { withIronSessionSsr } from "iron-session/next"
+import cookieConfig from "@/helpers/cookieConfig"
+
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+  const token = req.session.token || null
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
 
 function ManageOrder() {
   return (
