@@ -224,7 +224,7 @@ function SignUp() {
                           ) : (
                             <button
                               type="submit"
-                              className=" w-full btn btn-primary normal-case text-white"
+                              className=" w-full btn btn-secondary normal-case text-white"
                             >
                               Sign Up
                             </button>

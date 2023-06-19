@@ -5,15 +5,54 @@ import logo from "public/logo_roastville.png"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import FooterAuth from "@/components/footer-auth"
+import { AiOutlineCheckCircle } from "react-icons/ai"
+import { RiErrorWarningLine } from "react-icons/ri"
+import { useRouter } from "next/router"
+import http from "@/helpers/http"
 
 function SignUp() {
-  // const [load, setLoad] = React.useState(false);
+  const [successMsg, setSuccessMsg] = useState("")
+  const [errorMsg, setErrorMsg] = useState("")
+  const router = useRouter()
+  const [load, setLoading] = React.useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
-    password: Yup.string().required("Password is empty !"),
-    phoneNumber: Yup.string().required("PhoneNumber is empty !"),
   })
+  async function doSubmit(values) {
+    try {
+      setLoading(true)
+      const email = values.email
+      const form = new URLSearchParams({ email }).toString()
+      const { data } = await http().post("/auth/forgot-password", form)
+      setLoading(false)
+      if (data) {
+        setSuccessMsg("Request to reset password has been sent")
+      }
+      setTimeout(() => {
+        router.push("/auth/reset-password")
+      }, 3000)
+    } catch (err) {
+      const message = err.response?.data?.message
+      if (message === "auth_no_user") {
+        setErrorMsg("your email is not found")
+      }
 
+      if (message === "email has been request reset password") {
+        setErrorMsg("Request already sent")
+        setTimeout(() => {
+          router.replace("/auth/reset-password")
+        }, 3000)
+      }
+
+      setTimeout(() => {
+        setErrorMsg("Request already sent")
+        setErrorMsg(false)
+        setSuccessMsg(false)
+      }, 3000)
+    }
+
+    setLoading(false)
+  }
   return (
     <>
       <div className="h-min-screen flex">
@@ -38,11 +77,23 @@ function SignUp() {
               </div>
               <p>Don’t worry, we got your back!</p>
             </div>
+            {errorMsg && (
+              <div className="alert alert-error text-xl text-white text-center">
+                <RiErrorWarningLine />
+                {errorMsg}
+              </div>
+            )}
+            {successMsg && (
+              <div className="alert alert-success text-xl text-white text-center">
+                <AiOutlineCheckCircle />
+                {successMsg}
+              </div>
+            )}
             <div className="flex justify-center w-full px-0 md:px-24">
               <Formik
-                initialValues={{ email: "", password: "", phoneNumber: "" }}
+                initialValues={{ email: "" }}
                 validationSchema={validationSchema}
-                // onSubmit={dologin}
+                onSubmit={doSubmit}
               >
                 {({
                   values,
@@ -76,26 +127,20 @@ function SignUp() {
                           )}
                         </div>
 
-                        <div className="w-full pt-4">
-                          {/* {load ? (
-                            <button
-                              type="submit"
-                              className="w-full btn btn-primary normal-case text-white"
-                            >
-                              <span className="loading loading-spinner loading-sm"></span>
-                            </button>
-                          ) : ( */}
+                        <div>
                           <button
                             type="submit"
-                            className=" w-full btn btn-primary normal-case text-white"
+                            className="btn btn-primary normal-case max-w-lg w-full text-white shadow-2xl"
+                            disabled={isSubmitting}
                           >
-                            Request Link
+                            {load && (
+                              <span className="loading loading-spinner loading-sm"></span>
+                            )}
+                            {!load && "Request Link"}
                           </button>
-                          {/* )} */}
                         </div>
-
                         <div className="md:pt-4 md:block hidden">
-                          <button className="btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
+                          <button className="btn btn-secondary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
                             Resend Link
                           </button>
                         </div>

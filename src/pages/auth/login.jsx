@@ -54,7 +54,7 @@ function SignIn({ token }) {
       }
 
       if (data?.message === "auth_wrong_password") {
-        setMessage("Wrong credentials")
+        setMessage("invalid email or password")
       }
     } catch (err) {
       const msg = err.response?.data?.message
@@ -207,7 +207,7 @@ function SignIn({ token }) {
                           )}
                           <Link href="/auth/forgot-password">
                             <label className="label flex justify-end">
-                              <p className="text-primary font-bold cursor-pointer text-end">
+                              <p className="text-primary font-bold cursor-pointer text-end hover:text-black">
                                 Forgot Password
                               </p>
                             </label>
