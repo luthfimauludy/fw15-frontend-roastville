@@ -60,7 +60,7 @@ function SignIn({ token }) {
       const msg = err.response?.data?.message
 
       if (msg) {
-        setMessage("Wrong credentials")
+        setMessage("password is invalid")
       }
 
       setTimeout(() => {
