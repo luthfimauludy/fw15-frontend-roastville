@@ -11,11 +11,24 @@ import Filter from "../../../public/filter.png"
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"
 import Stacked from "../../../public/stacked.png"
 import Headers from "@/components/header"
+import { withIronSessionSsr } from "iron-session/next"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
 
-export default function Dashboard() {
+export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
+  const token = req.session.token || null
+  checkCredentials(token, res, "/auth/login")
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+export default function Dashboard({ token }) {
   return (
     <>
-      <div className="header pb-24">
+      <div className="header">
         <Headers token={token} />
       </div>
       <div className="w-full h-[1050px]">

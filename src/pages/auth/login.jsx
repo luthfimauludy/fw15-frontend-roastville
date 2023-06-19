@@ -52,7 +52,7 @@ function SignIn({ token }) {
       const { data } = await axios.post("../api/login", form.toString())
       setLoad(false)
       if (data?.results?.token) {
-        router.push("/dashboard")
+        router.push("/")
       }
 
       if (data?.message === "auth_wrong_password") {
@@ -201,8 +201,8 @@ function SignIn({ token }) {
                             </label>
                           )}
                           <Link href="/auth/forgot-password">
-                            <label className="label">
-                              <p className="text-primary font-bold cursor-pointer">
+                            <label className="label flex justify-end">
+                              <p className="text-primary font-bold cursor-pointer text-end">
                                 Forgot Password
                               </p>
                             </label>
@@ -242,7 +242,7 @@ function SignIn({ token }) {
                         </div>
                         <div className="md:pt-4 md:block hidden">
                           <Link href="/auth/register">
-                            <button className="btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
+                            <button className="btn btn-secondary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
                               Sign Up
                             </button>
                           </Link>
