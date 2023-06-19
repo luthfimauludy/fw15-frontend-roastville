@@ -1,8 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
 import Coffee from "../../../public/coffee.png"
-import { FiSearch } from "react-icons/fi"
-import { BsChatLeftText } from "react-icons/bs"
 import ProfilePhoto from "../../../public/profilephoto.png"
 import { FaFacebook } from "react-icons/fa"
 import { FaTwitter } from "react-icons/fa"
@@ -11,8 +9,19 @@ import Filter from "../../../public/filter.png"
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md"
 import Stacked from "../../../public/stacked.png"
 import Headers from "@/components/header"
+import { withIronSessionSsr } from "iron-session/next"
+import cookieConfig from "@/helpers/cookieConfig"
 
-export default function Dashboard() {
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+  const token = req.session.token || null
+  return {
+    props: {
+      token,
+    },
+  }
+}, cookieConfig)
+
+export default function Dashboard({ token }) {
   return (
     <>
       <div className="header pb-24">

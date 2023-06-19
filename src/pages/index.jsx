@@ -364,9 +364,9 @@ export default function Home({ token }) {
           </div>
         </div>
       </div>
-      <footer className="w-full flex flex-col justify-around bg-[#F8F8F8] mt-36">
+      <footer className="w-full flex flex-col justify-around bg-gray-200 mt-36">
         <div className="w-full px-20 mt-[-110px]">
-          <div className="flex justify-around items-center w-full h-[200px] bg-white rounded-2xl shadow-2xl">
+          <div className="flex justify-around items-center w-full h-[200px] bg-white rounded-2xl border-2">
             <div>
               <div>
                 <div className="font-bold text-xl">Check our promo today</div>

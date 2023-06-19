@@ -25,8 +25,6 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 }, cookieConfig)
 
 function SignIn({ token }) {
-  console.log(token)
-
   const [openEye, setOpenEye] = useState(false)
   const validationSchema = Yup.object({
     email: Yup.string().required("Email is empty !"),
@@ -153,7 +151,11 @@ function SignIn({ token }) {
                             onBlur={handleBlur}
                             value={values.email}
                             placeholder="Enter your email adress"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.email
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           {errors.email && touched.email && (
                             <label htmlFor="email" className="label p-0">
@@ -162,7 +164,6 @@ function SignIn({ token }) {
                               </span>
                             </label>
                           )}
-                          <label className="label"></label>
                         </div>
                         <div className="form-control w-full relative">
                           <label className="label">
@@ -178,7 +179,11 @@ function SignIn({ token }) {
                             onBlur={handleBlur}
                             value={values.password}
                             placeholder="Enter your password"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.password
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           <button type="button" onClick={showEye}>
                             {openEye ? (
