@@ -116,7 +116,11 @@ function SignUp() {
                             onBlur={handleBlur}
                             value={values.email}
                             placeholder="Enter your email adress to get link"
-                            className="input input-bordered w-full  px-3"
+                            className={
+                              errors.email
+                                ? "input input-error w-full px-3 mb-2"
+                                : "input input-bordered w-full px-3 mb-2"
+                            }
                           />
                           {errors.email && touched.email && (
                             <label htmlFor="email" className="label p-0">

@@ -241,13 +241,13 @@ function SignUp() {
                         <div className="flex w-full items-center pt-4">
                           <div className="border-b-2 w-[50%] "></div>
                           <div className="text-[#9F9F9F] w-full text-[16px] text-center ">
-                            Already have an account?
+                            Already have an account ?
                           </div>
                           <div className="border-b-2 w-[50%]"></div>
                         </div>
                         <div className="md:pt-4 md:block hidden">
                           <Link href="/auth/login">
-                            <button className="btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl">
+                            <button className="btn btn-primary rounded-xl w-full normal-case text-[20px] font-bold shadow-xl text-white">
                               Login Here
                             </button>
                           </Link>
