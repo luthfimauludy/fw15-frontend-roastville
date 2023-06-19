@@ -37,11 +37,11 @@ function SignUp() {
         setErrorMsg("your email is not found")
       }
 
-      if (message === "email has been request reset password") {
+      if (message === "email already send request") {
         setErrorMsg("Request already sent")
         setTimeout(() => {
           router.replace("/auth/reset-password")
-        }, 3000)
+        }, 2000)
       }
 
       setTimeout(() => {
@@ -130,7 +130,7 @@ function SignUp() {
                         <div>
                           <button
                             type="submit"
-                            className="btn btn-primary normal-case max-w-lg w-full text-white shadow-2xl"
+                            className="btn btn-primary normal-case w-full text-white shadow-2xl"
                             disabled={isSubmitting}
                           >
                             {load && (
