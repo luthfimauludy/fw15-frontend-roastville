@@ -3,12 +3,20 @@ import Header from "@/components/header"
 import { FaCamera } from "react-icons/fa"
 import Footer from "@/components/footer"
 import { withIronSessionSsr } from "iron-session/next"
-import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
-  checkCredentials(token, res, "/auth/login")
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       token,
