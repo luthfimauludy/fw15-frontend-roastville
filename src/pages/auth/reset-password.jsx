@@ -11,10 +11,12 @@ import { useRouter } from "next/router"
 import http from "@/helpers/http"
 import { RiErrorWarningLine } from "react-icons/ri"
 import { AiOutlineCheckCircle } from "react-icons/ai"
+import { setMessage } from "@/redux/reducers/message"
 
 function SignUp() {
   const [openEye, setOpenEye] = useState(false)
   const [errorMsg, seterrorMsg] = useState("")
+  const [errorMsg2, seterrorMsg2] = useState("")
   const [successMsg, setsuccessMsg] = useState("")
   const router = useRouter()
   const [load, setLoad] = React.useState(false)
@@ -33,6 +35,7 @@ function SignUp() {
   async function doSubmit(values) {
     setLoad(true)
     try {
+      setMessage("")
       const email = values.email
       const newPassword = values.newPassword
       const confirmPassword = values.confirmPassword
@@ -50,11 +53,19 @@ function SignUp() {
         router.replace("/auth/login")
       }
     } catch (err) {
-      const message = err.response?.data?.message
-      if (message) {
-        seterrorMsg("Error reset password")
+      const message = err?.response?.data.message
+      seterrorMsg(message)
+      if (err?.response?.data?.results[0].msg === "Email is invalid") {
+        seterrorMsg("Email is Invalid")
+      }
+      if (
+        err?.response?.data?.results[0].msg ===
+        "Password must be strong, must include capital letters, numbers and symbols"
+      ) {
+        seterrorMsg("Password be strong")
       }
     }
+
     setLoad(false)
   }
 
@@ -87,12 +98,14 @@ function SignUp() {
                 Reset Your Password
               </div>
             </div>
+
             {errorMsg && (
               <div className="alert alert-error text-xl text-white text-center">
                 <RiErrorWarningLine />
                 {errorMsg}
               </div>
             )}
+
             {successMsg && (
               <div className="alert alert-success text-xl text-white text-center">
                 <AiOutlineCheckCircle />
