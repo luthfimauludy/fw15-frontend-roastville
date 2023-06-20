@@ -1,5 +1,4 @@
-
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import image from "/public/img-coupon.png"
 import image2 from "/public/img-coupon2.png"
@@ -16,10 +15,11 @@ import http from "@/helpers/http"
 import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
 import { productDetail } from "@/redux/reducers/product"
-
 import { withIronSessionSsr } from "iron-session/next"
-import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
+import checkCredentials from "@/helpers/checkCredentials"
+import Link from "next/link"
+import { BsFillPencilFill } from "react-icons/bs"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -31,23 +31,20 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   }
 }, cookieConfig)
 
-
-function ProductCust({token}) {
-  const dispatch = useDispatch();
+function ProductCust({ token }) {
+  const dispatch = useDispatch()
   const router = useRouter()
-  const [product, setProduct] = React.useState([]);
-  const [errMsg, setErrorMsg] = React.useState("");
-
+  const [product, setProduct] = React.useState([])
+  const [roleId, setRoleId] = useState("")
+  const [errMsg, setErrorMsg] = React.useState("")
 
   const getProduct = React.useCallback(async () => {
     try {
-      const { data } = await http().get('/products')
+      const { data } = await http().get("/products")
       setProduct(data.results)
-
     } catch (error) {
       if (error.isAxiosError && !error.response) {
-        router.replace('product/error')
-
+        router.replace("product/error")
       }
     }
   }, [setProduct, router])
@@ -56,18 +53,33 @@ function ProductCust({token}) {
     getProduct()
   }, [getProduct])
 
-
   const dispatchEvent = (item) => {
-    const encodedProductName = encodeURIComponent(item.name);
-    const url = `/product/${encodedProductName}`;
-    dispatch(productDetail(item));
+    const encodedProductName = encodeURIComponent(item.name)
+    const url = `/product/${encodedProductName}`
+    dispatch(productDetail(item))
     router.replace(url)
   }
+
+  useEffect(() => {
+    async function getRoleId() {
+      try {
+        const { data } = await http(token).get("/users")
+        setRoleId(data.results)
+      } catch (err) {
+        const message = err.response?.data?.message
+        setErrorMsg(message)
+      }
+    }
+    if (token) {
+      getRoleId()
+      console.log(roleId)
+    }
+  }, [roleId, token])
 
   return (
     <div className="h-min-screen">
       <div className="pb-24 header">
-        <Header token={token}/>
+        <Header token={token} />
       </div>
       <div className="flex">
         <div className="w-[425px] border-r-2 px-20 py-7">
@@ -143,9 +155,23 @@ function ProductCust({token}) {
                 4. Should make member card to apply coupon
               </div>
             </div>
+            {roleId === 1 && (
+              <>
+                <div className="text-primary text-lg font-bold  w-full">
+                  <Link href="/" alt="" className="border-b-2 border-primary">
+                    Edit promo
+                  </Link>
+                </div>
+                <div className="text-primary text-lg font-bold  w-full">
+                  <Link href="/" alt="" className="border-b-2 border-primary">
+                    Add new promo
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col w-full gap-20">
           <div className="flex justify-center items-center py-7 gap-11 px-28 cursos-pointer">
             <div className="flex text-[#9F9F9F] text-xl justify-center w-48 hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:shadow-lg hover:scale-[1.05] hover:text-primary">
               Favorite & Promo
@@ -172,8 +198,12 @@ function ProductCust({token}) {
             </div>
           </div>
           <div className="grid grid-cols-4 gap-8 px-28">
-            {product.map(item =>
-              <div onClick={() => dispatchEvent(item)} key={`product-${item.id}`} className="flex flex-col justify-between items-center w-40 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300">
+            {product.map((item) => (
+              <div
+                onClick={() => dispatchEvent(item)}
+                key={`product-${item.id}`}
+                className="relative flex flex-col justify-between items-center w-40 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
+              >
                 <div className="flex flex-col">
                   <div className="w-32 h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
                     <Image
@@ -186,10 +216,33 @@ function ProductCust({token}) {
                     {item.name}
                   </div>
                 </div>
-                <div className="font-bold text-primary">{item.variant[0].price}</div>
+                <div className="font-bold text-primary">
+                  {item.variant[0].price}
+                </div>
+                {roleId === 1 && (
+                  <button className="absolute bottom-[-10px] right-[-15px] w-8 h-8 bg-primary rounded-full p-2">
+                    <BsFillPencilFill color="white" />
+                  </button>
+                )}
               </div>
-            )}
+            ))}
           </div>
+          {roleId === 1 && (
+            <>
+              <div className="px-28 flex flex-col gap-5">
+                <div className="text-primary text-lg font-bold  w-full">
+                  <Link href="/" alt="" className="border-b-2 border-primary">
+                    Edit product
+                  </Link>
+                </div>
+                <div className="text-primary text-lg font-bold  w-full">
+                  <Link href="/" alt="" className="border-b-2 border-primary">
+                    Add new product
+                  </Link>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <Footer />
@@ -198,4 +251,3 @@ function ProductCust({token}) {
 }
 
 export default ProductCust
-
