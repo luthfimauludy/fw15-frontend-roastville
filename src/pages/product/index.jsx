@@ -136,71 +136,73 @@ function ProductCust({ token }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-20">
-          <div className="flex justify-center items-center py-7 gap-11 px-28 cursos-pointer">
-            <div className="flex text-[#9F9F9F] text-xl justify-center w-48 hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:shadow-lg hover:scale-[1.05] hover:text-primary">
-              Favorite & Promo
-            </div>
-            <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
-              <div className="text-[#9F9F9F] text-xl hover:text-primary">
-                Coffee
+        <div className="w-full flex items-center justify-center">
+          <div className="flex flex-col gap-20">
+            <div className="flex justify-center items-center py-7 gap-11 px-28 cursos-pointer">
+              <div className="flex text-[#9F9F9F] text-xl justify-center w-48 hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:shadow-lg hover:scale-[1.05] hover:text-primary">
+                Favorite & Promo
+              </div>
+              <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
+                <div className="text-[#9F9F9F] text-xl hover:text-primary">
+                  Coffee
+                </div>
+              </div>
+              <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
+                <div className="text-[#9F9F9F] text-xl hover:text-primary">
+                  Non Coffee
+                </div>
+              </div>
+              <div className="flex justify-center border-b-2 border-b-transparent hover:border-b-2 hover:border-primary duration-100 cursor-pointer ">
+                <div className="text-[#9F9F9F] text-xl hover:text-primary hover:scale-[1.05]">
+                  Foods
+                </div>
+              </div>
+              <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
+                <div className="text-[#9F9F9F] text-xl hover:text-primary">
+                  Add-on
+                </div>
               </div>
             </div>
-            <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
-              <div className="text-[#9F9F9F] text-xl hover:text-primary">
-                Non Coffee
-              </div>
-            </div>
-            <div className="flex justify-center border-b-2 border-b-transparent hover:border-b-2 hover:border-primary duration-100 cursor-pointer ">
-              <div className="text-[#9F9F9F] text-xl hover:text-primary hover:scale-[1.05]">
-                Foods
-              </div>
-            </div>
-            <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
-              <div className="text-[#9F9F9F] text-xl hover:text-primary">
-                Add-on
-              </div>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-4 gap-x-24 gap-y-12 pl-4">
-            {product.map((item) => (
-              <div
-                onClick={() => dispatchEvent(item)}
-                key={`product-${item.id}`}
-                className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
-              >
-                <div className="flex flex-col gap-5 items-center justify-center w-full h-full">
-                  <div className="w-32 justify-center h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
-                    {item.picture === null ? (
-                      <div className="flex justify-center items-center">
+            <div className="grid grid-cols-4 gap-x-24 gap-y-12 pl-4">
+              {product.map((item) => (
+                <div
+                  onClick={() => dispatchEvent(item)}
+                  key={`product-${item.id}`}
+                  className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
+                >
+                  <div className="flex flex-col gap-5 items-center justify-center w-full h-full">
+                    <div className="w-32 justify-center h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
+                      {item.picture === null ? (
+                        <div className="flex justify-center items-center">
+                          <Image
+                            src={default_picture}
+                            alt="img-product.png"
+                            width="400"
+                            height="400"
+                            className="object-cover w-full h-full bg-cover flex justify-center self-center"
+                          />
+                        </div>
+                      ) : (
                         <Image
-                          src={default_picture}
                           alt="img-product.png"
                           width="400"
                           height="400"
-                          className="object-cover w-full h-full bg-cover flex justify-center self-center"
+                          src={item.picture}
+                          className="object-cover w-full h-full bg-cover"
                         />
-                      </div>
-                    ) : (
-                      <Image
-                        alt="img-product.png"
-                        width="400"
-                        height="400"
-                        src={item.picture}
-                        className="object-cover w-80% h-80% bg-cover "
-                      />
-                    )}
+                      )}
+                    </div>
+                    <div className="text-center font-black text-xl text-accent">
+                      {item.name}
+                    </div>
                   </div>
-                  <div className="text-center font-black text-xl text-accent">
-                    {item.name}
+                  <div className="font-bold text-primary">
+                    Rp.{item.variant[0].price}
                   </div>
                 </div>
-                <div className="font-bold text-primary">
-                  Rp.{item.variant[0].price}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
