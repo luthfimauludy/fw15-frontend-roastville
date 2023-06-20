@@ -5,13 +5,13 @@ import Footer from "@/components/footer"
 import React from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
-import bg_detail from "public/bg-detail-product.jpg"
+import default_picture from "/public/default.jpg"
+
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { clearProduct } from "@/redux/reducers/product"
 import { PURGE } from "redux-persist"
-
 
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
@@ -27,9 +27,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   }
 }, cookieConfig)
 
-
-
-function DetailProduct({token}) {
+function DetailProduct({ token }) {
   const dispatch = useDispatch()
   const productDetail = useSelector((state) => state.product.data)
 
@@ -67,7 +65,6 @@ function DetailProduct({token}) {
     }
   }
 
-
   React.useEffect(() => {
     const handleChangeRouter = () => {
       dispatch({
@@ -84,7 +81,6 @@ function DetailProduct({token}) {
     }
   }, [dispatch, router.events])
 
-
   return (
     <div className="h-min-screen">
       <div className="pb-24 header">
@@ -99,11 +95,21 @@ function DetailProduct({token}) {
                 <div>name product</div>
               </div>
               <div className="h-[700px] relative ">
-                <Image
-                  src={bg_detail}
-                  className="h-full w-full object-cover"
-                  alt="bg-detail-product"
-                />
+                {productDetail.picture === null ? (
+                  <Image
+                    src={default_picture}
+                    alt="img-product.png"
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <Image
+                    alt="img-product.png"
+                    width="400"
+                    height="400"
+                    src={productDetail.picture}
+                    className="object-cover h-full w-full"
+                  />
+                )}
                 <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
                   <FiTrash2 size={30} />
                 </button>
