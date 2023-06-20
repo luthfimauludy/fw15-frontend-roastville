@@ -53,9 +53,9 @@ function SignUp() {
       setErrorMessage(message)
     }
     setTimeout(() => {
-      setSuccessMessage(true)
+      setSuccessMessage(false)
       setErrorMessage(false)
-    }, 2000)
+    }, 4000)
     setLoad(false)
   }
 
