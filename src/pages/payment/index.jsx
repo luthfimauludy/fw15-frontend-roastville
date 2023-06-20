@@ -10,6 +10,11 @@ import {
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
+import { useSelector } from "react-redux"
+import http from "@/helpers/http"
+import { useEffect, useState } from "react"
+import Link from "next/link"
+
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
   checkCredentials(token, res, "/auth/login")
@@ -21,13 +26,29 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 }, cookieConfig)
 
 const PaymentAndDeliveryCust = ({ token }) => {
+  const product = useSelector((state) => state.product.data)
+  const [paymentMethods, setPaymentMethods] = useState([])
+
+  useEffect(() => {
+    async function getPaymentMethod() {
+      try {
+        const { data } = await http(token).get("/paymentMethods")
+        setPaymentMethods(data.results)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getPaymentMethod()
+  }, [token])
+
   return (
     <>
       <div className="header">
         <Header token={token} />
       </div>
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
-        <div className="px-28 py-10 flex flex-col gap-5">
+        <div className="pt-32 px-36 flex flex-col gap-5">
           <div className="relative w-96 self-center">
             <div className="flex justify-between z-10 relative text-white">
               <div className="flex flex-col items-center gap-1">
@@ -60,7 +81,7 @@ const PaymentAndDeliveryCust = ({ token }) => {
             </div>
             <hr className="h-[1px] w-80 p-0 absolute top-[28%] right-10 border-white" />
           </div>
-          <div className="text-white font-bold text-4xl max-w-sm">
+          <div className="text-white font-bold text-4xl w-full">
             Checkout Your Item Now
           </div>
         </div>
@@ -75,7 +96,7 @@ const PaymentAndDeliveryCust = ({ token }) => {
                 <div className="flex gap:[20px] md:gap-[33px]">
                   <div>
                     <Image
-                      src="/paymentBg.png"
+                      src={product.picture}
                       width={90}
                       height={100}
                       className="rounded-lg"
@@ -83,31 +104,33 @@ const PaymentAndDeliveryCust = ({ token }) => {
                     />
                   </div>
                   <div className="flex-1 text-md md:text-xl">
-                    <p className="">product</p>
-                    <p>quantity</p>
-                    <p>size</p>
+                    <p className="">{product.name}</p>
+                    <p>{product.variant[0].quantity}</p>
+                    <p>{product.variant[0].name}</p>
                   </div>
-                  <p className="text-xl flex items-center">IDR 10000</p>
+                  <p className="text-xl flex items-center">
+                    IDR {product.variant[0].price}
+                  </p>
                 </div>
               </div>
               <hr className="border-[#D0B8A8] mt-[5%]" />
               <div className="flex flex-col gap-3 mt-[5%]">
                 <div className="flex">
                   <div className="grow">SUB TOTAL</div>
-                  <p>IDR 100000</p>
+                  <p>IDR {product.variant[0].price}</p>
                 </div>
                 <div className="flex">
                   <div className="grow">TAX & FEES</div>
-                  <div>IDR 100000</div>
+                  <div>-</div>
                 </div>
                 <div className="flex">
                   <div className="grow">SHIPPING</div>
-                  <div>IDR 1000000</div>
+                  <div>-</div>
                 </div>
               </div>
               <div className="flex mt-[5%] text-2xl font-bold">
                 <div className="grow">TOTAL</div>
-                <div>IDR 100000</div>
+                <div>IDR {product.variant[0].price}</div>
               </div>
             </div>
           </div>
@@ -128,36 +151,33 @@ const PaymentAndDeliveryCust = ({ token }) => {
               <div className="font-bold grow">Payment Method</div>
             </div>
             <div className="bg-white w-10/12 md:w-[50%] rounded-lg px-[42px] py-[30px]">
-              <div>
-                <div className="flex items-center gap-[11px]">
-                  <input type="radio" name="radio-1" className="radio" />
-                  <div className="h-10 w-10 bg-[#F47B0A] flex justify-center items-center rounded-lg">
-                    <BsFillCreditCardFill size={20} className="text-white" />
+              {paymentMethods.map((p) => (
+                <>
+                  <div>
+                    <div className="outline outline-1 outline-black mt-[17px]"></div>
+                    <div className="flex items-center gap-[11px] pt-[17px] cursor-pointer">
+                      <input
+                        type="radio"
+                        name="paymentmethod"
+                        className="radio"
+                        id="paymentmethod"
+                      />
+                      <div className="h-10 w-10 bg-[#895537] flex justify-center items-center rounded-lg">
+                        <BsBank2 className="text-white" />
+                      </div>
+                      <label htmlFor="paymentmethod">{p.name}</label>
+                    </div>
+                    <div className="outline outline-1 outline-black mt-[17px]"></div>
                   </div>
-                  <div>Card</div>
-                </div>
-                <div className="outline outline-1 outline-black mt-[17px]"></div>
-                <div className="flex items-center gap-[11px] pt-[17px]">
-                  <input type="radio" name="radio-1" className="radio" />
-                  <div className="h-10 w-10 bg-[#895537] flex justify-center items-center rounded-lg">
-                    <BsBank2 className="text-white" />
-                  </div>
-                  <div>Bank Account</div>
-                </div>
-                <div className="outline outline-1 outline-black mt-[17px]"></div>
-
-                <div className="flex items-center gap-[11px] pt-[17px]">
-                  <input type="radio" name="radio-1" className="radio" />
-                  <div className="h-10 w-10 bg-[#FFBA33] flex justify-center items-center rounded-lg">
-                    <BsCashCoin size={20} className="text-white" />
-                  </div>
-                  <div>Cash on Delivery</div>
-                </div>
-              </div>
+                </>
+              ))}
             </div>
-            <button className="w-10/12 md:w-[50%] bg-secondary h-16 m-5 rounded-lg text-white font-bold text-lg hover:bg-amber-600 active:bg-amber-700 active:scale-[.9] duration-300">
+            <Link
+              href="/product/history-cust"
+              className="w-10/12 md:w-[50%] flex items-center justify-center bg-secondary h-16 m-5 rounded-lg text-white font-bold text-lg hover:bg-amber-600 active:bg-amber-700 active:scale-[.9] duration-300"
+            >
               Confirm and Pay
-            </button>
+            </Link>
           </div>
         </div>
       </div>

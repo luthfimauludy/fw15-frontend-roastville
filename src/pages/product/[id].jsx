@@ -14,6 +14,7 @@ import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { Formik } from "formik"
 import http from "@/helpers/http"
+import Link from "next/link"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -145,7 +146,6 @@ function DetailProduct({ token }) {
       <div className="pb-24 header">
         <Header token={token} />
       </div>
-
       <div className="h-[100%] pt-10">
         <div className="flex h-full  px-24">
           <div className="flex w-[50%] pb-10">
@@ -280,9 +280,12 @@ function DetailProduct({ token }) {
                       )}
                       {roleId === 2 && (
                         <div>
-                          <button className="btn btn-primary w-full">
+                          <Link
+                            href="/payment"
+                            className="btn btn-primary w-full"
+                          >
                             Checkout
-                          </button>
+                          </Link>
                         </div>
                       )}
                     </div>
