@@ -144,9 +144,9 @@ const Profile = ({ token, user }) => {
                         />
                       )}
                     </div>
-                    {!selectedPicture && !profile?.picture && (
+                    {!selectedPicture &&  (
                       <div>
-                        <FiUser size={100} hidden={Default} color="white" />
+                        <FiUser size={100} hidden={Default} color="black" />
                       </div>
                     )}
                     {selectedPicture && (
