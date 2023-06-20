@@ -15,6 +15,8 @@ import { PURGE } from "redux-persist"
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
+import { Formik } from "formik"
+import http from "@/helpers/http"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -28,6 +30,8 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function DetailProduct({ token }) {
   const dispatch = useDispatch()
+  const [editProduct, setEditProduct] = React.useState(false)
+  const [product, setProduct] = React.useState([])
   const productDetail = useSelector((state) => state.product.data)
   const [count, setCount] = useState(0)
   const [openModal, setOpenModal] = useState(false)
@@ -46,7 +50,18 @@ function DetailProduct({ token }) {
       setCount(count - 1)
     }
   }
+
   const router = useRouter()
+  const { id } = router.query
+
+  // React.useEffect(() => {
+  //   async function getDataProduct(){
+  //     const {data} = await http().get(`/product/${id}`)
+  //     console.log(data)
+  //     setProduct(data.result)
+  //   }
+  //   getDataProduct()
+  // }, [id])
 
   React.useEffect(() => {
     if (!productDetail) {
@@ -78,6 +93,28 @@ function DetailProduct({ token }) {
         )
       }
     }
+  }
+
+
+  const editProductAdmin = async (values)=>{
+    const form = new FormData()
+    Object.keys(values).forEach((key) => {
+      if (values[key]) {
+          form.append(key, values[key])
+      }
+    })
+    try{
+      const data = await http(token).patch(`/products/manage/${id}`, form,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      setProduct(data.result)
+      console.log(data)
+    }catch(err){
+      console.log(err)
+    }
+    setEditProduct(false)
   }
 
   React.useEffect(() => {
@@ -172,21 +209,80 @@ function DetailProduct({ token }) {
                     <button onClick={increment} className="p-2 text-[20px]">
                       +
                     </button>
+          <Formik
+            initialValues={{
+              name: productDetail?.name,
+              description: productDetail?.description
+            }}
+            onSubmit={editProductAdmin}
+            enableReinitialize
+          >
+            {({handleSubmit, handleChange, handleBlur, values }) =>(
+              <form onSubmit={handleSubmit} className="flex flex-1  pl-12 pr-36 py-8 ">
+                <div className="flex flex-col gap-4  w-full">
+                  {!editProduct && <div className="font-bold text-[65px] ">{productDetail.name}</div>}
+                  {editProduct && (
+                    <input type="text" className="input input-ghost bg-transparent w-full max-w-xs" name="name"
+                    onChange={handleChange} onBlur={handleBlur}  value={values.name}
+                    />
+                  )}
+                  <div className="border-t-2 border-b-2 text-[40px] py-2">
+                    {selectedSize ? selectedSize : productDetail.variant[0].price}
                   </div>
-                  <div className="flex flex-1 h-full ">
-                    <button className="btn btn-secondary w-full h-full">
-                      Add to Chart
-                    </button>
+                  <div className="text-[25px]  font-semi-bold py-4 border-b-2 ">
+                    {productDetail.description}
+                  </div>
+                  <div className="flex flex-col gap-8">
+                    <div className="w-full h-24 pt-8">
+                      <select
+                        className="select select-primary w-full h-full text-[20px]"
+                        onChange={selectSize}
+                      >
+                        <option disabled value="">
+                          --Select Size--
+                        </option>
+                        <option value="Regular">Regular</option>
+                        <option value="Large">Large</option>
+                        <option value="Extra Large">Extra Large</option>
+                      </select>
+                    </div>
+                    <div className="w-full pt-0 h-16 ">
+                      <select className="select select-primary w-full h-full text-[20px] ">
+                        <option disabled selected>
+                          --Select Delivery Methods--
+                        </option>
+                        <option>Reguler</option>
+                        <option>Large</option>
+                        <option>Extra Large</option>
+                      </select>
+                    </div>
+                    <div className="flex gap-4 w-full h-16">
+                      <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
+                        <button className="p-2 text-[20px] ">-</button>
+                        <div className="p-2">0</div>
+                        <button className="p-2 text-[20px]">+</button>
+                      </div>
+                      <div className="flex flex-1 h-full ">
+                        <button className="btn btn-secondary w-full h-full">
+                          Add to Chart
+                        </button>
+                      </div>
+                    </div>
+                    <div className="w-full h-16">
+                      <button type="submit" className="btn btn-primary w-full h-full">
+                        Save Change
+                      </button>
+                    </div>
+                    <div className="w-full h-16">
+                      <button type="button" className="btn btn-primary w-full h-full" onClick={()=> setEditProduct(true)}>
+                        Edit Product
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="w-full h-16">
-                  <button className="btn btn-primary w-full h-full">
-                    Save Change
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+              </form>
+            )}
+          </Formik>
         </div>
       </div>
       <Footer />
