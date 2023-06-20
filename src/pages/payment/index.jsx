@@ -65,9 +65,9 @@ const PaymentAndDeliveryCust = ({ token }) => {
       <div className="header">
         <Header token={token} />
       </div>
-      <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
+      <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik z-10">
         <div className="pt-32 px-36 flex flex-col gap-5">
-          <div className="relative w-96 self-center">
+          <div className="relative w-96 self-center z-0">
             <div className="flex justify-between z-10 relative text-white">
               <div className="flex flex-col items-center gap-1">
                 <div className="bg-white h-7 w-7 rounded-full flex justify-center items-center">
