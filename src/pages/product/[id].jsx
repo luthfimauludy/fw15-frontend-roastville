@@ -2,7 +2,7 @@
 
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import React from "react"
+import React, { useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import bg_detail from "public/bg-detail-product.jpg"
@@ -11,7 +11,6 @@ import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { clearProduct } from "@/redux/reducers/product"
 import { PURGE } from "redux-persist"
-
 
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
@@ -27,12 +26,26 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   }
 }, cookieConfig)
 
-
-
-function DetailProduct({token}) {
+function DetailProduct({ token }) {
   const dispatch = useDispatch()
   const productDetail = useSelector((state) => state.product.data)
+  const [count, setCount] = useState(0)
+  const [openModal, setOpenModal] = useState(false)
+  function increment() {
+    if (count >= 10) {
+      setCount(10)
+    } else {
+      setCount(count + 1)
+    }
+  }
 
+  function decrement() {
+    if (count <= 0) {
+      setCount(0)
+    } else {
+      setCount(count - 1)
+    }
+  }
   const router = useRouter()
 
   React.useEffect(() => {
@@ -67,7 +80,6 @@ function DetailProduct({token}) {
     }
   }
 
-
   React.useEffect(() => {
     const handleChangeRouter = () => {
       dispatch({
@@ -83,7 +95,6 @@ function DetailProduct({token}) {
       router.events.off("routeChangeStart", handleChangeRouter)
     }
   }, [dispatch, router.events])
-
 
   return (
     <div className="h-min-screen">
@@ -104,9 +115,12 @@ function DetailProduct({token}) {
                   className="h-full w-full object-cover"
                   alt="bg-detail-product"
                 />
-                <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
-                  <FiTrash2 size={30} />
-                </button>
+                <label
+                  htmlFor="deleteProduct"
+                  className="absolute cursor-pointer top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center"
+                >
+                  <FiTrash2 size={30} color="white" />
+                </label>
               </div>
               <div className="w-[400px] text-[25px]  ">
                 Delivery only{" "}
@@ -151,9 +165,13 @@ function DetailProduct({token}) {
                 </div>
                 <div className="flex gap-4 w-full h-16">
                   <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
-                    <button className="p-2 text-[20px] ">-</button>
-                    <div className="p-2">0</div>
-                    <button className="p-2 text-[20px]">+</button>
+                    <button onClick={decrement} className="p-2 text-[20px] ">
+                      -
+                    </button>
+                    <div className="p-2">{count}</div>
+                    <button onClick={increment} className="p-2 text-[20px]">
+                      +
+                    </button>
                   </div>
                   <div className="flex flex-1 h-full ">
                     <button className="btn btn-secondary w-full h-full">
@@ -172,6 +190,27 @@ function DetailProduct({token}) {
         </div>
       </div>
       <Footer />
+      <input type="checkbox" id="deleteProduct" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Alert!</h3>
+          <p className="py-4">Are you sure want to delete this product</p>
+          <div className="modal-action">
+            <label
+              htmlFor="deleteProduct"
+              className="btn btn-error normal-case text-white cursor-pointer"
+            >
+              Yes!
+            </label>
+            <label
+              htmlFor="deleteProduct"
+              className="btn btn-success normal-case text-white cursor-pointer"
+            >
+              No!
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
