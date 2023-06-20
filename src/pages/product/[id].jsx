@@ -3,7 +3,8 @@ import Footer from "@/components/footer"
 import React, { useEffect, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
-import bg_detail from "public/bg-detail-product.jpg"
+import default_picture from "/public/default.jpg"
+
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
@@ -107,7 +108,11 @@ function DetailProduct({ token }) {
     }
   }
 
-  const editProductAdmin = async (values) => {
+
+
+
+
+  const editProductAdmin = async (values)=>{
     const form = new FormData()
     Object.keys(values).forEach((key) => {
       if (values[key]) {
@@ -128,6 +133,7 @@ function DetailProduct({ token }) {
     setEditProduct(false)
   }
 
+
   // React.useEffect(() => {
   //   const handleChangeRouter = () => {
   //     dispatch({
@@ -139,6 +145,19 @@ function DetailProduct({ token }) {
   //   }
   //   router.events.on("routeChangeStart", handleChangeRouter)
 
+
+  React.useEffect(() => {
+    const handleChangeRouter = () => {
+      dispatch({
+        type: PURGE,
+        key: "product",
+        result: () => null,
+      })
+      dispatch(clearProduct)
+    }
+    router.events.on("routeChangeStart", handleChangeRouter)
+
+
   //   return () => {
   //     router.events.off("routeChangeStart", handleChangeRouter)
   //   }
@@ -149,31 +168,36 @@ function DetailProduct({ token }) {
       <div className="pb-24 header">
         <Header token={token} />
       </div>
-      <div className="flex h-full px-28 py-20">
-        <div className="flex w-[50%]">
-          <div className="flex flex-col gap-4 w-full">
-            <div className="flex font-bold items-center text-[20px] ">
-              Favourit & Promo <IoIosArrowForward size={30} />
-              <div>name product</div>
-            </div>
-            <div className="h-[700px] relative ">
-              <Image
-                src={bg_detail}
-                className="h-full w-full object-cover"
-                alt="bg-detail-product"
-              />
-              <label
-                htmlFor="deleteProduct"
-                className="absolute cursor-pointer top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center"
-              >
-                <FiTrash2 size={30} color="white" />
-              </label>
-            </div>
-            <div className="w-[400px] text-[25px]  ">
-              Delivery only{" "}
-              <span className="font-bold text-[25px] ">
-                on Monday to friday at 1 - 7 pm
-              </span>
+
+      <div className="h-[100%] px-24 py-8">
+        <div className="flex h-full">
+          <div className="flex w-[50%]">
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex font-bold items-center text-[20px] ">
+                Favourit & Promo <IoIosArrowForward size={30} />
+                <div>name product</div>
+              </div>
+              <div className="h-[700px] relative ">
+
+                {productDetail.picture === null ? (
+                  <Image
+                    src={default_picture}
+                    alt="img-product.png"
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <Image
+                    alt="img-product.png"
+                    width="400"
+                    height="400"
+                    src={productDetail.picture}
+                    className="object-cover h-full w-full"
+                  />
+                )}
+                <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
+                  <FiTrash2 size={30} />
+                </button>
+
             </div>
           </div>
         </div>

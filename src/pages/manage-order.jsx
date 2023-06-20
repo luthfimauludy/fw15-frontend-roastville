@@ -30,11 +30,11 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   }
 }, cookieConfig)
 
-function ManageOrder() {
+function ManageOrder({ token }) {
   return (
     <>
       <div className="header pb-24">
-        <Header />
+        <Header token={token} />
       </div>
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
         <div className="px-28 py-10 flex flex-col gap-5">

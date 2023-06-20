@@ -1,14 +1,13 @@
+
+import React from "react"
 import React, { useEffect, useState } from "react"
+
 import Image from "next/image"
+import default_picture from "/public/default.jpg"
+
 import image from "/public/img-coupon.png"
 import image2 from "/public/img-coupon2.png"
 import image3 from "/public/img-coupon3.png"
-import img1 from "/public/img-product.png"
-import img2 from "/public/img-product2.png"
-import img3 from "/public/img-product3.png"
-import img4 from "/public/img-product4.png"
-import img5 from "/public/img-product5.png"
-import img6 from "/public/img-product6.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import http from "@/helpers/http"
@@ -35,12 +34,19 @@ function ProductCust({ token }) {
   const dispatch = useDispatch()
   const router = useRouter()
   const [product, setProduct] = React.useState([])
+
+
   const [roleId, setRoleId] = useState("")
+
   const [errMsg, setErrorMsg] = React.useState("")
 
   const getProduct = React.useCallback(async () => {
     try {
       const { data } = await http().get("/products")
+
+
+
+
       setProduct(data.results)
     } catch (error) {
       if (error.isAxiosError && !error.response) {
@@ -197,33 +203,57 @@ function ProductCust({ token }) {
               </div>
             </div>
           </div>
+
+
+          <div className="grid grid-cols-4 gap-x-16 gap-y-12 pl-4">
           <div className="grid grid-cols-4 gap-8 px-28">
+
             {product.map((item) => (
               <div
                 onClick={() => dispatchEvent(item)}
                 key={`product-${item.id}`}
-                className="relative flex flex-col justify-between items-center w-40 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
+
+                className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
+              >
+                <div className="flex flex-col gap-4 ">
+      className="relative flex flex-col justify-between items-center w-40 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
               >
                 <div className="flex flex-col">
+
                   <div className="w-32 h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
-                    <Image
-                      className="w-full h-full "
-                      src={img1}
-                      alt="img-product.png"
-                    />
+                    {item.picture === null ? (
+                      <Image
+                        src={default_picture}
+                        alt="img-product.png"
+                        className="object-cover h-full w-full"
+                      />
+                    ) : (
+                      <Image
+                        alt="img-product.png"
+                        width="400"
+                        height="400"
+                        src={item.picture}
+                        className="object-cover h-full w-full"
+                      />
+                    )}
                   </div>
-                  <div className="text-center font-black text-xl text-accent px-5">
+                  <div className="text-center font-black text-xl text-accent">
                     {item.name}
                   </div>
                 </div>
                 <div className="font-bold text-primary">
-                  {item.variant[0].price}
+
+                  Rp.{item.variant[0].price}
+                </div>
+
+                 {item.variant[0].price}
                 </div>
                 {roleId === 1 && (
                   <button className="absolute bottom-[-10px] right-[-15px] w-8 h-8 bg-primary rounded-full p-2">
                     <BsFillPencilFill color="white" />
                   </button>
                 )}
+
               </div>
             ))}
           </div>
