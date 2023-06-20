@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import default_picture from "/public/default.jpg"
-
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
@@ -108,10 +107,6 @@ function DetailProduct({ token }) {
     }
   }
 
-
-
-
-
   const editProductAdmin = async (values) => {
     const form = new FormData()
     Object.keys(values).forEach((key) => {
@@ -133,7 +128,6 @@ function DetailProduct({ token }) {
     setEditProduct(false)
   }
 
-
   React.useEffect(() => {
     const handleChangeRouter = () => {
       dispatch({
@@ -145,9 +139,6 @@ function DetailProduct({ token }) {
     }
     router.events.on("routeChangeStart", handleChangeRouter)
   })
-
-
-
 
   return (
     <div className="h-min-screen">
@@ -164,7 +155,6 @@ function DetailProduct({ token }) {
                 <div>name product</div>
               </div>
               <div className="h-[700px] relative ">
-
                 {productDetail.picture === null ? (
                   <Image
                     src={default_picture}
@@ -183,7 +173,6 @@ function DetailProduct({ token }) {
                 <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
                   <FiTrash2 size={30} />
                 </button>
-
               </div>
             </div>
           </div>
@@ -255,7 +244,10 @@ function DetailProduct({ token }) {
                             -
                           </button>
                           <div className="p-2">{count}</div>
-                          <button onClick={increment} className="p-2 text-[20px]">
+                          <button
+                            onClick={increment}
+                            className="p-2 text-[20px]"
+                          >
                             +
                           </button>
                         </div>
@@ -325,8 +317,6 @@ function DetailProduct({ token }) {
       </div>
     </div>
   )
-
 }
-
 
 export default DetailProduct
