@@ -28,7 +28,6 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   }
 }, cookieConfig)
 
-
 function DetailProduct({ token }) {
   const dispatch = useDispatch()
   const [editProduct, setEditProduct] = React.useState(false)
@@ -51,7 +50,7 @@ function DetailProduct({ token }) {
       setCount(count - 1)
     }
   }
-  
+
   const router = useRouter()
   const { id } = router.query
 
@@ -168,6 +167,48 @@ function DetailProduct({ token }) {
               </div>
             </div>
           </div>
+          <div className="flex flex-1  pl-12 pr-36 py-8 ">
+            <div className="flex flex-col gap-4  w-full">
+              <div className="font-bold text-[65px] ">{productDetail.name}</div>
+              <div className="border-t-2 border-b-2 text-[40px] py-2">
+                {selectedSize ? selectedSize : productDetail.variant[0].price}
+              </div>
+              <div className="text-[25px]  font-semi-bold py-4 border-b-2 ">
+                {productDetail.description}
+              </div>
+              <div className="flex flex-col gap-8">
+                <div className="w-full h-24 pt-8">
+                  <select
+                    className="select select-primary w-full h-full text-[20px]"
+                    onChange={selectSize}
+                  >
+                    <option disabled value="">
+                      --Select Size--
+                    </option>
+                    <option value="Regular">Regular</option>
+                    <option value="Large">Large</option>
+                    <option value="Extra Large">Extra Large</option>
+                  </select>
+                </div>
+                <div className="w-full pt-0 h-16 ">
+                  <select className="select select-primary w-full h-full text-[20px] ">
+                    <option disabled selected>
+                      --Select Delivery Methods--
+                    </option>
+                    <option>Reguler</option>
+                    <option>Large</option>
+                    <option>Extra Large</option>
+                  </select>
+                </div>
+                <div className="flex gap-4 w-full h-16">
+                  <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
+                    <button onClick={decrement} className="p-2 text-[20px] ">
+                      -
+                    </button>
+                    <div className="p-2">{count}</div>
+                    <button onClick={increment} className="p-2 text-[20px]">
+                      +
+                    </button>
           <Formik
             initialValues={{
               name: productDetail?.name,
