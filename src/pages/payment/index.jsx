@@ -13,7 +13,7 @@ import cookieConfig from "@/helpers/cookieConfig"
 import { useSelector } from "react-redux"
 import http from "@/helpers/http"
 import { useEffect, useState } from "react"
-import Link from "next/link"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -28,6 +28,8 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 const PaymentAndDeliveryCust = ({ token }) => {
   const product = useSelector((state) => state.product.data)
   const [paymentMethods, setPaymentMethods] = useState([])
+  const [errMsg, setErrMsg] = useState("")
+  const router = useRouter()
 
   useEffect(() => {
     async function getPaymentMethod() {
@@ -41,6 +43,22 @@ const PaymentAndDeliveryCust = ({ token }) => {
 
     getPaymentMethod()
   }, [token])
+
+  const makePayment = async () => {
+    const name = product.name
+    const price = product.variant[0].price
+    const picture = product.picture
+    const form = new URLSearchParams({ name, price, picture }).toString()
+    try {
+      const { data } = await http(token).post("/history", form)
+      if (data.results) {
+        router.push("/product/history-cust")
+      }
+    } catch (err) {
+      const message = err.response?.data?.message
+      setErrMsg(message)
+    }
+  }
 
   return (
     <>
@@ -172,12 +190,12 @@ const PaymentAndDeliveryCust = ({ token }) => {
                 </>
               ))}
             </div>
-            <Link
-              href="/product/history-cust"
+            <button
+              onClick={makePayment}
               className="w-10/12 md:w-[50%] flex items-center justify-center bg-secondary h-16 m-5 rounded-lg text-white font-bold text-lg hover:bg-amber-600 active:bg-amber-700 active:scale-[.9] duration-300"
             >
               Confirm and Pay
-            </Link>
+            </button>
           </div>
         </div>
       </div>
