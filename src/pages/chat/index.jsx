@@ -5,9 +5,6 @@ import Footer from "@/components/footer"
 import { withIronSessionSsr } from "iron-session/next"
 import cookieConfig from "@/helpers/cookieConfig"
 import checkCredentials from "@/helpers/checkCredentials"
-
-// import axios from "axios"
-
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
   checkCredentials(token, res, "/auth/login")

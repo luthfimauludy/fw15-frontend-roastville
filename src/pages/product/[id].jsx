@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import default_picture from "/public/default.jpg"
-
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
@@ -15,6 +14,7 @@ import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { Formik } from "formik"
 import http from "@/helpers/http"
+import Link from "next/link"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -108,10 +108,6 @@ function DetailProduct({ token }) {
     }
   }
 
-
-
-
-
   const editProductAdmin = async (values) => {
     const form = new FormData()
     Object.keys(values).forEach((key) => {
@@ -133,7 +129,6 @@ function DetailProduct({ token }) {
     setEditProduct(false)
   }
 
-
   React.useEffect(() => {
     const handleChangeRouter = () => {
       dispatch({
@@ -146,15 +141,11 @@ function DetailProduct({ token }) {
     router.events.on("routeChangeStart", handleChangeRouter)
   })
 
-
-
-
   return (
     <div className="h-min-screen">
       <div className="pb-24 header">
         <Header token={token} />
       </div>
-
       <div className="h-[100%] pt-10">
         <div className="flex h-full  px-24">
           <div className="flex w-[50%] pb-10">
@@ -164,7 +155,6 @@ function DetailProduct({ token }) {
                 <div>name product</div>
               </div>
               <div className="h-[700px] relative ">
-
                 {productDetail.picture === null ? (
                   <Image
                     src={default_picture}
@@ -183,7 +173,6 @@ function DetailProduct({ token }) {
                 <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
                   <FiTrash2 size={30} />
                 </button>
-
               </div>
             </div>
           </div>
@@ -255,7 +244,10 @@ function DetailProduct({ token }) {
                             -
                           </button>
                           <div className="p-2">{count}</div>
-                          <button onClick={increment} className="p-2 text-[20px]">
+                          <button
+                            onClick={increment}
+                            className="p-2 text-[20px]"
+                          >
                             +
                           </button>
                         </div>
@@ -288,9 +280,12 @@ function DetailProduct({ token }) {
                       )}
                       {roleId === 2 && (
                         <div>
-                          <button className="btn btn-primary w-full">
+                          <Link
+                            href="/payment"
+                            className="btn btn-primary w-full"
+                          >
                             Checkout
-                          </button>
+                          </Link>
                         </div>
                       )}
                     </div>
@@ -325,8 +320,6 @@ function DetailProduct({ token }) {
       </div>
     </div>
   )
-
 }
-
 
 export default DetailProduct

@@ -16,7 +16,6 @@ function SignUp() {
   const router = useRouter()
   const [openEye, setOpenEye] = useState(false)
   const [successMessage, setSuccessMessage] = useState("")
-
   const [errorMessage, setErrorMessage] = React.useState("")
   const [load, setLoad] = React.useState(false)
   const validationSchema = Yup.object({
