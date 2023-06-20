@@ -40,7 +40,7 @@ const Profile = ({ token, user }) => {
   const [pictureURI, setPictureURI] = React.useState("")
   const [editProfileUser, setEditProfilUser] = React.useState(false)
   const router = useRouter()
-  const [profile, setProfile] = React.useState([])
+  const [profile, setProfile] = React.useState(user)
 
   React.useEffect(() =>{
     async function getDataProfile(){
@@ -51,18 +51,13 @@ const Profile = ({ token, user }) => {
     getDataProfile()
   },[token])
 
-  const updateDisplay = () => {
-    dispatch(getProfileAction(token))
-  }
+  
 
   const doLogout = async () => {
     await axios.get("/api/logout")
     router.replace("/auth/login")
   }
-
-  const handleShow = () => {
-    setShow(!show)
-  }
+  
   const fileToDataUrl = (file) => {
     const reader = new FileReader()
     reader.addEventListener("load", () => {
@@ -84,9 +79,7 @@ const Profile = ({ token, user }) => {
     const form = new FormData()
     Object.keys(values).forEach((key) => {
       if (key === "birthDate") {
-        if (values[key] instanceof Date) {
-          form.append(key, moment(values[key]).format("YYYY/MM/DD"))
-        }
+          form.append(key, moment(values[key]).format("YYYY-MM-DD"))
       } else {
         form.append(key, values[key])
       }
@@ -100,14 +93,13 @@ const Profile = ({ token, user }) => {
           "Content-Type": "multipart/form-data",
         },
       })
-      console.log(data)
+      setProfile(data.results)
     } catch (err) {
       console.log(err)
     }
     setEditProfilUser(false)
     setOpenModal(false)
-    updateDisplay()
-    setProfile(data.results)
+
   }
   return (
     <>
@@ -120,14 +112,14 @@ const Profile = ({ token, user }) => {
         </div>
         <Formik
           initialValues={{
-            email: user?.email,
-            phoneNumber: user?.phoneNumber,
-            address: user?.address,
-            displayName: user?.displayName,
-            firstName: user?.firstName,
-            lastName: user?.lastName,
-            gender: user?.gender ? "1" : "0",
-            birthDate: user?.birthDate
+            email: profile?.email,
+            phoneNumber: profile?.phoneNumber,
+            address: profile?.address,
+            displayName: profile?.displayName,
+            firstName: profile?.firstName,
+            lastName: profile?.lastName,
+            gender: profile?.gender ? "1" : "0",
+            birthDate: moment(profile?.birthDate).format('YYYY-MM-DD')
           }}
           onSubmit={editProfile}
           enableReinitialize
@@ -141,25 +133,23 @@ const Profile = ({ token, user }) => {
                 <div className="rounded-full overflow-hidden bg-blue-600 flex justify-center items-center w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
                   <div>
                     <div>
-                      {user.picture && (
-                        <Image
-                          className="rounded object-fit object-cover bg-cover"
-                          src={user.picture}
+                      {!selectedPicture && <Image
+                          className="bg-cover"
+                          src={profile.picture}
                           alt="picture"
                           width={250}
                           height={250}
-                        />
-                      )}
+                        />}
                     </div>
                     {!selectedPicture && (
                       <div>
-                        <FiUser size={100} />
+                        <FiUser size={100} hidden={profile.picture} />
                       </div>
                     )}
                     {selectedPicture && (
                       <div>
                         <Image
-                          className="rounded object-fit bg-cover object-cover"
+                          className="bg-cover"
                           src={pictureURI}
                           alt="profile"
                           width={250}
@@ -171,19 +161,19 @@ const Profile = ({ token, user }) => {
                 </div>
                 <div className="flex flex-col justify-center items-center m-2 gap-3">
                   <div className="text-xl font-bold">
-                    {!user?.displayName && (
+                    {!profile?.displayName && (
                       <div className="opacity-50 text-2xl text-red-500">
                         No Set
                       </div>
                     )}
-                    {user?.displayName && (
+                    {profile?.displayName && (
                       <div className="text-2xl font-bold">
-                        {user.displayName}
+                        {profile.displayName}
                       </div>
                     )}
                   </div>
                   <span className="font-semibold text-sm opacity-75">
-                    {user?.email}
+                    {profile?.email}
                   </span>
                 </div>
                 <div className="flex flex-col gap-5">
@@ -195,13 +185,14 @@ const Profile = ({ token, user }) => {
                         type="file"
                         className="hidden"
                         name="picture"
+                        disabled={!editProfileUser}
                       />
                     </label>
                   </div>
                   <div>
                     <label className="w-48 md:w-32 lg:w-48 btn btn-secondary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl">
                       <span>Remove Photo</span>
-                      <input type="file" className="hidden" name="picture" />
+                      <input className="hidden" name="picture" />
                     </label>
                   </div>
                 </div>
@@ -259,10 +250,10 @@ const Profile = ({ token, user }) => {
                           <div>
                             {!editProfileUser && (
                               <span className="opacity-50">
-                                {user?.email === null ? (
+                                {profile?.email === null ? (
                                   <span className="text-red-500">Not Set</span>
                                 ) : (
-                                  user?.email
+                                  profile?.email
                                 )}
                               </span>
                             )}
@@ -288,10 +279,10 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.address === null  ? (
+                              {profile?.address === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
-                                user?.address
+                                profile?.address
                               )}
                             </span>
                           )}
@@ -318,10 +309,10 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.phoneNumber === null  ? (
+                              {profile?.phoneNumber === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
-                                user?.phoneNumber
+                                profile?.phoneNumber
                               )}
                             </span>
                           )}
@@ -353,10 +344,10 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.displayName === null ? (
+                              {profile?.displayName === null ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
-                                user?.displayName
+                                profile?.displayName
                               )}
                             </span>
                           )}
@@ -381,10 +372,10 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.firstName === null  ? (
+                              {profile?.firstName === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
-                                user?.firstName
+                                profile?.firstName
                               )}
                             </span>
                           )}
@@ -409,10 +400,10 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {user?.lastName === null  ? (
+                              {profile?.lastName === null  ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
-                                user?.lastName
+                                profile?.lastName
                               )}
                             </span>
                           )}
@@ -438,10 +429,10 @@ const Profile = ({ token, user }) => {
                       <div>
                         {!editProfileUser && (
                           <span className="opacity-50">
-                            {user?.birthDate === null ? (
+                            {profile?.birthDate === null ? (
                               <span className="text-red-500">Not Set</span>
                             ) : (
-                              moment().format("YYYY/MM/DD")
+                              moment(profile?.birthDate).format("DD/MM/YYYY")
                             )}
                           </span>
                         )}
@@ -467,6 +458,7 @@ const Profile = ({ token, user }) => {
                           name="gender"
                           value="0"
                           type="radio"
+                          disabled={!editProfileUser}
                           className="radio radio-primary"
                         />
                         <span className="font-bold">Male</span>
@@ -479,6 +471,7 @@ const Profile = ({ token, user }) => {
                           name="gender"
                           value="1"
                           type="radio"
+                          disabled={!editProfileUser}
                           className="radio radio-primary"
                         />
                         <span className="font-bold">Female</span>
