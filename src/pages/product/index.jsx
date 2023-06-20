@@ -39,10 +39,10 @@ function ProductCust({ token }) {
       setProduct(data.results)
     } catch (error) {
       if (error.isAxiosError && !error.response) {
-        router.replace("product/error")
+        console.log("Axios error")
       }
     }
-  }, [setProduct, router])
+  }, [setProduct])
 
   React.useEffect(() => {
     getProduct()
