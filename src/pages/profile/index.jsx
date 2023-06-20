@@ -142,7 +142,11 @@ const Profile = ({ token, user }) => {
                     </div>
                     {!selectedPicture && !profile?.picture && (
                       <div>
-                        <FiUser size={100} hidden={profile.picture} />
+                        <FiUser
+                          size={100}
+                          hidden={profile.picture}
+                          color="white"
+                        />
                       </div>
                     )}
                     {selectedPicture && (
