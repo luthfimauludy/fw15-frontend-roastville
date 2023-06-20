@@ -163,28 +163,32 @@ function ProductCust({ token }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-x-16 gap-y-12 pl-4">
+          <div className="grid grid-cols-4 gap-x-24 gap-y-12 pl-4">
             {product.map((item) => (
               <div
                 onClick={() => dispatchEvent(item)}
                 key={`product-${item.id}`}
                 className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
               >
-                <div className="flex flex-col gap-4 ">
-                  <div className="w-32 h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
+                <div className="flex flex-col gap-5 items-center justify-center w-full h-full">
+                  <div className="w-32 justify-center h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
                     {item.picture === null ? (
-                      <Image
-                        src={default_picture}
-                        alt="img-product.png"
-                        className="object-cover h-full w-full"
-                      />
+                      <div className="flex justify-center items-center">
+                        <Image
+                          src={default_picture}
+                          alt="img-product.png"
+                          width="400"
+                          height="400"
+                          className="object-cover w-full h-full bg-cover flex justify-center self-center"
+                        />
+                      </div>
                     ) : (
                       <Image
                         alt="img-product.png"
                         width="400"
                         height="400"
                         src={item.picture}
-                        className="object-cover h-full w-full"
+                        className="object-cover w-80% h-80% bg-cover "
                       />
                     )}
                   </div>
