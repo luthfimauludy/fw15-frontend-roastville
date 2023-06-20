@@ -10,7 +10,6 @@ import {
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
-
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
   checkCredentials(token, res, "/auth/login")

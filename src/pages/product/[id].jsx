@@ -1,5 +1,3 @@
-// product picture belum di set
-
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import React, { useEffect, useState } from "react"
@@ -11,13 +9,11 @@ import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import { clearProduct } from "@/redux/reducers/product"
 import { PURGE } from "redux-persist"
-
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { Formik } from "formik"
 import http from "@/helpers/http"
-import jwtDecode from "jwt-decode"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -37,6 +33,7 @@ function DetailProduct({ token }) {
   const [count, setCount] = useState(0)
   const [openModal, setOpenModal] = useState(false)
   const [roleId, setRoleId] = useState("")
+
   function increment() {
     if (count >= 10) {
       setCount(10)
@@ -70,8 +67,8 @@ function DetailProduct({ token }) {
   const { id } = router.query
 
   // React.useEffect(() => {
-  //   async function getDataProduct(){
-  //     const {data} = await http().get(`/product/${id}`)
+  //   async function getDataProduct() {
+  //     const { data } = await http().get(`/product/${id}`)
   //     console.log(data)
   //     setProduct(data.result)
   //   }
@@ -131,21 +128,21 @@ function DetailProduct({ token }) {
     setEditProduct(false)
   }
 
-  React.useEffect(() => {
-    const handleChangeRouter = () => {
-      dispatch({
-        type: PURGE,
-        key: "product",
-        result: () => null,
-      })
-      dispatch(clearProduct)
-    }
-    router.events.on("routeChangeStart", handleChangeRouter)
+  // React.useEffect(() => {
+  //   const handleChangeRouter = () => {
+  //     dispatch({
+  //       type: PURGE,
+  //       key: "product",
+  //       result: () => null,
+  //     })
+  //     dispatch(clearProduct)
+  //   }
+  //   router.events.on("routeChangeStart", handleChangeRouter)
 
-    return () => {
-      router.events.off("routeChangeStart", handleChangeRouter)
-    }
-  }, [dispatch, router.events])
+  //   return () => {
+  //     router.events.off("routeChangeStart", handleChangeRouter)
+  //   }
+  // }, [dispatch, router.events])
 
   return (
     <div className="h-min-screen">
@@ -253,7 +250,7 @@ function DetailProduct({ token }) {
                         </button>
                       </div>
                       <div className="flex flex-1 h-full ">
-                        <button className="btn btn-secondary w-full h-full">
+                        <button className="btn btn-secondary w-full h-full text-white normal-case">
                           Add to Chart
                         </button>
                       </div>
@@ -277,6 +274,13 @@ function DetailProduct({ token }) {
                             Edit Product
                           </button>
                         </div>
+                      </div>
+                    )}
+                    {roleId === 2 && (
+                      <div>
+                        <button className="btn btn-primary w-full">
+                          Checkout
+                        </button>
                       </div>
                     )}
                   </div>
