@@ -1,15 +1,10 @@
-
 import React from "react"
 import Image from "next/image"
+import default_picture from "/public/default.jpg"
+
 import image from "/public/img-coupon.png"
 import image2 from "/public/img-coupon2.png"
 import image3 from "/public/img-coupon3.png"
-import img1 from "/public/img-product.png"
-import img2 from "/public/img-product2.png"
-import img3 from "/public/img-product3.png"
-import img4 from "/public/img-product4.png"
-import img5 from "/public/img-product5.png"
-import img6 from "/public/img-product6.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import http from "@/helpers/http"
@@ -31,23 +26,20 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   }
 }, cookieConfig)
 
-
-function ProductCust({token}) {
-  const dispatch = useDispatch();
+function ProductCust({ token }) {
+  const dispatch = useDispatch()
   const router = useRouter()
-  const [product, setProduct] = React.useState([]);
-  const [errMsg, setErrorMsg] = React.useState("");
-
+  const [product, setProduct] = React.useState([])
+  const [errMsg, setErrorMsg] = React.useState("")
 
   const getProduct = React.useCallback(async () => {
     try {
-      const { data } = await http().get('/products')
+      const { data } = await http().get("/products")
+      console.log(data)
       setProduct(data.results)
-
     } catch (error) {
       if (error.isAxiosError && !error.response) {
-        router.replace('product/error')
-
+        router.replace("product/error")
       }
     }
   }, [setProduct, router])
@@ -56,18 +48,17 @@ function ProductCust({token}) {
     getProduct()
   }, [getProduct])
 
-
   const dispatchEvent = (item) => {
-    const encodedProductName = encodeURIComponent(item.name);
-    const url = `/product/${encodedProductName}`;
-    dispatch(productDetail(item));
+    const encodedProductName = encodeURIComponent(item.name)
+    const url = `/product/${encodedProductName}`
+    dispatch(productDetail(item))
     router.replace(url)
   }
 
   return (
     <div className="h-min-screen">
       <div className="pb-24 header">
-        <Header token={token}/>
+        <Header token={token} />
       </div>
       <div className="flex">
         <div className="w-[425px] border-r-2 px-20 py-7">
@@ -171,24 +162,41 @@ function ProductCust({token}) {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-8 px-28">
-            {product.map(item =>
-              <div onClick={() => dispatchEvent(item)} key={`product-${item.id}`} className="flex flex-col justify-between items-center w-40 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300">
-                <div className="flex flex-col">
+
+          <div className="grid grid-cols-4 gap-x-16 gap-y-12 pl-4">
+            {product.map((item) => (
+              <div
+                onClick={() => dispatchEvent(item)}
+                key={`product-${item.id}`}
+                className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
+              >
+                <div className="flex flex-col gap-4 ">
                   <div className="w-32 h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
-                    <Image
-                      className="w-full h-full "
-                      src={img1}
-                      alt="img-product.png"
-                    />
+                    {item.picture === null ? (
+                      <Image
+                        src={default_picture}
+                        alt="img-product.png"
+                        className="object-cover h-full w-full"
+                      />
+                    ) : (
+                      <Image
+                        alt="img-product.png"
+                        width="400"
+                        height="400"
+                        src={item.picture}
+                        className="object-cover h-full w-full"
+                      />
+                    )}
                   </div>
-                  <div className="text-center font-black text-xl text-accent px-5">
+                  <div className="text-center font-black text-xl text-accent">
                     {item.name}
                   </div>
                 </div>
-                <div className="font-bold text-primary">{item.variant[0].price}</div>
+                <div className="font-bold text-primary">
+                  Rp.{item.variant[0].price}
+                </div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </div>
@@ -198,4 +206,3 @@ function ProductCust({token}) {
 }
 
 export default ProductCust
-
