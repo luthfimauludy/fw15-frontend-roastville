@@ -47,7 +47,8 @@ const PaymentAndDeliveryCust = ({ token }) => {
   const makePayment = async () => {
     const name = product.name
     const price = product.variant[0].price
-    const form = new URLSearchParams({ name, price }).toString()
+    const picture = product.picture
+    const form = new URLSearchParams({ name, price, picture }).toString()
     try {
       const { data } = await http(token).post("/history", form)
       if (data.results) {
