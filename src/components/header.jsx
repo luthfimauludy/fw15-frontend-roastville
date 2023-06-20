@@ -75,13 +75,13 @@ export default function Headers({ token }) {
                   <Link href="/">Your Cart</Link>
                 </span>
                 <span className="hover:text-secondary">
-                  <Link href="/">History</Link>
+                  <Link href="/product/history-cust">History</Link>
                 </span>
                 <span className="hover:text-secondary">
-                  <Link href="/">Orders</Link>
+                  <Link href="/manage-order">Orders</Link>
                 </span>
                 <span className="hover:text-secondary">
-                  <Link href="/">Dashboard</Link>
+                  <Link href="/dashboard">Dashboard</Link>
                 </span>
               </div>
             </div>
