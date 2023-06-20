@@ -13,6 +13,7 @@ import moment from "moment/moment"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import Headers from "../../components/header"
+import Default from "../../../public/default.jpg"
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
@@ -76,10 +77,12 @@ const Profile = ({ token, user }) => {
     setOpenModal(true)
     const form = new FormData()
     Object.keys(values).forEach((key) => {
-      if (key === "birthDate") {
-        form.append(key, moment(values[key]).format("YYYY-MM-DD"))
-      } else {
-        form.append(key, values[key])
+      if (values[key]) {
+        if (key === "birthDate") {
+          form.append(key, moment(values[key]).format("MM-DD-YYYY"))
+        } else {
+          form.append(key, values[key])
+        }
       }
     })
     if (selectedPicture) {
@@ -97,6 +100,7 @@ const Profile = ({ token, user }) => {
     }
     setEditProfilUser(false)
     setOpenModal(false)
+    setSelectedPicture(false)
   }
   return (
     <>
@@ -132,8 +136,8 @@ const Profile = ({ token, user }) => {
                     <div>
                       {!selectedPicture && profile?.picture && (
                         <Image
-                          className="bg-cover"
-                          src={profile.picture}
+                          className="bg-cover w-full h-full object-cover"
+                          src={profile?.picture}
                           alt="picture"
                           width={250}
                           height={250}
@@ -142,17 +146,13 @@ const Profile = ({ token, user }) => {
                     </div>
                     {!selectedPicture && !profile?.picture && (
                       <div>
-                        <FiUser
-                          size={100}
-                          hidden={profile.picture}
-                          color="white"
-                        />
+                        <FiUser size={100} hidden={Default} color="white" />
                       </div>
                     )}
                     {selectedPicture && (
                       <div>
                         <Image
-                          className="bg-cover"
+                          className="w-full h-full object-cover bg-cover"
                           src={pictureURI}
                           alt="profile"
                           width={250}
