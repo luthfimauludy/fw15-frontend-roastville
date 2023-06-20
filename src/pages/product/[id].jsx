@@ -112,7 +112,7 @@ function DetailProduct({ token }) {
 
 
 
-  const editProductAdmin = async (values)=>{
+  const editProductAdmin = async (values) => {
     const form = new FormData()
     Object.keys(values).forEach((key) => {
       if (values[key]) {
@@ -134,18 +134,6 @@ function DetailProduct({ token }) {
   }
 
 
-  // React.useEffect(() => {
-  //   const handleChangeRouter = () => {
-  //     dispatch({
-  //       type: PURGE,
-  //       key: "product",
-  //       result: () => null,
-  //     })
-  //     dispatch(clearProduct)
-  //   }
-  //   router.events.on("routeChangeStart", handleChangeRouter)
-
-
   React.useEffect(() => {
     const handleChangeRouter = () => {
       dispatch({
@@ -156,12 +144,10 @@ function DetailProduct({ token }) {
       dispatch(clearProduct)
     }
     router.events.on("routeChangeStart", handleChangeRouter)
+  })
 
 
-  //   return () => {
-  //     router.events.off("routeChangeStart", handleChangeRouter)
-  //   }
-  // }, [dispatch, router.events])
+
 
   return (
     <div className="h-min-screen">
@@ -169,9 +155,9 @@ function DetailProduct({ token }) {
         <Header token={token} />
       </div>
 
-      <div className="h-[100%] px-24 py-8">
-        <div className="flex h-full">
-          <div className="flex w-[50%]">
+      <div className="h-[100%] pt-10">
+        <div className="flex h-full  px-24">
+          <div className="flex w-[50%] pb-10">
             <div className="flex flex-col gap-4 w-full">
               <div className="flex font-bold items-center text-[20px] ">
                 Favourit & Promo <IoIosArrowForward size={30} />
@@ -198,146 +184,149 @@ function DetailProduct({ token }) {
                   <FiTrash2 size={30} />
                 </button>
 
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-1">
-          <Formik
-            initialValues={{
-              name: productDetail?.name,
-              description: productDetail?.description,
-            }}
-            onSubmit={editProductAdmin}
-            enableReinitialize
-          >
-            {({ handleSubmit, handleChange, handleBlur, values }) => (
-              <form onSubmit={handleSubmit} className="flex flex-1">
-                <div className="flex flex-col gap-4 px-10  w-full">
-                  {!editProduct && (
-                    <div className="font-bold text-[65px] ">
-                      {productDetail.name}
+          <div className="flex flex-1">
+            <Formik
+              initialValues={{
+                name: productDetail?.name,
+                description: productDetail?.description,
+              }}
+              onSubmit={editProductAdmin}
+              enableReinitialize
+            >
+              {({ handleSubmit, handleChange, handleBlur, values }) => (
+                <form onSubmit={handleSubmit} className="flex flex-1">
+                  <div className="flex flex-col gap-4 px-10  w-full">
+                    {!editProduct && (
+                      <div className="font-bold text-[65px] ">
+                        {productDetail.name}
+                      </div>
+                    )}
+                    {editProduct && (
+                      <input
+                        type="text"
+                        className="input input-ghost bg-transparent w-full max-w-xs"
+                        name="name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.name}
+                      />
+                    )}
+                    <div className="border-t-2 border-b-2 text-[40px] py-2">
+                      {selectedSize
+                        ? selectedSize
+                        : productDetail.variant[0].price}
                     </div>
-                  )}
-                  {editProduct && (
-                    <input
-                      type="text"
-                      className="input input-ghost bg-transparent w-full max-w-xs"
-                      name="name"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.name}
-                    />
-                  )}
-                  <div className="border-t-2 border-b-2 text-[40px] py-2">
-                    {selectedSize
-                      ? selectedSize
-                      : productDetail.variant[0].price}
-                  </div>
-                  <div className="text-[25px]  font-semi-bold py-4 border-b-2 ">
-                    {productDetail.description}
-                  </div>
-                  <div className="flex flex-col gap-8">
-                    <div className="w-full h-24 pt-8">
-                      <select
-                        className="select select-primary w-full h-full text-[20px]"
-                        onChange={selectSize}
-                      >
-                        <option disabled value="">
-                          --Select Size--
-                        </option>
-                        <option value="Regular">Regular</option>
-                        <option value="Large">Large</option>
-                        <option value="Extra Large">Extra Large</option>
-                      </select>
+                    <div className="text-[25px]  font-semi-bold py-4 border-b-2 ">
+                      {productDetail.description}
                     </div>
-                    <div className="w-full pt-0 h-16 ">
-                      <select className="select select-primary w-full h-full text-[20px] ">
-                        <option disabled selected>
-                          --Select Delivery Methods--
-                        </option>
-                        <option>Reguler</option>
-                        <option>Large</option>
-                        <option>Extra Large</option>
-                      </select>
-                    </div>
-                    <div className="flex gap-4 w-full h-16">
-                      <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
-                        <button
-                          onClick={decrement}
-                          className="p-2 text-[20px] "
+                    <div className="flex flex-col gap-8">
+                      <div className="w-full h-24 pt-8">
+                        <select
+                          className="select select-primary w-full h-full text-[20px]"
+                          onChange={selectSize}
                         >
-                          -
-                        </button>
-                        <div className="p-2">{count}</div>
-                        <button onClick={increment} className="p-2 text-[20px]">
-                          +
-                        </button>
+                          <option disabled value="">
+                            --Select Size--
+                          </option>
+                          <option value="Regular">Regular</option>
+                          <option value="Large">Large</option>
+                          <option value="Extra Large">Extra Large</option>
+                        </select>
                       </div>
-                      <div className="flex flex-1 h-full ">
-                        <button className="btn btn-secondary w-full h-full text-white normal-case">
-                          Add to Chart
-                        </button>
+                      <div className="w-full pt-0 h-16 ">
+                        <select className="select select-primary w-full h-full text-[20px] ">
+                          <option disabled selected>
+                            --Select Delivery Methods--
+                          </option>
+                          <option>Dine In</option>
+                          <option>Door Delivery</option>
+                          <option>Pick Up</option>
+                        </select>
                       </div>
+                      <div className="flex gap-4 w-full h-16">
+                        <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
+                          <button
+                            onClick={decrement}
+                            className="p-2 text-[20px] "
+                          >
+                            -
+                          </button>
+                          <div className="p-2">{count}</div>
+                          <button onClick={increment} className="p-2 text-[20px]">
+                            +
+                          </button>
+                        </div>
+                        <div className="flex flex-1 h-full ">
+                          <button className="btn btn-secondary w-full h-full text-white normal-case">
+                            Add to Chart
+                          </button>
+                        </div>
+                      </div>
+                      {roleId === 1 && (
+                        <div>
+                          <div className="w-full h-16">
+                            <button
+                              type="submit"
+                              className="btn btn-primary w-full h-full"
+                            >
+                              Save Change
+                            </button>
+                          </div>
+                          <div className="w-full h-16">
+                            <button
+                              type="button"
+                              className="btn btn-primary w-full h-full"
+                              onClick={() => setEditProduct(true)}
+                            >
+                              Edit Product
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {roleId === 2 && (
+                        <div>
+                          <button className="btn btn-primary w-full">
+                            Checkout
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    {roleId === 1 && (
-                      <div>
-                        <div className="w-full h-16">
-                          <button
-                            type="submit"
-                            className="btn btn-primary w-full h-full"
-                          >
-                            Save Change
-                          </button>
-                        </div>
-                        <div className="w-full h-16">
-                          <button
-                            type="button"
-                            className="btn btn-primary w-full h-full"
-                            onClick={() => setEditProduct(true)}
-                          >
-                            Edit Product
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    {roleId === 2 && (
-                      <div>
-                        <button className="btn btn-primary w-full">
-                          Checkout
-                        </button>
-                      </div>
-                    )}
                   </div>
-                </div>
-              </form>
-            )}
-          </Formik>
+                </form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
-      <Footer />
-      <input type="checkbox" id="deleteProduct" className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Alert!</h3>
-          <p className="py-4">Are you sure want to delete this product</p>
-          <div className="modal-action">
-            <label
-              htmlFor="deleteProduct"
-              className="btn btn-error normal-case text-white cursor-pointer"
-            >
-              Yes!
-            </label>
-            <label
-              htmlFor="deleteProduct"
-              className="btn btn-success normal-case text-white cursor-pointer"
-            >
-              No!
-            </label>
+        <Footer />
+        <input type="checkbox" id="deleteProduct" className="modal-toggle" />
+        <div className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Alert!</h3>
+            <p className="py-4">Are you sure want to delete this product</p>
+            <div className="modal-action">
+              <label
+                htmlFor="deleteProduct"
+                className="btn btn-error normal-case text-white cursor-pointer"
+              >
+                Yes!
+              </label>
+              <label
+                htmlFor="deleteProduct"
+                className="btn btn-success normal-case text-white cursor-pointer"
+              >
+                No!
+              </label>
+            </div>
           </div>
         </div>
       </div>
     </div>
   )
+
 }
+
 
 export default DetailProduct
