@@ -11,6 +11,10 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
+import { useDispatch, useSelector } from "react-redux"
+import { setProfile } from "@/redux/reducers/profile"
+import http from "@/helpers/http"
+
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
   console.log(token)
@@ -22,6 +26,16 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 }, cookieConfig)
 
 export default function Headers({ token }) {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.profile.data)
+  const getData = React.useCallback(async () => {
+    const { data } = await http(token).get("/profile/user")
+    dispatch(setProfile(data.results))
+  }, [token, dispatch])
+
+  React.useEffect(() => {
+    getData()
+  }, [getData])
   const [search, setSearch] = useState(false)
   const [modal, setCheckModal] = useState(false)
   const [inputValue, setInputValue] = useState("")
@@ -83,6 +97,9 @@ export default function Headers({ token }) {
                 <span className="hover:text-secondary">
                   <Link href="/dashboard">Dashboard</Link>
                 </span>
+                <span className="hover:text-secondary">
+                  <Link href="/dashboard">{user?.email}</Link>
+                </span>
               </div>
             </div>
             <div className="bg-white"></div>
@@ -136,11 +153,23 @@ export default function Headers({ token }) {
                       className="btn m-1 bg-white outline-none border-0 hover:bg-white "
                     >
                       <div className="rounded-full overflow-hidden h-12 w-12 border-4 border-secondary">
-                        <Image
-                          src={default_picture}
-                          className="w-full h-full"
-                          alt="picture_logo"
-                        />
+                        {user.picture === null ? (
+                          <Image
+                            src={default_picture}
+                            className="w-full h-full"
+                            alt="picture_logo"
+                            width={100}
+                            height={100}
+                          />
+                        ) : (
+                          <Image
+                            src={user?.picture}
+                            className="object-cover h-full w-full"
+                            alt="picture_logo"
+                            width={100}
+                            height={100}
+                          />
+                        )}
                       </div>
                     </label>
                     <ul
