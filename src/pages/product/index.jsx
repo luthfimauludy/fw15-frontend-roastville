@@ -122,6 +122,14 @@ function ProductCust({ token }) {
                 Apply Coupon
               </button>
             </div>
+            <div className="w-80">
+              <div
+                onClick={()=> router.replace('/product/new-product')}
+                className="btn btn-primary font-bold normal-case w-full"
+              >
+                Create Product
+              </div>
+            </div>
             <div className="w-80 text-xs mt-20">
               <div className="font-bold">Terms and Condition</div>
               <div>
