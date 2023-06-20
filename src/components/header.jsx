@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import logo from "public/logo_roastville.png"
 import { FiDelete, FiSearch } from "react-icons/fi"
 import { BsChatLeftText } from "react-icons/bs"
@@ -27,7 +27,12 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 
 export default function Headers({ token }) {
   const dispatch = useDispatch()
+  const [userRole, setUser] = useState({})
+  const [search, setSearch] = useState(false)
+  const [modal, setCheckModal] = useState(false)
+  const [inputValue, setInputValue] = useState("")
   const user = useSelector((state) => state.profile.data)
+  console.log(userRole)
   const getData = React.useCallback(async () => {
     const { data } = await http(token).get("/profile/user")
     dispatch(setProfile(data.results))
@@ -35,10 +40,22 @@ export default function Headers({ token }) {
 
   React.useEffect(() => {
     getData()
-  }, [getData])
-  const [search, setSearch] = useState(false)
-  const [modal, setCheckModal] = useState(false)
-  const [inputValue, setInputValue] = useState("")
+  }, [getData, token])
+
+  React.useEffect(() => {
+    async function getUser() {
+      try {
+        const { data } = await http(token).get("/users")
+        setUser(data.results)
+      } catch (error) {
+        const message = error?.response?.data?.message
+        if (message) {
+        }
+      }
+    }
+    getUser()
+  }, [token])
+
   const router = useRouter()
   const doLogout = async () => {
     await axios.get("/api/logout")
@@ -85,21 +102,26 @@ export default function Headers({ token }) {
                 <span className="hover:text-secondary">
                   <Link href="/product">Product</Link>
                 </span>
-                <span className="hover:text-secondary">
-                  <Link href="/">Your Cart</Link>
-                </span>
-                <span className="hover:text-secondary">
-                  <Link href="/product/history-cust">History</Link>
-                </span>
-                <span className="hover:text-secondary">
-                  <Link href="/manage-order">Orders</Link>
-                </span>
-                <span className="hover:text-secondary">
-                  <Link href="/dashboard">Dashboard</Link>
-                </span>
-                <span className="hover:text-secondary">
-                  <Link href="/dashboard">{user?.email}</Link>
-                </span>
+                {userRole === 2 && (
+                  <>
+                    <span className="hover:text-secondary">
+                      <Link href="/">Your Cart</Link>
+                    </span>
+                    <span className="hover:text-secondary">
+                      <Link href="/product/history-cust">History</Link>
+                    </span>
+                  </>
+                )}
+                {userRole === 1 && (
+                  <>
+                    <span className="hover:text-secondary">
+                      <Link href="/manage-order">Orders</Link>
+                    </span>
+                    <span className="hover:text-secondary">
+                      <Link href="/dashboard">Dashboard</Link>
+                    </span>
+                  </>
+                )}
               </div>
             </div>
             <div className="bg-white"></div>
