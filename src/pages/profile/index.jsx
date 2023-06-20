@@ -13,6 +13,7 @@ import moment from "moment/moment"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import Headers from "../../components/header"
+import Default from "../../../public/default.jpg"
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
@@ -42,22 +43,20 @@ const Profile = ({ token, user }) => {
   const router = useRouter()
   const [profile, setProfile] = React.useState(user)
 
-  React.useEffect(() =>{
-    async function getDataProfile(){
-      const {data} = await http(token).get('/profile/user')
+  React.useEffect(() => {
+    async function getDataProfile() {
+      const { data } = await http(token).get("/profile/user")
       console.log(data)
       setProfile(data.results)
     }
     getDataProfile()
-  },[token])
-
-  
+  }, [token])
 
   const doLogout = async () => {
     await axios.get("/api/logout")
     router.replace("/auth/login")
   }
-  
+
   const fileToDataUrl = (file) => {
     const reader = new FileReader()
     reader.addEventListener("load", () => {
@@ -72,16 +71,18 @@ const Profile = ({ token, user }) => {
     fileToDataUrl(file)
   }
 
-  React.useEffect(() => { }, [selectedPicture])
+  React.useEffect(() => {}, [selectedPicture])
 
   const editProfile = async (values) => {
     setOpenModal(true)
     const form = new FormData()
     Object.keys(values).forEach((key) => {
-      if (key === "birthDate") {
-          form.append(key, moment(values[key]).format("YYYY-MM-DD"))
-      } else {
-        form.append(key, values[key])
+      if (values[key]) {
+        if (key === "birthDate") {
+          form.append(key, moment(values[key]).format("MM-DD-YYYY"))
+        } else {
+          form.append(key, values[key])
+        }
       }
     })
     if (selectedPicture) {
@@ -99,7 +100,7 @@ const Profile = ({ token, user }) => {
     }
     setEditProfilUser(false)
     setOpenModal(false)
-
+    setSelectedPicture(false)
   }
   return (
     <>
@@ -119,7 +120,7 @@ const Profile = ({ token, user }) => {
             firstName: profile?.firstName,
             lastName: profile?.lastName,
             gender: profile?.gender ? "1" : "0",
-            birthDate: moment(profile?.birthDate).format('YYYY-MM-DD')
+            birthDate: moment(profile?.birthDate).format("YYYY-MM-DD"),
           }}
           onSubmit={editProfile}
           enableReinitialize
@@ -133,23 +134,25 @@ const Profile = ({ token, user }) => {
                 <div className="rounded-full overflow-hidden bg-blue-600 flex justify-center items-center w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
                   <div>
                     <div>
-                      {!selectedPicture && <Image
-                          className="bg-cover"
-                          src={profile.picture}
+                      {!selectedPicture && profile?.picture && (
+                        <Image
+                          className="bg-cover w-full h-full object-cover"
+                          src={profile?.picture}
                           alt="picture"
                           width={250}
                           height={250}
-                        />}
+                        />
+                      )}
                     </div>
-                    {!selectedPicture && (
+                    {!selectedPicture && !profile?.picture && (
                       <div>
-                        <FiUser size={100} hidden={profile.picture} />
+                        <FiUser size={100} hidden={Default} color="white" />
                       </div>
                     )}
                     {selectedPicture && (
                       <div>
                         <Image
-                          className="bg-cover"
+                          className="w-full h-full object-cover bg-cover"
                           src={pictureURI}
                           alt="profile"
                           width={250}
@@ -205,7 +208,10 @@ const Profile = ({ token, user }) => {
                   Do you want to save the change?
                 </span>
                 <div className="flex flex-col gap-5">
-                  <button className="w-48 md:w-32 lg:w-48 btn btn-primary text-white border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl" disabled={!editProfileUser}>
+                  <button
+                    className="w-48 md:w-32 lg:w-48 btn btn-primary text-white border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl"
+                    disabled={!editProfileUser}
+                  >
                     Save Change
                   </button>
                   <label className="w-48 md:w-32 lg:w-48 btn btn-secondary text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
@@ -279,7 +285,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {profile?.address === null  ? (
+                              {profile?.address === null ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 profile?.address
@@ -309,7 +315,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {profile?.phoneNumber === null  ? (
+                              {profile?.phoneNumber === null ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 profile?.phoneNumber
@@ -372,7 +378,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {profile?.firstName === null  ? (
+                              {profile?.firstName === null ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 profile?.firstName
@@ -400,7 +406,7 @@ const Profile = ({ token, user }) => {
                         <div>
                           {!editProfileUser && (
                             <span className="opacity-50">
-                              {profile?.lastName === null  ? (
+                              {profile?.lastName === null ? (
                                 <span className="text-red-500">Not Set</span>
                               ) : (
                                 profile?.lastName
