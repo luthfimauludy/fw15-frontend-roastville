@@ -2,7 +2,7 @@
 
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import bg_detail from "public/bg-detail-product.jpg"
@@ -17,6 +17,7 @@ import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { Formik } from "formik"
 import http from "@/helpers/http"
+import jwtDecode from "jwt-decode"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -35,6 +36,7 @@ function DetailProduct({ token }) {
   const productDetail = useSelector((state) => state.product.data)
   const [count, setCount] = useState(0)
   const [openModal, setOpenModal] = useState(false)
+  const [roleId, setRoleId] = useState("")
   function increment() {
     if (count >= 10) {
       setCount(10)
@@ -50,6 +52,19 @@ function DetailProduct({ token }) {
       setCount(count - 1)
     }
   }
+
+  useEffect(() => {
+    async function getRoleId() {
+      try {
+        const { data } = await http(token).get("/users")
+        setRoleId(data.results)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getRoleId()
+  }, [token, roleId])
 
   const router = useRouter()
   const { id } = router.query
@@ -137,8 +152,7 @@ function DetailProduct({ token }) {
       <div className="pb-24 header">
         <Header token={token} />
       </div>
-      <div className="h-[100%] px-24 py-8"></div>
-      <div className="flex h-full">
+      <div className="flex h-full px-28 py-20">
         <div className="flex w-[50%]">
           <div className="flex flex-col gap-4 w-full">
             <div className="flex font-bold items-center text-[20px] ">
@@ -166,52 +180,7 @@ function DetailProduct({ token }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-1  pl-12 pr-36 py-8 ">
-          <div className="flex flex-col gap-4  w-full">
-            <div className="font-bold text-[65px] ">{productDetail.name}</div>
-            <div className="border-t-2 border-b-2 text-[40px] py-2">
-              {selectedSize ? selectedSize : productDetail.variant[0].price}
-            </div>
-            <div className="text-[25px]  font-semi-bold py-4 border-b-2 ">
-              {productDetail.description}
-            </div>
-            <div className="flex flex-col gap-8">
-              <div className="w-full h-24 pt-8">
-                <select
-                  className="select select-primary w-full h-full text-[20px]"
-                  onChange={selectSize}
-                >
-                  <option disabled value="">
-                    --Select Size--
-                  </option>
-                  <option value="Regular">Regular</option>
-                  <option value="Large">Large</option>
-                  <option value="Extra Large">Extra Large</option>
-                </select>
-              </div>
-              <div className="w-full pt-0 h-16 ">
-                <select className="select select-primary w-full h-full text-[20px] ">
-                  <option disabled selected>
-                    --Select Delivery Methods--
-                  </option>
-                  <option>Reguler</option>
-                  <option>Large</option>
-                  <option>Extra Large</option>
-                </select>
-              </div>
-              <div className="flex gap-4 w-full h-16">
-                <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
-                  <button onClick={decrement} className="p-2 text-[20px] ">
-                    -
-                  </button>
-                  <div className="p-2">{count}</div>
-                  <button onClick={increment} className="p-2 text-[20px]">
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-1">
           <Formik
             initialValues={{
               name: productDetail?.name,
@@ -221,11 +190,8 @@ function DetailProduct({ token }) {
             enableReinitialize
           >
             {({ handleSubmit, handleChange, handleBlur, values }) => (
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-1  pl-12 pr-36 py-8 "
-              >
-                <div className="flex flex-col gap-4  w-full">
+              <form onSubmit={handleSubmit} className="flex flex-1">
+                <div className="flex flex-col gap-4 px-10  w-full">
                   {!editProduct && (
                     <div className="font-bold text-[65px] ">
                       {productDetail.name}
@@ -275,9 +241,16 @@ function DetailProduct({ token }) {
                     </div>
                     <div className="flex gap-4 w-full h-16">
                       <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
-                        <button className="p-2 text-[20px] ">-</button>
-                        <div className="p-2">0</div>
-                        <button className="p-2 text-[20px]">+</button>
+                        <button
+                          onClick={decrement}
+                          className="p-2 text-[20px] "
+                        >
+                          -
+                        </button>
+                        <div className="p-2">{count}</div>
+                        <button onClick={increment} className="p-2 text-[20px]">
+                          +
+                        </button>
                       </div>
                       <div className="flex flex-1 h-full ">
                         <button className="btn btn-secondary w-full h-full">
@@ -285,23 +258,27 @@ function DetailProduct({ token }) {
                         </button>
                       </div>
                     </div>
-                    <div className="w-full h-16">
-                      <button
-                        type="submit"
-                        className="btn btn-primary w-full h-full"
-                      >
-                        Save Change
-                      </button>
-                    </div>
-                    <div className="w-full h-16">
-                      <button
-                        type="button"
-                        className="btn btn-primary w-full h-full"
-                        onClick={() => setEditProduct(true)}
-                      >
-                        Edit Product
-                      </button>
-                    </div>
+                    {roleId === 1 && (
+                      <div>
+                        <div className="w-full h-16">
+                          <button
+                            type="submit"
+                            className="btn btn-primary w-full h-full"
+                          >
+                            Save Change
+                          </button>
+                        </div>
+                        <div className="w-full h-16">
+                          <button
+                            type="button"
+                            className="btn btn-primary w-full h-full"
+                            onClick={() => setEditProduct(true)}
+                          >
+                            Edit Product
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </form>
