@@ -14,6 +14,7 @@ import axios from "axios"
 import { clearMessage } from "@/redux/reducers/message"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
+import http from "@/helpers/http"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
@@ -47,7 +48,7 @@ function SignIn({ token }) {
         password,
       }).toString()
 
-      const { data } = await axios.post("/api/login", form.toString())
+      const { data } = await http().post("/auth/login", form.toString())
       setLoad(false)
       if (data?.results?.token) {
         router.push("/")
