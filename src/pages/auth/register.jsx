@@ -33,7 +33,7 @@ function SignUp() {
         phoneNumber: values.phoneNumber,
       }).toString()
 
-      const { data } = await axios.post("/api/register", form)
+      const { data } = await http().post("/auth/register", form)
       console.log(data)
       if (data.success === false) {
         setErrorMessage("email or password is invalid")
