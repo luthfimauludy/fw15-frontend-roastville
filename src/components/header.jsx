@@ -34,7 +34,7 @@ export default function Headers({ token }) {
   const user = useSelector((state) => state.profile.data)
   console.log(userRole)
   const getData = React.useCallback(async () => {
-    const { data } = await http(token).get("/profile/user")
+    const { data } = await http(token).get("/profile")
     dispatch(setProfile(data.results))
   }, [token, dispatch])
 
