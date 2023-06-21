@@ -20,7 +20,7 @@ export const getServerSideProps = withIronSessionSsr(
     const token = req.session?.token
     checkCredentials(token, res, "/auth/login")
     const { data } = await axios.get(
-      "https://roastville.netlify.app/profile/user",
+      "https://fw15-backend-roastville.vercel.app/profile/user",
       {
         headers: {
           Authorization: `Bearer ${token}`,
