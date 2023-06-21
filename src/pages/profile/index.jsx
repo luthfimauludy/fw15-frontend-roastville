@@ -19,11 +19,14 @@ export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
     const token = req.session?.token
     checkCredentials(token, res, "/auth/login")
-    const { data } = await axios.get("http://localhost:8080/profile/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const { data } = await axios.get(
+      "https://roastville.netlify.app/profile/user",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
 
     return {
       props: {
@@ -144,7 +147,7 @@ const Profile = ({ token, user }) => {
                         />
                       )}
                     </div>
-                    {!selectedPicture &&  (
+                    {!selectedPicture && (
                       <div>
                         <FiUser size={100} hidden={Default} color="black" />
                       </div>

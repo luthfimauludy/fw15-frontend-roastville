@@ -3,7 +3,7 @@ import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionApiRoute } from "iron-session/next"
 
 export default withIronSessionApiRoute(async function registerRoute(req, res) {
-  const request = await fetch("http://localhost:8080/auth/register", {
+  const request = await fetch("https://roastville.netlify.app/auth/register", {
     method: "POST",
     body: new URLSearchParams(req.body).toString(),
     headers: {

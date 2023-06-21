@@ -6,7 +6,7 @@ const http = (token) => {
     headers.Authorization = `Bearer ${token}`
   }
   const instance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://roastville.netlify.app",
     headers,
   })
   return instance
