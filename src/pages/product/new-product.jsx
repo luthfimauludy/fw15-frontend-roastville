@@ -143,10 +143,10 @@ function NewProduct({ token }) {
         </div> :
         <>
           <div className="header">
-            {/* <Header token={token} /> */}
+            <Header token={token} />
           </div>
           <form onSubmit={addProduct}>
-            <div className="flex justify-center items-center h-screen w-full px-10">
+            <div className="flex justify-center items-center  w-full px-10 pb-10 pt-32">
               <div className="flex w-full justify-center items-center md:flex">
                 <div className="flex-auto flex-col items-center justify-center gap-7">
                   <div className="flex flex-col gap-10 justify-center items-center">
