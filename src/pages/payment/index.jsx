@@ -46,8 +46,9 @@ const PaymentAndDeliveryCust = ({ token }) => {
 
   const makePayment = async () => {
     const name = product.name
-    const price = product.variant[0].price
+    const price = parseInt(product.variant[0].price)
     const picture = product.picture
+    const quantity = parseInt(product.variant[0].quantity)
     const form = new URLSearchParams({ name, price, picture }).toString()
     try {
       const { data } = await http(token).post("/history", form)
@@ -135,7 +136,11 @@ const PaymentAndDeliveryCust = ({ token }) => {
               <div className="flex flex-col gap-3 mt-[5%]">
                 <div className="flex">
                   <div className="grow">SUB TOTAL</div>
-                  <p>IDR {product.variant[0].price}</p>
+                  <p>
+                    IDR{" "}
+                    {parseInt(product.variant[0].price) *
+                      parseInt(product.variant[0].quantity)}
+                  </p>
                 </div>
                 <div className="flex">
                   <div className="grow">TAX & FEES</div>
@@ -148,7 +153,11 @@ const PaymentAndDeliveryCust = ({ token }) => {
               </div>
               <div className="flex mt-[5%] text-2xl font-bold">
                 <div className="grow">TOTAL</div>
-                <div>IDR {product.variant[0].price}</div>
+                <div>
+                  IDR{" "}
+                  {parseInt(product.variant[0].price) *
+                    parseInt(product.variant[0].quantity)}
+                </div>
               </div>
             </div>
           </div>
