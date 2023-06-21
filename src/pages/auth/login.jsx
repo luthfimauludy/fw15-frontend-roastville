@@ -48,7 +48,7 @@ function SignIn({ token }) {
         password,
       }).toString()
 
-      const { data } = await http().post("/auth/login", form.toString())
+      const { data } = await axios.post("/api/login", form.toString())
       setLoad(false)
       if (data?.results?.token) {
         router.push("/")
