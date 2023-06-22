@@ -147,9 +147,9 @@ function DetailProduct({ token }) {
         <Header token={token} />
       </div>
       <div className="h-[100%] pt-10">
-        <div className="flex h-full px-24 justify-center border-[1px] border-black flex-col md:flex-row">
-          <div className="flex md:w-[50%] pb-10 border-[1px] border-black justify-center">
-            <div className="flex flex-col gap-4 w-96 md:w-full h-96 md:h-[80%] border-[1px] border-black">
+        <div className="flex h-full px-24 justify-center flex-col md:flex-row">
+          <div className="flex md:w-[50%] pb-10 justify-center">
+            <div className="flex flex-col gap-4 w-96 md:w-full h-96 md:h-[80%]">
               <div className="flex font-bold items-center md:text-[20px] ">
                 Favourit & Promo <IoIosArrowForward size={30} />
                 <div>name product</div>
@@ -186,7 +186,7 @@ function DetailProduct({ token }) {
               enableReinitialize
             >
               {({ handleSubmit, handleChange, handleBlur, values }) => (
-                <form onSubmit={handleSubmit} className="flex flex-1 pb-10 border-[1px] border-black w-full">
+                <form onSubmit={handleSubmit} className="flex flex-1 pb-10 w-full">
                   <div className="flex flex-col gap-4 px-10  w-full">
                     {!editProduct && (
                       <div className="font-bold text-2xl md:text-4xl lg:text-6xl">
