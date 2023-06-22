@@ -145,215 +145,205 @@ function NewProduct({ token }) {
           <div className="header">
             <Header token={token} />
           </div>
-          <form onSubmit={addProduct}>
-            <div className="flex justify-center items-center  w-full px-10 pb-10 pt-32">
-              <div className="flex w-full justify-center items-center md:flex">
-                <div className="flex-auto flex-col items-center justify-center gap-7">
-                  <div className="flex flex-col gap-10 justify-center items-center">
-                    <div className="flex flex-col justify-center items-start gap-10">
-                      <div className="flex flex-col justify-center items-center gap-5">
-                        <div>
-                          <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
-                            <FaCamera size={40} />
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-3">
-                          <label onClick={() => setCamera(true)} className="btn btn-primary text-gray-100 normal-case">
-                            Take a picture
-                          </label>
-                          <ImageUploading
-                            value={picture}
-                            onChange={(value) => setPicture(value[0].file)}
-                            dataURLKey="data_url"
-                            acceptType={["jpg", "png"]}
-                          >
-                            {({
-                              onImageUpload
-                            }) => (
-                              <div className='md:w-full mb-5'>
-                                <button type='button' onClick={onImageUpload} className='btn bg-secondary text-white border-0 w-full font-bold hover:text-secondary'>Choose from gallery</button>
-                              </div>
-                            )}
-                          </ImageUploading>
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-16">
-                        <div className="flex-col flex gap-1">
-                          <span className="text-sm font-semibold">
-                            Delivery Hour :
-                          </span>
-                          <div className="dropdown">
-                            <label tabIndex={0} className="btn m-1 normal-case">
-                              Select start hour
-                            </label>
-                            <input
-                              onChange={(e) => setTime(e.target.value)}
-                              name="startHour"
-                              id="startHour"
-                              type="time"
-                              // onChange={handleChange}
-                              // onBlur={handleBlur}
-                              // value={values.startHour}
-                              tabIndex={0}
-                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
-                            />
-                          </div>
-                          <div className="dropdown">
-                            <label tabIndex={0} className="btn m-1 normal-case">
-                              Select end hour
-                            </label>
-                            <input
-                              // onChange={handleChange}
-                              // onBlur={handleBlur}
-                              // value={values.endHour}
-                              onChange={(e) => setTime(e.target.value)}
-                              name="endHour"
-                              id="endHour"
-                              type="time"
-                              tabIndex={0}
-                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                            />
-                          </div>
-                        </div>
-                        <div className="bg-base-100">
-                          <select
-                            value={selectedStock}
-                            onChange={handleStockChange}
-                            className="select select-bordered  w-full max-w-xs bg-base-100">
-                            <option disabled selected className="bg-base-100">Input stock :</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                          </select>
-                        </div>
-                      </div>
+          <form onSubmit={addProduct} className="flex py-32 flex-col md:flex-row gap-20">
+            <div className="flex-auto flex-col items-center justify-center gap-7 border-[1px] border-black">
+              <div className="flex flex-col gap-10 justify-center items-center">
+                <div className="flex flex-col justify-center items-center gap-5 border-[1px] border-black w-full">
+                  <div>
+                    <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
+                      <FaCamera size={40} />
                     </div>
                   </div>
+                  <div className="flex flex-col gap-3 w-[50%] md:w-[40%]">
+                    <label onClick={() => setCamera(true)} className="btn btn-primary text-gray-100 normal-case">
+                      Take a picture
+                    </label>
+                    <ImageUploading
+                      value={picture}
+                      onChange={(value) => setPicture(value[0].file)}
+                      dataURLKey="data_url"
+                      acceptType={["jpg", "png"]}
+                    >
+                      {({
+                        onImageUpload
+                      }) => (
+                        <div className='md:w-full mb-5'>
+                          <button type='button' onClick={onImageUpload} className='btn bg-secondary text-white border-0 w-full font-bold hover:text-secondary'>Choose from gallery</button>
+                        </div>
+                      )}
+                    </ImageUploading>
+                  </div>
                 </div>
-                <div className="flex-auto">
-                  <div className="flex flex-col  w-full">
-                    <div className="max-w-md flex flex-col gap-4">
-                      <div htmlFor="name" className="flex flex-col text-start gap-1">
-                        <span className="text-sm font-bold">Name :</span>
-                        <input
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
-                          // value={values.name}
-                          type="text"
-                          name="name"
-                          id="name"
-                          placeholder="Type promo name min. 50 characters"
-                          onChange={(e) => setName(e.target.value)}
-                          className="input text-xs input-bordered w-full max-w-md"
-                          style={{ outline: "none" }}
-                        />
+                <div className="flex flex-col gap-16 border-[1px] border-black w-full items-center text-center">
+                    <span className="text-sm font-semibold">
+                      Delivery Hour :
+                    </span>
+                    <div className="dropdown w-full">
+                      <label tabIndex={0} className="btn m-1 normal-case w-[50%] md:w-[40%]">
+                        Select start hour
+                    </label>
+                      <input
+                        onChange={(e) => setTime(e.target.value)}
+                        name="startHour"
+                        id="startHour"
+                        type="time"
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // value={values.startHour}
+                        tabIndex={0}
+                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-[50%] md:w-[40%] z-10 mx-[30%]"
+                      />
+                    </div>
+                    <div className="dropdown w-full">
+                    <label tabIndex={0} className="btn m-1 normal-case w-[50%] md:w-[40%]">
+                        Select end hour
+                      </label>
+                      <input
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // value={values.endHour}
+                        onChange={(e) => setTime(e.target.value)}
+                        name="endHour"
+                        id="endHour"
+                        type="time"
+                        tabIndex={0}
+                      className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-[50%] md:w-[40%] z-10 mx-[30%]"
+                      />
+                  </div>
+                    <select
+                      value={selectedStock}
+                      onChange={handleStockChange}
+                    className="select select-bordered w-[50%] md:w-[40%] bg-base-100">
+                      <option disabled selected className="bg-base-100">Input stock :</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div className="flex-auto">
+              <div className="flex flex-col w-full items-center">
+                <div className="max-w-md flex flex-col gap-4">
+                  <div htmlFor="name" className="flex flex-col text-start gap-1">
+                    <span className="text-sm font-bold">Name :</span>
+                    <input
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.name}
+                      type="text"
+                      name="name"
+                      id="name"
+                      placeholder="Type promo name min. 50 characters"
+                      onChange={(e) => setName(e.target.value)}
+                      className="input text-xs input-bordered w-full max-w-md"
+                      style={{ outline: "none" }}
+                    />
+                  </div>
+                  <div htmlFor="price" className="flex flex-col gap-1">
+                    <span className="text-sm font-bold">Normal Price :</span>
+                    <input
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.price}
+                      type="text"
+                      name="price"
+                      id="price"
+                      placeholder="Type the price"
+                      onChange={(e) => setPrice(e.target.value)}
+                      className="input text-xs input-bordered w-full max-w-md"
+                      style={{ outline: "none" }}
+                    />
+                  </div>
+                  <div htmlFor="description" className="flex flex-col gap-1">
+                    <span className="text-sm font-bold">Description :</span>
+                    <input
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.description}
+                      type="text"
+                      name="description"
+                      id="description"
+                      placeholder="Describe your product min. 150 characters"
+                      onChange={(e) => setDescription(e.target.value)}
+                      className="input text-xs input-bordered w-full max-w-md"
+                      style={{ outline: "none" }}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-sm font-bold">
+                        Input product size :
+                      </span>
+                      <span className="text-xs opacity-50">
+                        Click product size you want to use for this promo
+                      </span>
+                    </div>
+                    <div className="flex gap-4">
+                      <div onClick={() => setSize('R')} className={size === 'R' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
+                        <span className="font-bold text-white">R</span>
                       </div>
-                      <div htmlFor="price" className="flex flex-col gap-1">
-                        <span className="text-sm font-bold">Normal Price :</span>
-                        <input
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
-                          // value={values.price}
-                          type="text"
-                          name="price"
-                          id="price"
-                          placeholder="Type the price"
-                          onChange={(e) => setPrice(e.target.value)}
-                          className="input text-xs input-bordered w-full max-w-md"
-                          style={{ outline: "none" }}
-                        />
+                      <div onClick={() => setSize('L')} className={size === 'L' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
+                        <span className="font-bold text-white">L</span>
                       </div>
-                      <div htmlFor="description" className="flex flex-col gap-1">
-                        <span className="text-sm font-bold">Description :</span>
-                        <input
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
-                          // value={values.description}
-                          type="text"
-                          name="description"
-                          id="description"
-                          placeholder="Describe your product min. 150 characters"
-                          onChange={(e) => setDescription(e.target.value)}
-                          className="input text-xs input-bordered w-full max-w-md"
-                          style={{ outline: "none" }}
-                        />
+                      <div onClick={() => setSize('XL')} className={size === 'XL' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
+                        <span className="font-bold text-white">XL</span>
                       </div>
-                      <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                          <span className="text-sm font-bold">
-                            Input product size :
-                          </span>
-                          <span className="text-xs opacity-50">
-                            Click product size you want to use for this promo
-                          </span>
-                        </div>
-                        <div className="flex gap-4">
-                          <div onClick={() => setSize('R')} className={size === 'R' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
-                            <span className="font-bold text-white">R</span>
-                          </div>
-                          <div onClick={() => setSize('L')} className={size === 'L' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
-                            <span className="font-bold text-white">L</span>
-                          </div>
-                          <div onClick={() => setSize('XL')} className={size === 'XL' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
-                            <span className="font-bold text-white">XL</span>
-                          </div>
-                          <div
-                            type="text"
-                            value="250 gr"
-                            name="firstGr"
-                            onClick={() => setSize('250 gr')}
-                            className={size === '250 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
-                          >250 gr</div>
-                          <div
-                            type="text"
-                            value="300 gr"
-                            name="secondGr"
-                            onClick={() => setSize('300 gr')}
-                            className={size === '300 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
-                          >300 gr</div>
-                          <div
-                            type="text"
-                            value="500 gr"
-                            name="thirtGr"
-                            onClick={(e) => setSize('500 gr')}
-                            className={size === '500 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
-                          >500 gr</div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <span className="font-bold text-sm">
-                            Input delivery methods :
-                          </span>
-                          <span className="text-xs opacity-50">
-                            Click methods you want to use for this promo
-                          </span>
-                        </div>
+                      <div
+                        type="text"
+                        value="250 gr"
+                        name="firstGr"
+                        onClick={() => setSize('250 gr')}
+                        className={size === '250 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
+                      >250 gr</div>
+                      <div
+                        type="text"
+                        value="300 gr"
+                        name="secondGr"
+                        onClick={() => setSize('300 gr')}
+                        className={size === '300 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
+                      >300 gr</div>
+                      <div
+                        type="text"
+                        value="500 gr"
+                        name="thirtGr"
+                        onClick={(e) => setSize('500 gr')}
+                        className={size === '500 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
+                      >500 gr</div>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <span className="font-bold text-sm">
+                        Input delivery methods :
+                      </span>
+                      <span className="text-xs opacity-50">
+                        Click methods you want to use for this promo
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-14">
+                    <div className="flex gap-3 max-w-md">
+                      <div onClick={() => setDeliveryMethod('Home Delivery')} className="w-full">
+                        <label className={deliveryMethod === 'Home Delivery' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
+                          <span className="text-white">Home Delivery</span>
+                        </label>
                       </div>
-                      <div className="flex flex-col gap-14">
-                        <div className="flex gap-3 max-w-md">
-                          <div onClick={() => setDeliveryMethod('Home Delivery')} className="w-full">
-                            <label className={deliveryMethod === 'Home Delivery' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
-                              <span className="text-white">Home Delivery</span>
-                            </label>
-                          </div>
-                          <div onClick={() => setDeliveryMethod('Dine in')} className="w-full">
-                            <label className={deliveryMethod === 'Dine in' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
-                              <span className="text-white">Dine in</span>
-                            </label>
-                          </div>
-                          <div onClick={() => setDeliveryMethod('Take away')} className="w-full">
-                            <label className={deliveryMethod === 'Take away' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
-                              <span className="text-white">Take away</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div className="flex-col flex gap-4 max-w-md">
-                          <button type="submit" className="btn btn-primary normal-case">
-                            Save Product
-                          </button>
-                          <button className="btn btn-default normal-case">
-                            Cancel
-                          </button>
-                        </div>
+                      <div onClick={() => setDeliveryMethod('Dine in')} className="w-full">
+                        <label className={deliveryMethod === 'Dine in' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
+                          <span className="text-white">Dine in</span>
+                        </label>
                       </div>
+                      <div onClick={() => setDeliveryMethod('Take away')} className="w-full">
+                        <label className={deliveryMethod === 'Take away' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
+                          <span className="text-white">Take away</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="flex-col flex gap-4 max-w-md">
+                      <button type="submit" className="btn btn-primary normal-case">
+                        Save Product
+                      </button>
+                      <button className="btn btn-default normal-case">
+                        Cancel
+                      </button>
                     </div>
                   </div>
                 </div>
