@@ -147,14 +147,14 @@ function DetailProduct({ token }) {
         <Header token={token} />
       </div>
       <div className="h-[100%] pt-10">
-        <div className="flex h-full  px-24">
-          <div className="flex w-[50%] pb-10">
+        <div className="flex h-full px-16 md:px-24 py-10 flex-col md:flex-row border-[1px] border-black">
+          <div className="flex md:w-[50%] pb-10 border-[1px] border-black">
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex font-bold items-center text-[20px] ">
+              <div className="flex font-bold items-center md:text-[20px] ">
                 Favourit & Promo <IoIosArrowForward size={30} />
                 <div>name product</div>
               </div>
-              <div className="h-[700px] relative ">
+              <div className="md:h-[700px] relative  border-[1px] border-black">
                 {productDetail.picture === null ? (
                   <Image
                     src={default_picture}
@@ -187,9 +187,9 @@ function DetailProduct({ token }) {
             >
               {({ handleSubmit, handleChange, handleBlur, values }) => (
                 <form onSubmit={handleSubmit} className="flex flex-1">
-                  <div className="flex flex-col gap-4 px-10  w-full">
+                  <div className="flex flex-col gap-4 px-10 w-full border-[1px] border-black">
                     {!editProduct && (
-                      <div className="font-bold text-[65px] ">
+                      <div className="font-bold text-2xl md:tex-4xl lg:text-6xl">
                         {productDetail.name}
                       </div>
                     )}
@@ -203,18 +203,18 @@ function DetailProduct({ token }) {
                         value={values.name}
                       />
                     )}
-                    <div className="border-t-2 border-b-2 text-[40px] py-2">
+                    <div className="border-t-2 border-b-2 text-2xl md:text-[40px] py-2">
                       {selectedSize
                         ? selectedSize
                         : productDetail.variant[0].price}
                     </div>
-                    <div className="text-[25px]  font-semi-bold py-4 border-b-2 ">
+                    <div className="text-2xl md:text-[40px] font-semi-bold py-4 border-b-2 ">
                       {productDetail.description}
                     </div>
                     <div className="flex flex-col gap-8">
                       <div className="w-full h-24 pt-8">
                         <select
-                          className="select select-primary w-full h-full text-[20px]"
+                          className="select select-primary w-full h-full text-lg md:text-[20px]"
                           onChange={selectSize}
                         >
                           <option disabled value="">
@@ -226,7 +226,7 @@ function DetailProduct({ token }) {
                         </select>
                       </div>
                       <div className="w-full pt-0 h-16 ">
-                        <select className="select select-primary w-full h-full text-[20px] ">
+                        <select className="select select-primary w-full h-full text-lg md:text-[20px]">
                           <option disabled selected>
                             --Select Delivery Methods--
                           </option>
@@ -258,7 +258,7 @@ function DetailProduct({ token }) {
                         </div>
                       </div>
                       {roleId === 1 && (
-                        <div>
+                        <div className="flex flex-col gap-2">
                           <div className="w-full h-16">
                             <button
                               type="submit"
