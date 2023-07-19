@@ -146,18 +146,18 @@ function NewProduct({ token }) {
             <Header token={token} />
           </div>
           <form onSubmit={addProduct}>
-            <div className="flex justify-center items-center  w-full px-10 pb-10 pt-32">
-              <div className="flex w-full justify-center items-center md:flex">
-                <div className="flex-auto flex-col items-center justify-center gap-7">
+            <div className="flex justify-center items-center w-full pb-10 pt-32">
+              <div className="flex flex-col w-full justify-center items-center md:flex-row gap-10 md:gap-2">
+                <div className="flex-auto flex-col items-center justify-center gap-7 w-[80%] md:w-[30%]">
                   <div className="flex flex-col gap-10 justify-center items-center">
-                    <div className="flex flex-col justify-center items-start gap-10">
+                    <div className="flex flex-col justify-center items-center w-full gap-10">
                       <div className="flex flex-col justify-center items-center gap-5">
                         <div>
                           <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
                             <FaCamera size={40} />
                           </div>
                         </div>
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-3 w-96 md:w-full">
                           <label onClick={() => setCamera(true)} className="btn btn-primary text-gray-100 normal-case">
                             Take a picture
                           </label>
@@ -177,13 +177,13 @@ function NewProduct({ token }) {
                           </ImageUploading>
                         </div>
                       </div>
-                      <div className="flex flex-col gap-16">
+                      <div className="flex flex-col gap-16 w-96 md:w-48">
                         <div className="flex-col flex gap-1">
                           <span className="text-sm font-semibold">
                             Delivery Hour :
                           </span>
-                          <div className="dropdown">
-                            <label tabIndex={0} className="btn m-1 normal-case">
+                          <div className="dropdown w-full md:md-[50%]">
+                            <label tabIndex={0} className="btn my-2 normal-case w-96 md:w-full">
                               Select start hour
                             </label>
                             <input
@@ -195,11 +195,11 @@ function NewProduct({ token }) {
                               // onBlur={handleBlur}
                               // value={values.startHour}
                               tabIndex={0}
-                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-10"
+                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10"
                             />
                           </div>
                           <div className="dropdown">
-                            <label tabIndex={0} className="btn m-1 normal-case">
+                            <label tabIndex={0} className="btn p-2 normal-case w-96 md:w-full">
                               Select end hour
                             </label>
                             <input
@@ -219,8 +219,8 @@ function NewProduct({ token }) {
                           <select
                             value={selectedStock}
                             onChange={handleStockChange}
-                            className="select select-bordered  w-full max-w-xs bg-base-100">
-                            <option disabled selected className="bg-base-100">Input stock :</option>
+                            className="select select-bordered bg-base-100 w-full">
+                            <option disabled selected className="bg-base-100 w-96">Input stock :</option>
                             <option value='1'>1</option>
                             <option value='2'>2</option>
                           </select>
