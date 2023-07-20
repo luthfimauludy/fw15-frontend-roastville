@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import logo from "public/logo_roastville.png"
 import { FiDelete, FiSearch } from "react-icons/fi"
 import { BsChatLeftText } from "react-icons/bs"
-import default_picture from "/public/default.jpg"
+import DefaultPicture from "../../public/default.jpg"
 import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai"
 import { RxCross2 } from "react-icons/rx"
 import { useRouter } from "next/router"
@@ -34,7 +34,6 @@ export default function Headers({ token }) {
   const [inputValue, setInputValue] = useState("")
   const user = useSelector((state) => state.profile.data)
   const [isOpen, setOpen] = useState(false)
-
   React.useEffect(() => {
     async function getData() {
       const { data } = await http(token).get("/profile")
@@ -52,10 +51,10 @@ export default function Headers({ token }) {
       }
     }
 
-    // if (token) {
-    //   getUser()
-    //   getData()
-    // }
+    if (token) {
+      getUser()
+      getData()
+    }
   }, [token, dispatch])
 
   const router = useRouter()
@@ -171,9 +170,9 @@ export default function Headers({ token }) {
                     className="btn m-1 bg-white outline-none border-0 hover:bg-white "
                   >
                     <div className="rounded-full overflow-hidden h-12 w-12 border-4 border-secondary">
-                      {user.picture === null ? (
+                      {!user.picture ? (
                         <Image
-                          src={default_picture}
+                          src={DefaultPicture}
                           className="w-full h-full"
                           alt="picture_logo"
                           width={100}
@@ -283,24 +282,52 @@ export default function Headers({ token }) {
               <ul className="flex flex-col gap-2">
                 <li className="text-xl font-bold">Home</li>
                 <li className="text-xl font-bold">Product</li>
-                <li className="text-xl font-bold">Your Cart</li>
-                <li className="text-xl font-bold">History</li>
+                {userRole === 1 && (
+                  <>
+                    <li className="text-xl font-bold">Orders</li>
+                    <li className="text-xl font-bold">Dashboard</li>
+                  </>
+                )}
+                {userRole === 2 && (
+                  <>
+                    <li className="text-xl font-bold">Your Cart</li>
+                    <li className="text-xl font-bold">History</li>
+                  </>
+                )}
               </ul>
             </nav>
-            <div className="flex flex-col max-w-xs gap-5">
-              <Link
-                href="/auth/login"
-                className="btn bg-primary w-full max-w-[100px] normal-case font-bold text-white"
-              >
-                Log In
-              </Link>
-              <Link
-                href="/auth/register"
-                className="btn bg-[#FFBA33] w-full max-w-[100px] normal-case font-bold text-white"
-              >
-                Sign Up
-              </Link>
-            </div>
+            {token && (
+              <div>
+                <Link href="/profile" className="flex gap-5">
+                  <div className="rounded-full overflow-hidden h-12 w-12 border-4 border-secondary">
+                    {!user.picture ? (
+                      <Image
+                        src={DefaultPicture}
+                        className="w-full h-full"
+                        alt="picture_logo"
+                        width={100}
+                        height={100}
+                      />
+                    ) : (
+                      <Image
+                        src={user?.picture}
+                        className="object-cover h-full w-full"
+                        alt="picture_logo"
+                        width={100}
+                        height={100}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <div className="font-bold">{user[0].displayName}</div>
+                    <div>{user[0].address}</div>
+                  </div>
+                </Link>
+                <button className="btn btn-error normal-case text-white mt-8">
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
