@@ -19,14 +19,11 @@ export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
     const token = req.session?.token
     checkCredentials(token, res, "/auth/login")
-    const { data } = await axios.get(
-      "https://fw15-backend-roastville.vercel.app/profile/user",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    const { data } = await axios.get("http://localhost:8080/profile/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
     return {
       props: {
@@ -107,9 +104,7 @@ const Profile = ({ token, user }) => {
   }
   return (
     <>
-      <div className="header pb-24">
-        <Headers token={token} user={user} />
-      </div>
+      <Headers token={token} user={user} />
       <div className="bg-profile bg-cover bg-center font-poppins bg-primary p-10">
         <div className="flex lg:px-[5rem] py-5">
           <span className="text-white text-2xl font-bold">User Profile</span>
@@ -134,7 +129,7 @@ const Profile = ({ token, user }) => {
               className="bg-no-repeat bg-cover bg-slate-100 lg:mx-20 rounded-lg p-10 flex flex-col md:flex-row justify-center gap-10"
             >
               <div className="flex flex-col gap-10 items-center md:w-80">
-                <div className="rounded-full overflow-hidden bg-blue-600 flex justify-center items-center w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
+                <div className="rounded-full overflow-hidden bg-blue-600 flex p-1 w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
                   <div>
                     <div>
                       {!selectedPicture && profile?.picture && (
@@ -147,10 +142,14 @@ const Profile = ({ token, user }) => {
                         />
                       )}
                     </div>
-                    {!selectedPicture && (
-                      <div>
-                        <FiUser size={100} hidden={Default} color="black" />
-                      </div>
+                    {!profile?.picture && (
+                      <Image
+                        className="w-full h-full rounded-full object-contain"
+                        src={Default}
+                        alt="picture"
+                        width={350}
+                        height={350}
+                      />
                     )}
                     {selectedPicture && (
                       <div>
