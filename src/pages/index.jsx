@@ -158,15 +158,15 @@ export default function Home({ token }) {
           </div>
         </div>
         <div>
-          <div className="carousel carousel-center max-w-sm md:max-w-3xl xl:max-w-7xl p-4 space-x-4 bg-neutral rounded-box">
+          <div className="carousel carousel-center max-w-[300px] md:max-w-3xl xl:max-w-7xl p-4 space-x-4 bg-neutral rounded-box">
             <div className="carousel-item">
-              <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[560px] md:h-[760px] border-2 rounded-xl">
+              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[760px] border-2 rounded-xl">
                 <div className="w-28 h-28 rounded-full overflow-hidden">
                   <Image alt="" src={ChickenWings}></Image>
                 </div>
                 <div className="font-bold">Hazelnut Latte</div>
                 <div className="flex flex-col gap-2">
-                  <div>HazelnutSyrup</div>
+                  <div>Hazelnut Syrup</div>
                   <div>Wanilla Whipped Cream</div>
                   <div>Ice / Hot</div>
                   <div>Sliced Banana on Top</div>
@@ -180,7 +180,7 @@ export default function Home({ token }) {
               </div>
             </div>
             <div className="carousel-item">
-              <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[560px] md:h-[760px] border-2 rounded-xl">
+              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[760px] border-2 rounded-xl">
                 <div className="w-28 h-28 rounded-full overflow-hidden">
                   <Image alt="" src={Hazelnut}></Image>
                 </div>
@@ -200,7 +200,7 @@ export default function Home({ token }) {
               </div>
             </div>
             <div className="carousel-item">
-              <div className="flex flex-col gap-10 justify-center items-center w-[330px] h-[560px] md:h-[760px] border-2 rounded-xl">
+              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[760px] border-2 rounded-xl">
                 <div className="w-28 h-28 rounded-full overflow-hidden">
                   <Image alt="" src={PinkyPromise}></Image>
                 </div>
@@ -267,7 +267,7 @@ export default function Home({ token }) {
           pleasure.
         </div>
         <div className="flex max-w-[1200px] gap-10 overflow-scroll items-center">
-          <div className="carousel carousel-center max-w-sm md:max-w-7xl p-4 space-x-4 bg-neutral rounded-box">
+          <div className="carousel carousel-center max-w-[300px] md:max-w-7xl p-4 space-x-4 bg-neutral rounded-box">
             <div className="carousel-item">
               <div className="flex flex-col p-6 max-w-[200px] md:max-w-[400px] justify-around items-center rounded-lg border-2">
                 <div className="flex w-full justify-between items-center">
