@@ -13,6 +13,7 @@ import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
 import { useDispatch, useSelector } from "react-redux"
 import { setProfile } from "@/redux/reducers/profile"
+import { Twirl as Hamburger } from "hamburger-react"
 import http from "@/helpers/http"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
@@ -32,18 +33,14 @@ export default function Headers({ token }) {
   const [modal, setCheckModal] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const user = useSelector((state) => state.profile.data)
-  const getData = React.useCallback(async () => {
-    const { data } = await http(token).get("/profile")
-    dispatch(setProfile(data.results))
-  }, [token, dispatch])
+  const [isOpen, setOpen] = useState(false)
 
   React.useEffect(() => {
-    if (token) {
-      getData()
+    async function getData() {
+      const { data } = await http(token).get("/profile")
+      dispatch(setProfile(data.results))
     }
-  }, [getData, token])
 
-  React.useEffect(() => {
     async function getUser() {
       try {
         const { data } = await http(token).get("/users")
@@ -54,10 +51,12 @@ export default function Headers({ token }) {
         }
       }
     }
-    if (token) {
-      getUser()
-    }
-  }, [token])
+
+    // if (token) {
+    //   getUser()
+    //   getData()
+    // }
+  }, [token, dispatch])
 
   const router = useRouter()
   const doLogout = async () => {
@@ -86,7 +85,7 @@ export default function Headers({ token }) {
   return (
     <>
       <div className="w-full z-10 border-b-2 relative">
-        <div className="flex w-full items-center justify-between md:px-20 bg-white">
+        <div className="flex w-full items-center justify-between px-4 md:px-20 bg-white">
           <Link href="/" className="flex justify-center items-center gap-2">
             <div className="h-20 w-20">
               <Image src={logo} alt="coffee_image"></Image>
@@ -273,6 +272,35 @@ export default function Headers({ token }) {
                 </div>
               </div>
             )}
+          </div>
+          <div className="md:hidden">
+            <Hamburger toggled={isOpen} toggle={setOpen} size={30} />
+          </div>
+        </div>
+        <div className={isOpen ? "md:hidden h-full py-6" : "hidden"}>
+          <div className="flex flex-col gap-10 w-full h-full px-10">
+            <nav>
+              <ul className="flex flex-col gap-2">
+                <li className="text-xl font-bold">Home</li>
+                <li className="text-xl font-bold">Product</li>
+                <li className="text-xl font-bold">Your Cart</li>
+                <li className="text-xl font-bold">History</li>
+              </ul>
+            </nav>
+            <div className="flex flex-col max-w-xs gap-5">
+              <Link
+                href="/auth/login"
+                className="btn bg-primary w-full max-w-[100px] normal-case font-bold text-white"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/auth/register"
+                className="btn bg-[#FFBA33] w-full max-w-[100px] normal-case font-bold text-white"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
         </div>
       </div>
