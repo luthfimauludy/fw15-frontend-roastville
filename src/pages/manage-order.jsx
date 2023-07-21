@@ -33,9 +33,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 function ManageOrder({ token }) {
   return (
     <>
-      <div className="header pb-24">
-        <Header token={token} />
-      </div>
+      <Header token={token} />
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik">
         <div className="px-28 py-10 flex flex-col gap-5">
           <div className="relative w-96 self-center">
@@ -75,15 +73,14 @@ function ManageOrder({ token }) {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="mx-10 flex justify-center p-5">
-            {/* <div className="bg-white w-full md:w-96 ml-[5%] md:ml-[0px] px-[5%] py-[5%] rounded-lg bg-blue-500 items-center"> */}
-            <div className="bg-white rounded-lg p-10 w-[90%]">
+          <div className="md:mx-10 flex justify-center p-5">
+            <div className="bg-white rounded-lg p-5 md:p-10 w-[90%]">
               <div className="text-center font-bold text-[35px] font-poppins">
                 Dine in for Zulaikha
               </div>
               <div className="text-xl text-center">Table 4</div>
               <div className="flex flex-col gap-[19px] mt-[10%]">
-                <div className="flex gap:[20px] md:gap-[33px]">
+                <div className="flex gap-[20px] md:gap-[33px]">
                   <div>
                     <Image
                       src="/paymentBg.png"
@@ -121,7 +118,6 @@ function ManageOrder({ token }) {
                 <div>IDR 100000</div>
               </div>
             </div>
-            {/* <div className="bg-white rounded-lg p-10 w-[90%] h-[90%] mt-[28px]"></div> */}
           </div>
           <div className="flex flex-col justify-center items-center">
             <div className="flex flex-col text-white w-10/12 md:w-[50%] pt-[5%]">
