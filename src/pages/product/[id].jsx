@@ -53,6 +53,11 @@ function DetailProduct({ token }) {
     }
   }
 
+  const doCheckout = () => {
+    dispatch(variantDetail(selectedVariant))
+    router.replace("/payment")
+  }
+
   function decrement() {
     if (selectedVariant.quantity <= 1) {
       setSelectedVariant((prevState) => ({ ...prevState, quantity: 1 }))
@@ -300,9 +305,7 @@ function DetailProduct({ token }) {
                         <div>
                           <button
                             type="submit"
-                            onClick={() =>
-                              dispatch(variantDetail(selectedVariant))
-                            }
+                            onClick={() => doCheckout()}
                             className="btn btn-primary w-full"
                           >
                             Checkout
