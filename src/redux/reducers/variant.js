@@ -9,7 +9,7 @@ const initialState = {
   },
 }
 
-const product = createSlice({
+const variant = createSlice({
   name: "variant",
   initialState,
   reducers: {
@@ -22,5 +22,5 @@ const product = createSlice({
   },
 })
 
-export const { productDetail, clearProduct } = product.actions
-export default product.reducer
+export const { variantDetail, clearvariant } = variant.actions
+export default variant.reducer
