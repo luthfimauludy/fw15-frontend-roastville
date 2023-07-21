@@ -22,5 +22,5 @@ const variant = createSlice({
   },
 })
 
-export const { variantDetail, clearvariant } = variant.actions
+export const { variantDetail, clearVariant } = variant.actions
 export default variant.reducer
