@@ -1,7 +1,6 @@
 import React from "react"
 import Image from "next/image"
 import default_picture from "/public/default.jpg"
-
 import image from "/public/img-coupon.png"
 import image2 from "/public/img-coupon2.png"
 import image3 from "/public/img-coupon3.png"
@@ -11,7 +10,7 @@ import http from "@/helpers/http"
 import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
 import { productDetail } from "@/redux/reducers/product"
-
+import { variantDetail } from "@/redux/reducers/variant"
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
@@ -51,7 +50,22 @@ function ProductCust({ token }) {
   const dispatchEvent = (item) => {
     const encodedProductName = encodeURIComponent(item.name)
     const url = `/product/${encodedProductName}`
-    dispatch(productDetail(item))
+    dispatch(
+      productDetail({
+        id: item.id,
+        name: item.name,
+        picture: item.picture,
+        description: item.description,
+      })
+    )
+    dispatch(
+      variantDetail({
+        code: "",
+        name: "",
+        price: item.variant[0].price,
+        quantity: "",
+      })
+    )
     router.replace(url)
   }
 
@@ -74,7 +88,7 @@ function ProductCust({ token }) {
             <div className="flex flex-col justify-center items-center gap-5">
               <div className="flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#88B788]">
                 <div className="w-[25%]">
-                  <Image src={image} alt="img-coupon.png" />
+                  {/* <Image src={image} alt="img-coupon.png" /> */}
                 </div>
                 <div className="w-[75%]">
                   <div className="font-bold">HAPPY MOTHER&apos;S DAY!</div>
@@ -83,7 +97,7 @@ function ProductCust({ token }) {
               </div>
               <div className="flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#F5C361]">
                 <div className="w-[25%]">
-                  <Image src={image2} alt="img-coupon2.png" />
+                  {/* <Image src={image2} alt="img-coupon2.png" /> */}
                 </div>
                 <div className="w-[75%]">
                   <div className="font-bold">
@@ -94,7 +108,7 @@ function ProductCust({ token }) {
               </div>
               <div className="flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#88B788]">
                 <div className="w-[25%]">
-                  <Image src={image} alt="img-coupon.png" />
+                  {/* <Image src={image} alt="img-coupon.png" /> */}
                 </div>
                 <div className="w-[75%]">
                   <div className="font-bold">HAPPY MOTHER&apos;S DAY!</div>
@@ -103,7 +117,7 @@ function ProductCust({ token }) {
               </div>
               <div className="flex gap-2 w-80 h-28 border rounded-xl items-center p-2 bg-[#C59378]">
                 <div className="w-[25%]">
-                  <Image src={image3} alt="img-coupon3.png" />
+                  {/* <Image src={image3} alt="img-coupon3.png" /> */}
                 </div>
                 <div className="w-[75%]">
                   <div className="font-bold">HAPPY HALLOWEEN!</div>
@@ -124,7 +138,7 @@ function ProductCust({ token }) {
             </div>
             <div className="w-80">
               <div
-                onClick={()=> router.replace('/product/new-product')}
+                onClick={() => router.replace("/product/new-product")}
                 className="btn btn-primary font-bold normal-case w-full"
               >
                 Create Product
@@ -171,7 +185,6 @@ function ProductCust({ token }) {
                 </div>
               </div>
             </div>
-
             <div className="grid grid-cols-4 gap-x-24 gap-y-12 pl-4">
               {product.map((item) => (
                 <div
@@ -181,7 +194,7 @@ function ProductCust({ token }) {
                 >
                   <div className="flex flex-col gap-5 items-center justify-center w-full h-full">
                     <div className="w-32 justify-center h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
-                      {item.picture === null ? (
+                      {/* {item.picture === null ? (
                         <div className="flex justify-center items-center">
                           <Image
                             src={default_picture}
@@ -199,14 +212,14 @@ function ProductCust({ token }) {
                           src={item.picture}
                           className="object-cover w-full h-full bg-cover"
                         />
-                      )}
+                      )} */}
                     </div>
                     <div className="text-center font-black text-xl text-accent">
-                      {item.name}
+                      {item?.name}
                     </div>
                   </div>
                   <div className="font-bold text-primary">
-                    Rp.{item.variant[0].price}
+                    Rp.{item?.variant[0]?.price}
                   </div>
                 </div>
               ))}

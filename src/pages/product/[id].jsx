@@ -1,13 +1,13 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import default_picture from "/public/default.jpg"
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
-import { clearProduct } from "@/redux/reducers/product"
+import { clearProduct, productDetail } from "@/redux/reducers/product"
 import { PURGE } from "redux-persist"
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
@@ -15,6 +15,7 @@ import cookieConfig from "@/helpers/cookieConfig"
 import { Formik } from "formik"
 import http from "@/helpers/http"
 import Link from "next/link"
+import { variantDetail } from "@/redux/reducers/variant"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -28,26 +29,38 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function DetailProduct({ token }) {
   const dispatch = useDispatch()
+  const variant = useSelector((state) => state.variant.data)
   const [editProduct, setEditProduct] = React.useState(false)
   const [product, setProduct] = React.useState([])
-  const productDetail = useSelector((state) => state.product.data)
-  const [count, setCount] = useState(0)
-  const [openModal, setOpenModal] = useState(false)
+  const productDetails = useSelector((state) => state.product.data)
   const [roleId, setRoleId] = useState("")
-
+  const [selectedVariant, setSelectedVariant] = useState({
+    code: "",
+    name: "",
+    price: variant.price,
+    deliveryMethod: "",
+    quantity: 1,
+  })
+  console.log(selectedVariant)
   function increment() {
-    if (count >= 10) {
-      setCount(10)
+    if (selectedVariant.quantity >= 10) {
+      setSelectedVariant((prevState) => ({ ...prevState, quantity: 10 }))
     } else {
-      setCount(count + 1)
+      setSelectedVariant((prevState) => ({
+        ...prevState,
+        quantity: selectedVariant.quantity + 1,
+      }))
     }
   }
 
   function decrement() {
-    if (count <= 0) {
-      setCount(0)
+    if (selectedVariant.quantity <= 1) {
+      setSelectedVariant((prevState) => ({ ...prevState, quantity: 1 }))
     } else {
-      setCount(count - 1)
+      setSelectedVariant((prevState) => ({
+        ...prevState,
+        quantity: selectedVariant.quantity - 1,
+      }))
     }
   }
 
@@ -67,46 +80,11 @@ function DetailProduct({ token }) {
   const router = useRouter()
   const { id } = router.query
 
-  // React.useEffect(() => {
-  //   async function getDataProduct() {
-  //     const { data } = await http().get(`/product/${id}`)
-  //     console.log(data)
-  //     setProduct(data.result)
-  //   }
-  //   getDataProduct()
-  // }, [id])
-
   React.useEffect(() => {
-    if (!productDetail) {
+    if (!productDetails) {
       router.replace("/product")
     }
-  }, [router, productDetail])
-
-  const [selectedSize, setSelectedSize] = React.useState("")
-
-  const selectSize = (event) => {
-    const selectedValue = event.target.value
-
-    if (selectedValue) {
-      if (selectedValue === "Regular") {
-        setSelectedSize(productDetail.variant[0].price)
-      }
-      if (selectedValue === "Large") {
-        setSelectedSize(
-          productDetail?.variant[1]?.price
-            ? productDetail?.variant[1]?.price
-            : productDetail?.variant[0]?.price
-        )
-      }
-      if (selectedValue === "Extra Large") {
-        setSelectedSize(
-          productDetail?.variant[2]?.price
-            ? productDetail?.variant[1]?.price
-            : productDetail?.variant[0]?.price
-        )
-      }
-    }
-  }
+  }, [router, productDetails])
 
   const editProductAdmin = async (values) => {
     const form = new FormData()
@@ -155,7 +133,7 @@ function DetailProduct({ token }) {
                 <div>name product</div>
               </div>
               <div className="md:h-[700px] relative  border-[1px] border-black">
-                {productDetail.picture === null ? (
+                {productDetails.picture === null ? (
                   <Image
                     src={default_picture}
                     alt="img-product.png"
@@ -166,7 +144,7 @@ function DetailProduct({ token }) {
                     alt="img-product.png"
                     width="400"
                     height="400"
-                    src={productDetail.picture}
+                    src={productDetails.picture}
                     className="object-cover h-full w-full"
                   />
                 )}
@@ -179,8 +157,8 @@ function DetailProduct({ token }) {
           <div className="flex flex-1">
             <Formik
               initialValues={{
-                name: productDetail?.name,
-                description: productDetail?.description,
+                name: productDetails?.name,
+                description: productDetails?.description,
               }}
               onSubmit={editProductAdmin}
               enableReinitialize
@@ -190,7 +168,7 @@ function DetailProduct({ token }) {
                   <div className="flex flex-col gap-4 px-10 w-full border-[1px] border-black">
                     {!editProduct && (
                       <div className="font-bold text-2xl md:tex-4xl lg:text-6xl">
-                        {productDetail.name}
+                        {productDetails.name}
                       </div>
                     )}
                     {editProduct && (
@@ -204,47 +182,84 @@ function DetailProduct({ token }) {
                       />
                     )}
                     <div className="border-t-2 border-b-2 text-2xl md:text-[40px] py-2">
-                      {selectedSize
-                        ? selectedSize
-                        : productDetail.variant[0].price}
+                      {variant.price}
                     </div>
                     <div className="text-2xl md:text-[40px] font-semi-bold py-4 border-b-2 ">
-                      {productDetail.description}
+                      {productDetails.description}
                     </div>
                     <div className="flex flex-col gap-8">
                       <div className="w-full h-24 pt-8">
                         <select
+                          onChange={(e) => {
+                            setSelectedVariant((prevState) => ({
+                              ...prevState,
+                              name: e.target.value,
+                            }))
+                            if (e.target.value === "Regular") {
+                              setSelectedVariant((prevState) => ({
+                                ...prevState,
+                                code: "R",
+                              }))
+                            } else if (e.target.value === "Medium") {
+                              setSelectedVariant((prevState) => ({
+                                ...prevState,
+                                code: "M",
+                              }))
+                            } else if (e.target.value === "Large") {
+                              setSelectedVariant((prevState) => ({
+                                ...prevState,
+                                code: "L",
+                              }))
+                            } else if (e.target.value === "Extra Large") {
+                              setSelectedVariant((prevState) => ({
+                                ...prevState,
+                                code: "XL",
+                              }))
+                            }
+                          }}
                           className="select select-primary w-full h-full text-lg md:text-[20px]"
-                          onChange={selectSize}
                         >
-                          <option disabled value="">
-                            --Select Size--
-                          </option>
+                          <option value="">--Select Size--</option>
                           <option value="Regular">Regular</option>
+                          <option value="Medium">Medium</option>
                           <option value="Large">Large</option>
                           <option value="Extra Large">Extra Large</option>
                         </select>
                       </div>
-                      <div className="w-full pt-0 h-16 ">
-                        <select className="select select-primary w-full h-full text-lg md:text-[20px]">
+                      <div className="w-full pt-0 h-16">
+                        <select
+                          onChange={(e) => {
+                            setSelectedVariant((prevState) => ({
+                              ...prevState,
+                              deliveryMethod: e.target.value,
+                            }))
+                          }}
+                          className="select select-primary w-full h-full text-lg md:text-[20px]"
+                        >
                           <option disabled selected>
                             --Select Delivery Methods--
                           </option>
-                          <option>Dine In</option>
-                          <option>Door Delivery</option>
-                          <option>Pick Up</option>
+                          <option value="Dine In">Dine In</option>
+                          <option value="Door Delivery">Door Delivery</option>
+                          <option value="Pick Up">Pick Up</option>
                         </select>
                       </div>
                       <div className="flex gap-4 w-full h-16">
                         <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
                           <button
+                            type="button"
                             onClick={decrement}
                             className="p-2 text-[20px] "
                           >
                             -
                           </button>
-                          <div className="p-2">{count}</div>
+                          <div className="p-2">
+                            {!selectedVariant.quantity
+                              ? "0"
+                              : selectedVariant.quantity}
+                          </div>
                           <button
+                            type="button"
                             onClick={increment}
                             className="p-2 text-[20px]"
                           >
@@ -252,7 +267,10 @@ function DetailProduct({ token }) {
                           </button>
                         </div>
                         <div className="flex flex-1 h-full ">
-                          <button className="btn btn-secondary w-full h-full text-white normal-case">
+                          <button
+                            type="button"
+                            className="btn btn-secondary w-full h-full text-white normal-case"
+                          >
                             Add to Chart
                           </button>
                         </div>
@@ -280,12 +298,15 @@ function DetailProduct({ token }) {
                       )}
                       {roleId === 2 && (
                         <div>
-                          <Link
-                            href="/payment"
+                          <button
+                            type="submit"
+                            onClick={() =>
+                              dispatch(variantDetail(selectedVariant))
+                            }
                             className="btn btn-primary w-full"
                           >
                             Checkout
-                          </Link>
+                          </button>
                         </div>
                       )}
                     </div>
