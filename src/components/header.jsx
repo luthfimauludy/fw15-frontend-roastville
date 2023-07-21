@@ -319,8 +319,8 @@ export default function Headers({ token }) {
                     )}
                   </div>
                   <div>
-                    <div className="font-bold">{user[0].displayName}</div>
-                    <div>{user[0].address}</div>
+                    <div className="font-bold">{user[0]?.displayName}</div>
+                    <div>{user[0]?.address}</div>
                   </div>
                 </Link>
                 <button className="btn btn-error normal-case text-white mt-8">
