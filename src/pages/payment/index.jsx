@@ -24,9 +24,8 @@ const PaymentAndDeliveryCust = ({ token }) => {
   const product = useSelector((state) => state.product.data)
   const variantName = useSelector((state) => state.variant.data)
   const [paymentMethods, setPaymentMethods] = useState([])
-  const [errMsg, setErrMsg] = useState("")
   const router = useRouter()
-
+  console.log(variantName.quantity)
   useEffect(() => {
     async function getPaymentMethod() {
       try {
@@ -42,16 +41,17 @@ const PaymentAndDeliveryCust = ({ token }) => {
 
   const makePayment = async () => {
     const itemId = product.id
-    const variant = variantName.name
-    const qty = variantName.quantity
+    const variant = variantName.code
+    const qty = variantName.selectedQty
     let form = new URLSearchParams()
     form.append("itemId[]", itemId)
     form.append("variant[]", variant)
     form.append("quantity[]", qty)
+
     try {
       const { data } = await http(token).post("/transactions", form)
       if (data.success) {
-        router.replace("/history")
+        router.replace("/product/history-cust")
       }
     } catch (err) {
       console.log(err)
@@ -69,7 +69,6 @@ const PaymentAndDeliveryCust = ({ token }) => {
             <div className="flex justify-between z-10 relative text-white">
               <div className="flex flex-col items-center gap-1">
                 <div className="bg-white h-7 w-7 rounded-full flex justify-center items-center">
-                  {/* <div className="h-5 w-5 rounded-full bg-primary"></div> */}
                   <div className="h-5 w-5 rounded-full bg-info flex justify-center items-center">
                     <BsCheck className="text-white text-xl" />
                   </div>
@@ -78,7 +77,6 @@ const PaymentAndDeliveryCust = ({ token }) => {
               </div>
               <div className="flex flex-col items-center gap-1">
                 <div className="bg-white h-7 w-7 rounded-full flex justify-center items-center">
-                  {/* <div className="h-5 w-5 rounded-full bg-primary"></div> */}
                   <div className="h-5 w-5 rounded-full bg-info flex justify-center items-center">
                     <BsCheck className="text-white text-xl" />
                   </div>
@@ -87,7 +85,6 @@ const PaymentAndDeliveryCust = ({ token }) => {
               </div>
               <div className="flex flex-col items-center gap-1">
                 <div className="bg-white h-7 w-7 rounded-full flex justify-center items-center">
-                  {/* <div className="h-5 w-5 rounded-full bg-primary"></div> */}
                   <div className="h-5 w-5 rounded-full bg-info flex justify-center items-center">
                     <BsCheck className="text-white text-xl" />
                   </div>
@@ -103,7 +100,6 @@ const PaymentAndDeliveryCust = ({ token }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="mx-10 flex justify-center p-5">
-            {/* <div className="bg-white w-full md:w-96 ml-[5%] md:ml-[0px] px-[5%] py-[5%] rounded-lg bg-blue-500 items-center"> */}
             <div className="bg-white rounded-lg p-10 w-[80%]">
               <div className="text-center font-bold text-[35px] font-poppins">
                 Order Summary
@@ -121,7 +117,7 @@ const PaymentAndDeliveryCust = ({ token }) => {
                   </div>
                   <div className="flex-1 text-md md:text-xl">
                     <p className="">{product.name}</p>
-                    <p>{variantName.quantity}</p>
+                    <p>{variantName.selectedQty}</p>
                     <p>{variantName.name}</p>
                   </div>
                   <p className="text-xl flex items-center">
@@ -134,9 +130,9 @@ const PaymentAndDeliveryCust = ({ token }) => {
                 <div className="flex">
                   <div className="grow">SUB TOTAL</div>
                   <p>
-                    IDR{" "}
+                    IDR
                     {parseInt(variantName.price) *
-                      parseInt(variantName.quantity)}
+                      parseInt(variantName.selectedQty)}
                   </p>
                 </div>
                 <div className="flex">
@@ -151,8 +147,9 @@ const PaymentAndDeliveryCust = ({ token }) => {
               <div className="flex mt-[5%] text-2xl font-bold">
                 <div className="grow">TOTAL</div>
                 <div>
-                  IDR{" "}
-                  {parseInt(variantName.price) * parseInt(variantName.quantity)}
+                  IDR
+                  {parseInt(variantName.price) *
+                    parseInt(variantName.selectedQty)}
                 </div>
               </div>
             </div>
