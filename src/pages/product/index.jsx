@@ -29,7 +29,6 @@ function ProductCust({ token }) {
   const dispatch = useDispatch()
   const router = useRouter()
   const [product, setProduct] = React.useState([])
-  const [errMsg, setErrorMsg] = React.useState("")
 
   const getProduct = React.useCallback(async () => {
     try {
@@ -64,7 +63,7 @@ function ProductCust({ token }) {
         name: item.variant[0].name,
         price: item.variant[0].price,
         quantity: item.variant[0].quantity,
-        seletedQty: 1,
+        selectedQty: 1,
       })
     )
     router.replace(url)
