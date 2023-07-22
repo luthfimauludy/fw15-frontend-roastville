@@ -25,58 +25,53 @@ export default function Chat({ token }) {
       <div className="header">
         <Header token={token} />
       </div>
-      <div className="w-full h-full bg-chat bg-no-repeat bg-cover ">
-        <div className="flex justify-center gap-4 p-20">
+      <div className="w-full h-full bg-chat bg-no-repeat bg-cover">
+        <div className="flex justify-center gap-4 px-5 py-10 flex-wrap md:flex-nowrap">
           <div className="flex flex-col gap-11 max-w-[448px] min-h-[1000px] rounded-xl px-12 py-14 bg-primary">
             <div className="flex gap-3 px-9 py-5 rounded-full bg-gray-200">
               <FiSearch size={25} />
               <input
-                className="bg-transparent outline-none"
+                className="w-full bg-transparent outline-none"
                 type="text"
                 placeholder="Search Chat"
               />
             </div>
-            <div>
-              <p className="text-white text-center text-[15px] font-semibold">
-                Choose a staff you want to talk with
-              </p>
+            <p className="text-white text-center text-[15px] font-semibold">
+              Choose a staff you want to talk with
+            </p>
+            <div className="flex items-center gap-4 py-5 border-b border-white">
+              <div>
+                <FiUser size={50} color="white" />
+              </div>
+              <div className="flex flex-col gap-3 text-white">
+                <p className="text-xl font-semibold">Jason</p>
+                <p className="text-[15px]">
+                  Hey, I’m Jason, Let’s talk and share what’s on your thoughts!
+                </p>
+              </div>
             </div>
-            <div>
-              <div className="flex items-center gap-4 py-5 border-b border-white">
-                <div>
-                  <FiUser size={50} color="white" />
-                </div>
-                <div className="flex flex-col gap-3 text-white">
-                  <p className="text-xl font-semibold">Jason</p>
-                  <p className="text-[15px]">
-                    Hey, I’m Jason, Let’s talk and share what’s on your
-                    thoughts!
-                  </p>
-                </div>
+            <div className="flex items-center gap-4 py-5 border-b border-white">
+              <div>
+                <FiUser size={50} color="white" />
               </div>
-              <div className="flex items-center gap-4 py-5 border-b border-white">
-                <div>
-                  <FiUser size={50} color="white" />
-                </div>
-                <div className="flex flex-col gap-3 text-white">
-                  <p className="text-xl font-semibold">Cheryn</p>
-                  <p className="text-[15px]">
-                    Hey, I’m Cheryn, can I help you? Just chat me if you have
-                    some trouble in ordering, happy shopping!
-                  </p>
-                </div>
+              <div className="flex flex-col gap-3 text-white">
+                <p className="text-xl font-semibold">Cheryn</p>
+                <p className="text-[15px]">
+                  Hey, I’m Cheryn, can I help you? Just chat me if you have some
+                  trouble in ordering, happy shopping!
+                </p>
               </div>
-              <div className="flex items-center gap-4 py-5 border-b border-white">
-                <div>
-                  <FiUser size={50} color="white" />
-                </div>
-                <div className="flex flex-col gap-3 text-white">
-                  <p className="text-xl font-semibold">Lou</p>
-                  <p className="text-[15px]">
-                    Hey, I’m Lou, I’ll here to help you, just talk to me and we
-                    solve the problem. Have a good day!
-                  </p>
-                </div>
+            </div>
+            <div className="flex items-center gap-4 py-5 border-b border-white">
+              <div>
+                <FiUser size={50} color="white" />
+              </div>
+              <div className="flex flex-col gap-3 text-white">
+                <p className="text-xl font-semibold">Lou</p>
+                <p className="text-[15px]">
+                  Hey, I&apos;m Lou, I&apos;ll here to help you, just talk to me
+                  and we solve the problem. Have a good day!
+                </p>
               </div>
             </div>
           </div>

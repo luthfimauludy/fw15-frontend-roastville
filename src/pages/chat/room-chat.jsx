@@ -20,16 +20,14 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 export default function RoomChat({ token }) {
   return (
     <>
-      <div className="header">
-        <Header token={token} />
-      </div>
+      <Header token={token} />
       <div className="w-full h-full bg-gray-400 bg-chat bg-no-repeat bg-cover">
-        <div className="flex justify-center gap-4 p-20">
+        <div className="flex justify-center gap-4 md:flex-nowrap flex-wrap px-5 py-10">
           <div className="flex flex-col gap-11 max-w-[448px] min-h-[1000px] rounded-xl px-12 py-14 bg-primary">
             <div className="flex gap-3 px-9 py-5 rounded-full bg-gray-200">
               <FiSearch size={25} />
               <input
-                className="bg-transparent outline-none"
+                className="w-full bg-transparent outline-none"
                 type="text"
                 placeholder="Search Chat"
               />
@@ -47,8 +45,8 @@ export default function RoomChat({ token }) {
                 <div className="flex flex-col gap-3 text-white">
                   <p className="text-xl font-semibold">Jason</p>
                   <p className="text-[15px]">
-                    Hey, I’m Jason, Let’s talk and share what’s on your
-                    thoughts!
+                    Hey, I&apos;m Jason, Let&apos;s talk and share what&apos;s
+                    on your thoughts!
                   </p>
                 </div>
               </div>
@@ -59,8 +57,8 @@ export default function RoomChat({ token }) {
                 <div className="flex flex-col gap-3 text-white">
                   <p className="text-xl font-semibold">Cheryn</p>
                   <p className="text-[15px]">
-                    Hey, I’m Cheryn, can I help you? Just chat me if you have
-                    some trouble in ordering, happy shopping!
+                    Hey, I&apos;m Cheryn, can I help you? Just chat me if you
+                    have some trouble in ordering, happy shopping!
                   </p>
                 </div>
               </div>
@@ -71,8 +69,8 @@ export default function RoomChat({ token }) {
                 <div className="flex flex-col gap-3 text-white">
                   <p className="text-xl font-semibold">Lou</p>
                   <p className="text-[15px]">
-                    Hey, I’m Lou, I’ll here to help you, just talk to me and we
-                    solve the problem. Have a good day!
+                    Hey, I&apos;m Lou, I&apos;ll here to help you, just talk to
+                    me and we solve the problem. Have a good day!
                   </p>
                 </div>
               </div>
@@ -91,8 +89,8 @@ export default function RoomChat({ token }) {
                       <p className="text-xl font-semibold">Zulaikha</p>
                     </div>
                     <p className="text-[15px] text-right">
-                      Hey jason, I can’t find the promo section. Can u tell me
-                      where is it?
+                      Hey jason, I can&apos;t find the promo section. Can u tell
+                      me where is it?
                     </p>
                   </div>
                   <div>
@@ -109,8 +107,8 @@ export default function RoomChat({ token }) {
                       <p className="text-[10px] text-[#9F9F9F]">02.14 PM</p>
                     </div>
                     <p className="text-[15px]">
-                      Hey, thanks for asking. It’s in product menu, you can see
-                      them on the left side.
+                      Hey, thanks for asking. It&apos;s in product menu, you can
+                      see them on the left side.
                     </p>
                   </div>
                 </div>
@@ -121,8 +119,8 @@ export default function RoomChat({ token }) {
                       <p className="text-xl font-semibold">Zulaikha</p>
                     </div>
                     <p className="text-[15px] text-right">
-                      Hey jason, I can’t find the promo section. Can u tell me
-                      where is it?
+                      Hey jason, I can&apos;t find the promo section. Can u tell
+                      me where is it?
                     </p>
                   </div>
                   <div>
@@ -131,7 +129,7 @@ export default function RoomChat({ token }) {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center items-center h-16 bg-white rounded-xl px-12 py-5">
+            <div className="flex justify-center items-center h-16 bg-white rounded-xl px-12 py-5 mt-5">
               <input className="w-full pr-2 outline-none" type="text" />
               <FaCamera size={25} />
             </div>

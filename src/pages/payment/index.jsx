@@ -1,12 +1,7 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Image from "next/image"
-import {
-  BsCheck,
-  BsFillCreditCardFill,
-  BsBank2,
-  BsCashCoin,
-} from "react-icons/bs"
+import { BsCheck, BsBank2 } from "react-icons/bs"
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
@@ -27,6 +22,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 const PaymentAndDeliveryCust = ({ token }) => {
   const product = useSelector((state) => state.product.data)
+  const variantName = useSelector((state) => state.variant.data)
   const [paymentMethods, setPaymentMethods] = useState([])
   const [errMsg, setErrMsg] = useState("")
   const router = useRouter()
@@ -45,19 +41,20 @@ const PaymentAndDeliveryCust = ({ token }) => {
   }, [token])
 
   const makePayment = async () => {
-    const name = product.name
-    const price = parseInt(product.variant[0].price)
-    const picture = product.picture
-    const quantity = parseInt(product.variant[0].quantity)
-    const form = new URLSearchParams({ name, price, picture }).toString()
+    const itemId = product.id
+    const variant = variantName.name
+    const qty = variantName.quantity
+    let form = new URLSearchParams()
+    form.append("itemId[]", itemId)
+    form.append("variant[]", variant)
+    form.append("quantity[]", qty)
     try {
-      const { data } = await http(token).post("/history", form)
-      if (data.results) {
-        router.push("/product/history-cust")
+      const { data } = await http(token).post("/transactions", form)
+      if (data.success) {
+        router.replace("/history")
       }
     } catch (err) {
-      const message = err.response?.data?.message
-      setErrMsg(message)
+      console.log(err)
     }
   }
 
@@ -124,11 +121,11 @@ const PaymentAndDeliveryCust = ({ token }) => {
                   </div>
                   <div className="flex-1 text-md md:text-xl">
                     <p className="">{product.name}</p>
-                    <p>{product.variant[0].quantity}</p>
-                    <p>{product.variant[0].name}</p>
+                    <p>{variantName.quantity}</p>
+                    <p>{variantName.name}</p>
                   </div>
                   <p className="text-xl flex items-center">
-                    IDR {product.variant[0].price}
+                    IDR {variantName.price}
                   </p>
                 </div>
               </div>
@@ -138,8 +135,8 @@ const PaymentAndDeliveryCust = ({ token }) => {
                   <div className="grow">SUB TOTAL</div>
                   <p>
                     IDR{" "}
-                    {parseInt(product.variant[0].price) *
-                      parseInt(product.variant[0].quantity)}
+                    {parseInt(variantName.price) *
+                      parseInt(variantName.quantity)}
                   </p>
                 </div>
                 <div className="flex">
@@ -155,8 +152,7 @@ const PaymentAndDeliveryCust = ({ token }) => {
                 <div className="grow">TOTAL</div>
                 <div>
                   IDR{" "}
-                  {parseInt(product.variant[0].price) *
-                    parseInt(product.variant[0].quantity)}
+                  {parseInt(variantName.price) * parseInt(variantName.quantity)}
                 </div>
               </div>
             </div>

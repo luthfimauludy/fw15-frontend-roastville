@@ -28,7 +28,7 @@
     "react-html5-camera-photo": "^1.5.11",
     "react-icons": "^4.9.0",
     "react-images-uploading": "^3.1.7",
-    "react-redux": "^8.1.0",
+    "react-redux": "^8.1.1",
     "react-top-loading-bar": "^2.3.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
