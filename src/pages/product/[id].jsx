@@ -34,12 +34,12 @@ function DetailProduct({ token }) {
   const [productId, setProductId] = React.useState([])
   const productDetails = useSelector((state) => state.product.data)
   const [roleId, setRoleId] = useState("")
-  const [initialQuantity, setInitialQuantity] = React.useState(0)
+  const [initialQuantity, setInitialQuantity] = React.useState(1)
   const [selectedVariant, setSelectedVariant] = React.useState(null)
-  console.log(selectedVariant)
+
   function increment() {
-    if (initialQuantity === variant.quantity) {
-      setInitialQuantity(variant.quantity)
+    if (initialQuantity === selectedVariant.quantity) {
+      setInitialQuantity(selectedVariant.quantity)
     } else {
       setInitialQuantity(initialQuantity + 1)
       setSelectedVariant((prevState) => ({
@@ -50,16 +50,12 @@ function DetailProduct({ token }) {
   }
 
   const doCheckout = () => {
-    if (initialQuantity === 0) {
-      alert("Please select qty")
-    } else {
-      dispatch(variantDetail(selectedVariant))
-      router.replace("/payment")
-    }
+    dispatch(variantDetail(selectedVariant))
+    router.replace("/payment")
   }
 
   function decrement() {
-    if (initialQuantity === 1) {
+    if (initialQuantity <= 1) {
       setInitialQuantity(1)
     } else {
       setInitialQuantity(initialQuantity - 1)
@@ -81,7 +77,8 @@ function DetailProduct({ token }) {
     }
 
     getRoleId()
-  }, [token, roleId])
+    setSelectedVariant(variant)
+  }, [token, roleId, variant])
 
   const router = useRouter()
   const { id } = router.query
@@ -177,7 +174,7 @@ function DetailProduct({ token }) {
                 name: productDetails?.name,
                 description: productDetails?.description,
               }}
-              onSubmit={editProductAdmin}
+              onSubmit={doCheckout}
               enableReinitialize
             >
               {({ handleSubmit, handleChange, handleBlur, values }) => (
@@ -199,7 +196,9 @@ function DetailProduct({ token }) {
                       />
                     )}
                     <div className="border-t-2 border-b-2 text-2xl md:text-[40px] py-2">
-                      {/* {variant.price} */}
+                      {!selectedVariant?.price
+                        ? variant?.price
+                        : selectedVariant?.price}
                     </div>
                     <div className="text-2xl md:text-[40px] font-semi-bold py-4 border-b-2 ">
                       {productDetails.description}
@@ -213,11 +212,13 @@ function DetailProduct({ token }) {
                               ...prevState,
                               selectedQty: initialQuantity,
                             }))
-                            dispatch(variantDetail(JSON.parse(e.target.value)))
+                            setInitialQuantity(1)
                           }}
                           className="select select-primary w-full h-full text-lg md:text-[20px]"
                         >
-                          <option value="">--Select Size--</option>
+                          <option value="" disabled>
+                            --Select Size--
+                          </option>
                           {productId.map((variant, index) => {
                             return (
                               <option
@@ -249,7 +250,11 @@ function DetailProduct({ token }) {
                           >
                             -
                           </button>
-                          <div className="p-2">{initialQuantity}</div>
+                          <div className="p-2">
+                            {selectedVariant?.quantity === 0
+                              ? 0
+                              : initialQuantity}
+                          </div>
                           <button
                             type="button"
                             onClick={increment}
@@ -290,13 +295,22 @@ function DetailProduct({ token }) {
                       )}
                       {roleId === 2 && (
                         <div>
-                          <button
-                            type="submit"
-                            onClick={() => doCheckout()}
-                            className="btn btn-primary w-full"
-                          >
-                            Checkout
-                          </button>
+                          {selectedVariant.quantity === 0 ? (
+                            <button
+                              type="button"
+                              disabled
+                              className="btn btn-primary w-full"
+                            >
+                              Out of stock
+                            </button>
+                          ) : (
+                            <button
+                              type="submit"
+                              className="btn btn-primary w-full"
+                            >
+                              Checkout
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
