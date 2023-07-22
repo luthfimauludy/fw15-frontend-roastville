@@ -1,12 +1,7 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Image from "next/image"
-import {
-  BsCheck,
-  BsFillCreditCardFill,
-  BsBank2,
-  BsCashCoin,
-} from "react-icons/bs"
+import { BsCheck, BsBank2 } from "react-icons/bs"
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"

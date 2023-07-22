@@ -60,10 +60,11 @@ function ProductCust({ token }) {
     )
     dispatch(
       variantDetail({
-        code: "",
-        name: "",
+        code: item.variant[0].code,
+        name: item.variant[0].name,
         price: item.variant[0].price,
-        quantity: "",
+        quantity: item.variant[0].quantity,
+        seletedQty: 1,
       })
     )
     router.replace(url)

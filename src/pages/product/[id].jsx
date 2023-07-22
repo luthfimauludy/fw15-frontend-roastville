@@ -7,14 +7,13 @@ import default_picture from "/public/default.jpg"
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
-import { clearProduct, productDetail } from "@/redux/reducers/product"
+import { clearProduct } from "@/redux/reducers/product"
 import { PURGE } from "redux-persist"
 import { withIronSessionSsr } from "iron-session/next"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { Formik } from "formik"
 import http from "@/helpers/http"
-import Link from "next/link"
 import { variantDetail } from "@/redux/reducers/variant"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
@@ -32,39 +31,41 @@ function DetailProduct({ token }) {
   const variant = useSelector((state) => state.variant.data)
   const [editProduct, setEditProduct] = React.useState(false)
   const [product, setProduct] = React.useState([])
+  const [productId, setProductId] = React.useState([])
   const productDetails = useSelector((state) => state.product.data)
   const [roleId, setRoleId] = useState("")
-  const [selectedVariant, setSelectedVariant] = useState({
-    code: "",
-    name: "",
-    price: variant.price,
-    deliveryMethod: "",
-    quantity: 1,
-  })
+  const [initialQuantity, setInitialQuantity] = React.useState(0)
+  const [selectedVariant, setSelectedVariant] = React.useState(null)
   console.log(selectedVariant)
   function increment() {
-    if (selectedVariant.quantity >= 10) {
-      setSelectedVariant((prevState) => ({ ...prevState, quantity: 10 }))
+    if (initialQuantity === variant.quantity) {
+      setInitialQuantity(variant.quantity)
     } else {
+      setInitialQuantity(initialQuantity + 1)
       setSelectedVariant((prevState) => ({
         ...prevState,
-        quantity: selectedVariant.quantity + 1,
+        selectedQty: initialQuantity + 1,
       }))
     }
   }
 
   const doCheckout = () => {
-    dispatch(variantDetail(selectedVariant))
-    router.replace("/payment")
+    if (initialQuantity === 0) {
+      alert("Please select qty")
+    } else {
+      dispatch(variantDetail(selectedVariant))
+      router.replace("/payment")
+    }
   }
 
   function decrement() {
-    if (selectedVariant.quantity <= 1) {
-      setSelectedVariant((prevState) => ({ ...prevState, quantity: 1 }))
+    if (initialQuantity === 1) {
+      setInitialQuantity(1)
     } else {
+      setInitialQuantity(initialQuantity - 1)
       setSelectedVariant((prevState) => ({
         ...prevState,
-        quantity: selectedVariant.quantity - 1,
+        selectedQty: initialQuantity - 1,
       }))
     }
   }
@@ -86,9 +87,20 @@ function DetailProduct({ token }) {
   const { id } = router.query
 
   React.useEffect(() => {
+    async function getProductId() {
+      try {
+        const { data } = await http().get(`/products/1`)
+        setProductId(data.results.variant)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
     if (!productDetails) {
       router.replace("/product")
     }
+
+    getProductId()
   }, [router, productDetails])
 
   const editProductAdmin = async (values) => {
@@ -187,7 +199,7 @@ function DetailProduct({ token }) {
                       />
                     )}
                     <div className="border-t-2 border-b-2 text-2xl md:text-[40px] py-2">
-                      {variant.price}
+                      {/* {variant.price} */}
                     </div>
                     <div className="text-2xl md:text-[40px] font-semi-bold py-4 border-b-2 ">
                       {productDetails.description}
@@ -196,51 +208,30 @@ function DetailProduct({ token }) {
                       <div className="w-full h-24 pt-8">
                         <select
                           onChange={(e) => {
+                            setSelectedVariant(JSON.parse(e.target.value))
                             setSelectedVariant((prevState) => ({
                               ...prevState,
-                              name: e.target.value,
+                              selectedQty: initialQuantity,
                             }))
-                            if (e.target.value === "Regular") {
-                              setSelectedVariant((prevState) => ({
-                                ...prevState,
-                                code: "R",
-                              }))
-                            } else if (e.target.value === "Medium") {
-                              setSelectedVariant((prevState) => ({
-                                ...prevState,
-                                code: "M",
-                              }))
-                            } else if (e.target.value === "Large") {
-                              setSelectedVariant((prevState) => ({
-                                ...prevState,
-                                code: "L",
-                              }))
-                            } else if (e.target.value === "Extra Large") {
-                              setSelectedVariant((prevState) => ({
-                                ...prevState,
-                                code: "XL",
-                              }))
-                            }
+                            dispatch(variantDetail(JSON.parse(e.target.value)))
                           }}
                           className="select select-primary w-full h-full text-lg md:text-[20px]"
                         >
                           <option value="">--Select Size--</option>
-                          <option value="Regular">Regular</option>
-                          <option value="Medium">Medium</option>
-                          <option value="Large">Large</option>
-                          <option value="Extra Large">Extra Large</option>
+                          {productId.map((variant, index) => {
+                            return (
+                              <option
+                                key={index}
+                                value={JSON.stringify(variant)}
+                              >
+                                {variant.name}
+                              </option>
+                            )
+                          })}
                         </select>
                       </div>
                       <div className="w-full pt-0 h-16">
-                        <select
-                          onChange={(e) => {
-                            setSelectedVariant((prevState) => ({
-                              ...prevState,
-                              deliveryMethod: e.target.value,
-                            }))
-                          }}
-                          className="select select-primary w-full h-full text-lg md:text-[20px]"
-                        >
+                        <select className="select select-primary w-full h-full text-lg md:text-[20px]">
                           <option disabled selected>
                             --Select Delivery Methods--
                           </option>
@@ -258,11 +249,7 @@ function DetailProduct({ token }) {
                           >
                             -
                           </button>
-                          <div className="p-2">
-                            {!selectedVariant.quantity
-                              ? "0"
-                              : selectedVariant.quantity}
-                          </div>
+                          <div className="p-2">{initialQuantity}</div>
                           <button
                             type="button"
                             onClick={increment}
