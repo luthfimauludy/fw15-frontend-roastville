@@ -38,37 +38,42 @@ const HistoryCust = ({ token }) => {
     <div className="max-w-full max-h-full">
       <Header token={token} />
       <div className="bg-payment bg-no-repeat bg-cover pb-[100px]">
-        <div className="flex flex-col justify-center items-center leading-10 pt-[160px]">
+        <div className="flex flex-col justify-center items-center leading-10 pt-20">
           <h1 className="text-white text-4xl font-bold">
             Let&apos;s see what you have bought!
           </h1>
           <p className="text-white">Long press to delete item</p>
         </div>
         <div className="flex justify-center items-center pt-20">
-          <div className="grid grid-cols-3 gap-5">
-            <div className="w-[394px] h-[126px] bg-white rounded-2xl hover:opacity-50 cursor-pointer">
-              <div className="py-5 px-5 flex gap-5">
-                {/* <Image
-                  src={h.picture}
-                  width="82"
-                  height="90"
-                  alt="tomato"
-                  className="rounded-full"
-                /> */}
-                <div className="flex-1 text-lg">
-                  <p className="font-bold text-2xl"></p>
-                  <p>IDR </p>
-                  <p>Delivered</p>
-                </div>
-                <input
-                  className="self-end"
-                  type="checkbox"
-                  name="check"
-                  id=""
-                />
-              </div>
-              <div></div>
-            </div>
+          <div className="flex justify-center items-center flex-wrap gap-10">
+            {transactionsHistory.map((tr) => {
+              return (
+                <>
+                  <div className="w-[394px] h-[126px] bg-white rounded-2xl hover:opacity-50 cursor-pointer">
+                    <div className="py-5 px-5 flex gap-5">
+                      <Image
+                        src={tr.picture}
+                        width="82"
+                        height="90"
+                        alt=""
+                        className="rounded-full"
+                      />
+                      <div className="flex-1 text-lg">
+                        <p className="font-bold text-2xl">{tr.name}</p>
+                        <p>IDR {tr.price}</p>
+                        <p>{tr.status}</p>
+                      </div>
+                      <input
+                        className="self-end"
+                        type="checkbox"
+                        name="check"
+                        id=""
+                      />
+                    </div>
+                  </div>
+                </>
+              )
+            })}
           </div>
         </div>
       </div>
