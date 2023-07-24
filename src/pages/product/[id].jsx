@@ -13,6 +13,7 @@ import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import {
   addSelectedQty,
+  addVoucher,
   clearProduct,
   variantDetail,
 } from "@/redux/reducers/product"
