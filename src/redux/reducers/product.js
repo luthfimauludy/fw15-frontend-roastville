@@ -7,6 +7,7 @@ const initialState = {
     picture: "",
     description: "",
     variant: [],
+    appliedVoucher: null,
   },
 }
 
@@ -16,6 +17,9 @@ const product = createSlice({
   reducers: {
     productDetail: (state, action) => {
       state.data = action.payload
+    },
+    addVoucher: (state, action) => {
+      state.data.appliedVoucher = action.payload
     },
     variantDetail: (state, action) => {
       state.data.variant = action.payload
@@ -29,6 +33,11 @@ const product = createSlice({
   },
 })
 
-export const { productDetail, variantDetail, addSelectedQty, clearProduct } =
-  product.actions
+export const {
+  productDetail,
+  variantDetail,
+  addSelectedQty,
+  addVoucher,
+  clearProduct,
+} = product.actions
 export default product.reducer
