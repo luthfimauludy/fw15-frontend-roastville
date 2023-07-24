@@ -256,6 +256,16 @@ function DetailProduct({ token }) {
                           <option value="Pick Up">Pick Up</option>
                         </select>
                       </div>
+                      {productDetails.variant.code ? (
+                        <div>
+                          <p>
+                            Remaining quantity:{" "}
+                            {productDetails.variant.quantity}
+                          </p>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                       <div className="flex gap-4 w-full h-16">
                         <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
                           <button
