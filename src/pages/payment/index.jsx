@@ -24,7 +24,20 @@ const PaymentAndDeliveryCust = ({ token }) => {
   const product = useSelector((state) => state.product.data)
   const [paymentMethods, setPaymentMethods] = useState([])
   const [selectedPayment, setSelectedPayment] = useState(null)
+  const [selectedVoucher, setSelectedVoucher] = useState([])
   const router = useRouter()
+  let totalPayment =
+    parseInt(product.variant.price) * parseInt(product.variant.selectedQty)
+
+  if (product.appliedVoucher) {
+    let total =
+      parseInt(product.variant.price) * parseInt(product.variant.selectedQty)
+    let discountPrice = total * (selectedVoucher.percentage / 100)
+    if (discountPrice > parseFloat(selectedVoucher.maxAmount)) {
+      discountPrice = selectedVoucher.maxAmount
+    }
+    totalPayment = total - discountPrice
+  }
 
   useEffect(() => {
     async function getPaymentMethod() {
@@ -36,19 +49,36 @@ const PaymentAndDeliveryCust = ({ token }) => {
       }
     }
 
+    async function getSelectedVoucher() {
+      try {
+        const { data } = await http().get("/vouchers", {
+          params: { code: product.appliedVoucher },
+        })
+        setSelectedVoucher(data.results)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getSelectedVoucher()
     getPaymentMethod()
-  }, [token])
+  }, [token, product.appliedVoucher])
 
   const makePayment = async () => {
     const itemId = product.id
     const variant = product.variant.code
     const qty = product.variant.selectedQty
+    const voucher = product.appliedVoucher
     let form = new URLSearchParams()
     form.append("itemId[]", itemId)
     form.append("variant[]", variant)
     form.append("quantity[]", qty)
     form.append("statusId", 1)
     form.append("paymentMethodId", selectedPayment)
+
+    if (selectedVoucher) {
+      form.append("voucher", voucher)
+    }
 
     try {
       const { data } = await http(token).post("/transactions", form)
@@ -62,9 +92,7 @@ const PaymentAndDeliveryCust = ({ token }) => {
 
   return (
     <>
-      <div className="header">
-        <Header token={token} />
-      </div>
+      <Header token={token} />
       <div className="bg-payment bg-center bg-cover bg-no-repeat font-rubik z-10">
         <div className="pt-10 px-10 flex flex-col gap-5">
           <div className="relative w-96 self-center z-0">
@@ -120,23 +148,23 @@ const PaymentAndDeliveryCust = ({ token }) => {
                     <p>{product.variant.name}</p>
                   </div>
                   <p className="text-xl flex items-center">
-                    IDR {product.variant.price}
+                    Rp. {product.variant.price}
                   </p>
                 </div>
               </div>
               <hr className="border-[#D0B8A8] mt-[5%]" />
               <div className="flex flex-col gap-3 mt-[5%]">
                 <div className="flex">
-                  <div className="grow">SUB TOTAL</div>
-                  <p>
-                    IDR{" "}
-                    {parseInt(product.variant.price) *
-                      parseInt(product.variant.selectedQty)}
-                  </p>
+                  <div className="grow">APPLIED VOUCHER</div>
+                  <div>
+                    {product.appliedVoucher
+                      ? product.appliedVoucher
+                      : "No applied voucher"}
+                  </div>
                 </div>
                 <div className="flex">
-                  <div className="grow">TAX & FEES</div>
-                  <div>-</div>
+                  <div className="grow">SUB TOTAL</div>
+                  <p>Rp. {totalPayment}</p>
                 </div>
                 <div className="flex">
                   <div className="grow">SHIPPING</div>
@@ -145,11 +173,7 @@ const PaymentAndDeliveryCust = ({ token }) => {
               </div>
               <div className="flex mt-[5%] text-2xl font-bold">
                 <div className="grow">TOTAL</div>
-                <div>
-                  IDR{" "}
-                  {parseInt(product.variant.price) *
-                    parseInt(product.variant.selectedQty)}
-                </div>
+                <div>Rp. {totalPayment}</div>
               </div>
             </div>
           </div>
