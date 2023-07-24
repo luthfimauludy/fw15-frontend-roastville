@@ -219,8 +219,8 @@ function DetailProduct({ token }) {
                           }}
                           className={
                             !selectedSize
-                              ? "select select-primary w-full h-full text-lg md:text-[18px]"
-                              : "select select-error border-4 w-full h-full text-lg md:text-[18px]"
+                              ? "select select-primary w-full h-full text-lg  "
+                              : "select select-error border-4 w-full h-full text-lg "
                           }
                         >
                           <option value="" disabled selected>
