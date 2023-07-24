@@ -39,7 +39,7 @@ const HistoryCust = ({ token }) => {
       <Header token={token} />
       <div className="bg-payment bg-no-repeat bg-cover pb-[100px]">
         <div className="flex flex-col justify-center items-center leading-10 pt-20">
-          <h1 className="text-white text-4xl font-bold">
+          <h1 className="text-white text-4xl font-bold text-center">
             Let&apos;s see what you have bought!
           </h1>
           <p className="text-white">Long press to delete item</p>
