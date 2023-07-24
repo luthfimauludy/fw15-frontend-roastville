@@ -71,6 +71,7 @@ function ProductCust({ token }) {
     )
     dispatch(
       variantDetail({
+        quantity: 1,
         selectedQty: 1,
       })
     )
