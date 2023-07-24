@@ -1,17 +1,15 @@
 import React from "react"
 import Image from "next/image"
-import default_picture from "/public/default.jpg"
 import image from "/public/img-coupon.png"
-import image2 from "/public/img-coupon2.png"
-import image3 from "/public/img-coupon3.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import http from "@/helpers/http"
 import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { useRouter } from "next/router"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
+  addVoucher,
   clearProduct,
   productDetail,
   variantDetail,
@@ -30,6 +28,9 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function ProductCust({ token }) {
   const [product, setProduct] = React.useState([])
+  const [vouchers, setVouchers] = React.useState([])
+  const [selectedVoucher, setSelectedVoucher] = React.useState(null)
+  const productInfo = useSelector((state) => state.product.data)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -37,23 +38,47 @@ function ProductCust({ token }) {
     try {
       const { data } = await http().get("/products")
       setProduct(data.results)
-      console.log(data)
     } catch (error) {
       console.log(error)
     }
   }, [setProduct])
 
+  const getVoucher = React.useCallback(async () => {
+    try {
+      const { data } = await http().get("/vouchers/all")
+      setVouchers(data.results)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
+
   React.useEffect(() => {
     getProduct()
     dispatch(clearProduct())
-  }, [getProduct, dispatch])
+    getVoucher()
+  }, [getProduct, dispatch, getVoucher])
 
   const dispatchEvent = (item) => {
     const encodedProductName = encodeURIComponent(item.name)
     const url = `/product/${encodedProductName}`
-    dispatch(productDetail(item))
+    dispatch(
+      productDetail({
+        id: item.id,
+        name: item.name,
+        picture: item.picture,
+        description: item.description,
+      })
+    )
+    dispatch(
+      variantDetail({
+        selectedQty: 1,
+      })
+    )
+    dispatch(addVoucher(selectedVoucher))
     router.replace(url)
   }
+
+  console.log(selectedVoucher)
 
   return (
     <div className="h-min-screen">
@@ -70,62 +95,52 @@ function ProductCust({ token }) {
           </div>
           <div className="flex flex-col justify-center items-center gap-12">
             <div className="flex flex-wrap xl:flex-col justify-center items-center gap-5">
-              <div className="flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#88B788]">
-                <div className="w-[25%]">
-                  <Image src={image} alt="img-coupon.png" />
-                </div>
-                <div className="w-[75%]">
-                  <div className="font-bold">HAPPY MOTHER&apos;S DAY!</div>
-                  <div>Get one of our favorite menu for free!</div>
-                </div>
-              </div>
-              <div className="flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#F5C361]">
-                <div className="w-[25%]">
-                  <Image src={image2} alt="img-coupon2.png" />
-                </div>
-                <div className="w-[75%]">
-                  <div className="font-bold">
-                    Get a cup of coffee for free on sunday morning Only
-                  </div>
-                  <div>Only at 7 to 9 AM</div>
-                </div>
-              </div>
-              <div className="flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#88B788]">
-                <div className="w-[25%]">
-                  <Image src={image} alt="img-coupon.png" />
-                </div>
-                <div className="w-[75%]">
-                  <div className="font-bold">HAPPY MOTHER&apos;S DAY!</div>
-                  <div>Get one of our favorite menu for free!</div>
-                </div>
-              </div>
-              <div className="flex gap-2 w-80 h-28 border rounded-xl items-center p-2 bg-[#C59378]">
-                <div className="w-[25%]">
-                  <Image src={image3} alt="img-coupon3.png" />
-                </div>
-                <div className="w-[75%]">
-                  <div className="font-bold">HAPPY HALLOWEEN!</div>
-                  <div>
-                    Do you like chicken wings? Get 1 free only if you buy pinky
-                    promise
-                  </div>
-                </div>
-              </div>
+              {vouchers.map((v) => {
+                return (
+                  <>
+                    <div
+                      key={`voucher-${v.id}`}
+                      className={
+                        v.code === selectedVoucher
+                          ? "flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#F5C361] hover:scale-[1.05] duration-300 cursor-pointer shadow-xl"
+                          : "flex gap-2 w-80 h-28 border rounded-xl items-center px-3 bg-[#C59378] hover:scale-[1.05] duration-300 cursor-pointer shadow-xl"
+                      }
+                      onClick={() => setSelectedVoucher(v.code)}
+                    >
+                      <div className="w-[25%]">
+                        <Image src={image} alt="img-coupon.png" />
+                      </div>
+                      <div className="w-[75%]">
+                        <div className="font-bold">{v.name}</div>
+                        <div>{v.description}</div>
+                        <div className="font-bold">{v.code}</div>
+                      </div>
+                    </div>
+                  </>
+                )
+              })}
             </div>
-            <div className="w-80">
-              <button
-                type="submit"
-                className="btn btn-primary font-bold normal-case w-full"
-              >
-                Apply Coupon
-              </button>
-            </div>
+            {selectedVoucher ? (
+              <div className="w-80">
+                <button
+                  type="submit"
+                  className="btn btn-primary font-bold normal-case w-full text-white"
+                  onClick={() => dispatch(addVoucher(selectedVoucher))}
+                >
+                  {productInfo.appliedVoucher === selectedVoucher
+                    ? "Coupon applied"
+                    : "Apply coupon"}
+                </button>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <div className="w-80">
               <div
                 onClick={() => router.replace("/product/new-product")}
-                className="btn btn-primary font-bold normal-case w-full"
+                className="btn btn-primary font-bold normal-case w-full text-white"
               >
-                Create Product
+                Create product
               </div>
             </div>
             <div className="w-80 text-xs">
