@@ -130,12 +130,12 @@ const PaymentAndDeliveryCust = ({ token }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 pb-20">
           <div className="mx-0 flex justify-center p-5">
-            <div className="bg-white rounded-lg p-10 w-full">
+            <div className="bg-white rounded-lg p-10 w-full xl:ml-28">
               <div className="text-center font-bold text-[35px] font-poppins">
                 Order Summary
               </div>
               <div className="flex flex-col md:flex-row gap-[19px] mt-[10%]">
-                <div className="flex flex-col flex-wrap md:flex-row justify-center items-center gap-[20px] md:gap-[33px]">
+                <div className="flex flex-col flex-wrap md:flex-row justify-center items-center gap-[20px] md:gap-[33px] w-full">
                   <Image
                     src={product.picture}
                     width={100}
