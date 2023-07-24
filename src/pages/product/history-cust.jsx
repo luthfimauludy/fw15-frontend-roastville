@@ -60,7 +60,12 @@ const HistoryCust = ({ token }) => {
                       />
                       <div className="flex-1 text-lg">
                         <p className="font-bold text-2xl">{tr.name}</p>
-                        <p>IDR {tr.price}</p>
+                        <p>
+                          {new Intl.NumberFormat("in-IN", {
+                            style: "currency",
+                            currency: "IDR",
+                          }).format(tr.price)}
+                        </p>
                         <p>{tr.status}</p>
                       </div>
                       <input

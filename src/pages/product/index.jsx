@@ -207,7 +207,10 @@ function ProductCust({ token }) {
                       </div>
                     </div>
                     <div className="font-bold text-primary">
-                      Rp.{item?.variant[0]?.price}
+                      {new Intl.NumberFormat("in-IN", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item?.variant[0]?.price)}
                     </div>
                   </div>
                 )

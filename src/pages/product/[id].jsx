@@ -199,7 +199,10 @@ function DetailProduct({ token }) {
                     <div className="text-2xl md:text-[40px] py-2">
                       {!productDetails?.variant?.price
                         ? ""
-                        : productDetails?.variant?.price}
+                        : new Intl.NumberFormat("in-IN", {
+                            style: "currency",
+                            currency: "IDR",
+                          }).format(productDetails?.variant?.price)}
                     </div>
                     <div className="text-2xl md:text-[20px] font-semi-bold py-4">
                       {productDetails.description}

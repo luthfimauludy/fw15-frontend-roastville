@@ -148,7 +148,10 @@ const PaymentAndDeliveryCust = ({ token }) => {
                     <p>{product.variant.name}</p>
                   </div>
                   <p className="text-xl flex items-center">
-                    Rp. {product.variant.price}
+                    {new Intl.NumberFormat("in-IN", {
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(product.variant.price)}
                   </p>
                 </div>
               </div>
@@ -164,7 +167,12 @@ const PaymentAndDeliveryCust = ({ token }) => {
                 </div>
                 <div className="flex">
                   <div className="grow">SUB TOTAL</div>
-                  <p>Rp. {totalPayment}</p>
+                  <p>
+                    {new Intl.NumberFormat("in-IN", {
+                      style: "currency",
+                      currency: "IDR",
+                    }).format(totalPayment)}
+                  </p>
                 </div>
                 <div className="flex">
                   <div className="grow">SHIPPING</div>
@@ -173,7 +181,12 @@ const PaymentAndDeliveryCust = ({ token }) => {
               </div>
               <div className="flex mt-[5%] text-2xl font-bold">
                 <div className="grow">TOTAL</div>
-                <div>Rp. {totalPayment}</div>
+                <div>
+                  {new Intl.NumberFormat("in-IN", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(totalPayment)}
+                </div>
               </div>
             </div>
           </div>
