@@ -124,25 +124,25 @@ const PaymentAndDeliveryCust = ({ token }) => {
             </div>
             <hr className="h-[1px] w-80 p-0 absolute top-[28%] right-10 border-white" />
           </div>
-          <div className="text-white font-bold text-4xl w-full px-24">
+          <div className="text-white font-bold text-4xl w-full text-center md:px-24">
             Checkout Your Item Now!
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 pb-20">
-          <div className="mx-10 flex justify-center p-5">
-            <div className="bg-white rounded-lg p-10 w-[80%]">
+          <div className="mx-0 flex justify-center p-5">
+            <div className="bg-white rounded-lg p-10 w-full">
               <div className="text-center font-bold text-[35px] font-poppins">
                 Order Summary
               </div>
-              <div className="flex flex-col gap-[19px] mt-[10%]">
-                <div className="flex gap:[20px] md:gap-[33px]">
+              <div className="flex flex-col md:flex-row gap-[19px] mt-[10%]">
+                <div className="flex flex-col flex-wrap md:flex-row justify-center items-center gap-[20px] md:gap-[33px]">
                   <Image
                     src={product.picture}
                     width={100}
                     height={100}
                     alt="picture"
                   />
-                  <div className="flex-1 text-md md:text-xl">
+                  <div className="flex-1 text-md md:text-xl text-center md:text-left">
                     <p className="">{product.name}</p>
                     <p>x{product.variant.selectedQty}</p>
                     <p>{product.variant.name}</p>
