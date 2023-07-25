@@ -5,15 +5,14 @@ import Footer from "@/components/footer"
 import { FaCamera } from "react-icons/fa"
 import { withIronSessionSsr } from "iron-session/next"
 import cookieConfig from "@/helpers/cookieConfig"
-import Camera from 'react-html5-camera-photo';
-import 'react-html5-camera-photo/build/css/index.css';
-import ImageUploading from 'react-images-uploading';
-import { GrFormClose } from "react-icons/gr";
-import Compressor from 'compressorjs';
+import Camera from "react-html5-camera-photo"
+import "react-html5-camera-photo/build/css/index.css"
+import ImageUploading from "react-images-uploading"
+import { GrFormClose } from "react-icons/gr"
+import Compressor from "compressorjs"
 import { useDispatch } from "react-redux"
 import { Formik } from "formik"
 import * as Yup from "yup"
-
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -37,19 +36,18 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 function NewProduct({ token }) {
   const dispatch = useDispatch()
 
-  const [size, setSize] = React.useState('')
-  const [name, setName] = React.useState('')
-  const [price, setPrice] = React.useState('')
-  const [description, setDescription] = React.useState('')
+  const [size, setSize] = React.useState("")
+  const [name, setName] = React.useState("")
+  const [price, setPrice] = React.useState("")
+  const [description, setDescription] = React.useState("")
   const [picture, setPicture] = React.useState(null)
-  const [camera, setCamera] = React.useState(false);
-  const [alertTakePicture, setAlertTakePicture] = React.useState(false);
-  const [deliveryMethod, setDeliveryMethod] = React.useState('')
+  const [camera, setCamera] = React.useState(false)
+  const [alertTakePicture, setAlertTakePicture] = React.useState(false)
+  const [deliveryMethod, setDeliveryMethod] = React.useState("")
   const [load, setLoad] = React.useState(false)
-  const [time, setTime] = React.useState('')
-  const [endHour, setEndHour] = React.useState('')
-  const [selectedStock, setSelectedStock] = React.useState('');
-
+  const [time, setTime] = React.useState("")
+  const [endHour, setEndHour] = React.useState("")
+  const [selectedStock, setSelectedStock] = React.useState("")
 
   // const validationSchema = Yup.object({
   //   name: Yup.string().required("Name is empty !"),
@@ -73,46 +71,44 @@ function NewProduct({ token }) {
         setPicture(result)
       },
       error(err) {
-        console.log(err.message);
+        console.log(err.message)
       },
-    });
-  };
+    })
+  }
 
   async function handleTakePhoto(value) {
-    const response = await fetch(value);
-    const blob = await response.blob();
+    const response = await fetch(value)
+    const blob = await response.blob()
 
-    const randomNumber = Math.floor(Math.random() * 1000000000);
-    const fileName = randomNumber.toString().padStart(9, '0');
+    const randomNumber = Math.floor(Math.random() * 1000000000)
+    const fileName = randomNumber.toString().padStart(9, "0")
 
-    const file = new File([blob], `${fileName}.jpg`, { type: 'image/jpeg' });
+    const file = new File([blob], `${fileName}.jpg`, { type: "image/jpeg" })
 
+    console.log(file)
 
-    console.log(file);
-
-    await compressImage(file);
+    await compressImage(file)
 
     setTimeout(() => {
-      setCamera(false);
-    }, 3000);
+      setCamera(false)
+    }, 3000)
   }
 
   const handleStockChange = (event) => {
-    setSelectedStock(event.target.value);
-  };
-
+    setSelectedStock(event.target.value)
+  }
 
   const addProduct = async (e) => {
     e.preventDefault()
     const form = new FormData()
-    form.append('time', time)
-    form.append('selectedStock', selectedStock)
-    form.append('name', name)
-    form.append('price', price)
-    form.append('description', description)
-    form.append('picture', picture)
-    form.append('variant', JSON.stringify(size))
-    form.append('deliveryMethod', deliveryMethod)
+    form.append("time", time)
+    form.append("selectedStock", selectedStock)
+    form.append("name", name)
+    form.append("price", price)
+    form.append("description", description)
+    form.append("picture", picture)
+    form.append("variant", JSON.stringify(size))
+    form.append("deliveryMethod", deliveryMethod)
 
     const { data } = await http().post("/products", form, {
       headers: {
@@ -124,23 +120,44 @@ function NewProduct({ token }) {
 
   return (
     <div>
-      {camera ?
+      {camera ? (
         <div>
           <Camera
-            onTakePhoto={(value) => { handleTakePhoto(value) }} />
-          <div onClick={() => setCamera(false)} className='absolute top-5 right-20 cursor-pointer'>
-            <GrFormClose className='btn btn-square w-2/4 rounded-full' />
+            onTakePhoto={(value) => {
+              handleTakePhoto(value)
+            }}
+          />
+          <div
+            onClick={() => setCamera(false)}
+            className="absolute top-5 right-20 cursor-pointer"
+          >
+            <GrFormClose className="btn btn-square w-2/4 rounded-full" />
           </div>
-          {alertTakePicture ?
+          {alertTakePicture ? (
             <div className="absolute flex flex-col items-center top-5 left-[38%] alert alert-success shadow-lg w-1/4">
               <div>
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
                 <span>Picture taken successfully</span>
               </div>
               <progress className="progress w-56"></progress>
             </div>
-            : false}
-        </div> :
+          ) : (
+            false
+          )}
+        </div>
+      ) : (
         <>
           <div className="header">
             <Header token={token} />
@@ -152,134 +169,162 @@ function NewProduct({ token }) {
                   <div className="flex flex-col gap-10 justify-center items-center">
                     <div className="flex flex-col justify-center items-center w-full gap-10">
                       <div className="flex flex-col justify-center items-center gap-5">
-                        <div>
-                          <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
-                            <FaCamera size={40} />
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-3 w-96 md:w-full">
-                          <label onClick={() => setCamera(true)} className="btn btn-primary text-gray-100 normal-case">
-                            Take a picture
-                          </label>
-                          <ImageUploading
-                            value={picture}
-                            onChange={(value) => setPicture(value[0].file)}
-                            dataURLKey="data_url"
-                            acceptType={["jpg", "png"]}
-                          >
-                            {({
-                              onImageUpload
-                            }) => (
-                              <div className='md:w-full mb-5'>
-                                <button type='button' onClick={onImageUpload} className='btn bg-secondary text-white border-0 w-full font-bold hover:text-secondary'>Choose from gallery</button>
-                              </div>
-                            )}
-                          </ImageUploading>
+                        <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
+                          <FaCamera size={40} />
                         </div>
                       </div>
-                      <div className="flex flex-col gap-16 w-96 md:w-48">
-                        <div className="flex-col flex gap-1">
-                          <span className="text-sm font-semibold">
-                            Delivery Hour :
-                          </span>
-                          <div className="dropdown w-full md:md-[50%]">
-                            <label tabIndex={0} className="btn my-2 normal-case w-96 md:w-full">
-                              Select start hour
-                            </label>
-                            <input
-                              onChange={(e) => setTime(e.target.value)}
-                              name="startHour"
-                              id="startHour"
-                              type="time"
-                              // onChange={handleChange}
-                              // onBlur={handleBlur}
-                              // value={values.startHour}
-                              tabIndex={0}
-                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10"
-                            />
-                          </div>
-                          <div className="dropdown">
-                            <label tabIndex={0} className="btn p-2 normal-case w-96 md:w-full">
-                              Select end hour
-                            </label>
-                            <input
-                              // onChange={handleChange}
-                              // onBlur={handleBlur}
-                              // value={values.endHour}
-                              onChange={(e) => setTime(e.target.value)}
-                              name="endHour"
-                              id="endHour"
-                              type="time"
-                              tabIndex={0}
-                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                            />
-                          </div>
+                      <div className="flex flex-col gap-3 w-96 md:w-full">
+                        <label
+                          onClick={() => setCamera(true)}
+                          className="btn btn-primary text-gray-100 normal-case"
+                        >
+                          Take a picture
+                        </label>
+                        <ImageUploading
+                          value={picture}
+                          onChange={(value) => setPicture(value[0].file)}
+                          dataURLKey="data_url"
+                          acceptType={["jpg", "png"]}
+                        >
+                          {({ onImageUpload }) => (
+                            <div className="md:w-full mb-5">
+                              <button
+                                type="button"
+                                onClick={onImageUpload}
+                                className="btn bg-secondary text-white border-0 w-full font-bold hover:text-secondary"
+                              >
+                                Choose from gallery
+                              </button>
+                            </div>
+                          )}
+                        </ImageUploading>
+                      </div>
+                    </div>
+                    <ImageUploading className="flex flex-col gap-16 w-96 md:w-48">
+                      <div className="flex-col flex gap-1">
+                        <span className="text-sm font-semibold">
+                          Delivery Hour :
+                        </span>
+                        <div className="dropdown w-full md:md-[50%]">
+                          <label
+                            tabIndex={0}
+                            className="btn my-2 normal-case w-96 md:w-full"
+                          >
+                            Select start hour
+                          </label>
+                          <input
+                            onChange={(e) => setTime(e.target.value)}
+                            name="startHour"
+                            id="startHour"
+                            type="time"
+                            // onChange={handleChange}
+                            // onBlur={handleBlur}
+                            // value={values.startHour}
+                            tabIndex={0}
+                            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10"
+                          />
                         </div>
-                        <div className="bg-base-100">
-                          <select
-                            value={selectedStock}
-                            onChange={handleStockChange}
-                            className="select select-bordered bg-base-100 w-full">
-                            <option disabled selected className="bg-base-100 w-96">Input stock :</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                          </select>
+                        <div className="dropdown">
+                          <label
+                            tabIndex={0}
+                            className="btn p-2 normal-case w-96 md:w-full"
+                          >
+                            Select end hour
+                          </label>
+                          <input
+                            // onChange={handleChange}
+                            // onBlur={handleBlur}
+                            // value={values.endHour}
+                            onChange={(e) => setTime(e.target.value)}
+                            name="endHour"
+                            id="endHour"
+                            type="time"
+                            tabIndex={0}
+                            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                          />
                         </div>
-                      )}
+                      </div>
+                      <div className="bg-base-100">
+                        <select
+                          value={selectedStock}
+                          onChange={handleStockChange}
+                          className="select select-bordered bg-base-100 w-full"
+                        >
+                          <option
+                            disabled
+                            selected
+                            className="bg-base-100 w-96"
+                          >
+                            Input stock :
+                          </option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                        </select>
+                      </div>
                     </ImageUploading>
                   </div>
                 </div>
                 <div className="flex flex-col gap-16 border-[1px] border-black w-full items-center text-center">
-                    <span className="text-sm font-semibold">
-                      Delivery Hour :
-                    </span>
-                    <div className="dropdown w-full">
-                      <label tabIndex={0} className="btn m-1 normal-case w-[50%] md:w-[40%]">
-                        Select start hour
+                  <span className="text-sm font-semibold">Delivery Hour :</span>
+                  <div className="dropdown w-full">
+                    <label
+                      tabIndex={0}
+                      className="btn m-1 normal-case w-[50%] md:w-[40%]"
+                    >
+                      Select start hour
                     </label>
-                      <input
-                        onChange={(e) => setTime(e.target.value)}
-                        name="startHour"
-                        id="startHour"
-                        type="time"
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        // value={values.startHour}
-                        tabIndex={0}
-                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-[50%] md:w-[40%] z-10 mx-[30%]"
-                      />
-                    </div>
-                    <div className="dropdown w-full">
-                    <label tabIndex={0} className="btn m-1 normal-case w-[50%] md:w-[40%]">
-                        Select end hour
-                      </label>
-                      <input
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
-                        // value={values.endHour}
-                        onChange={(e) => setTime(e.target.value)}
-                        name="endHour"
-                        id="endHour"
-                        type="time"
-                        tabIndex={0}
+                    <input
+                      onChange={(e) => setTime(e.target.value)}
+                      name="startHour"
+                      id="startHour"
+                      type="time"
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.startHour}
+                      tabIndex={0}
                       className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-[50%] md:w-[40%] z-10 mx-[30%]"
-                      />
+                    />
                   </div>
-                    <select
-                      value={selectedStock}
-                      onChange={handleStockChange}
-                    className="select select-bordered w-[50%] md:w-[40%] bg-base-100">
-                      <option disabled selected className="bg-base-100">Input stock :</option>
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                    </select>
+                  <div className="dropdown w-full">
+                    <label
+                      tabIndex={0}
+                      className="btn m-1 normal-case w-[50%] md:w-[40%]"
+                    >
+                      Select end hour
+                    </label>
+                    <input
+                      // onChange={handleChange}
+                      // onBlur={handleBlur}
+                      // value={values.endHour}
+                      onChange={(e) => setTime(e.target.value)}
+                      name="endHour"
+                      id="endHour"
+                      type="time"
+                      tabIndex={0}
+                      className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-[50%] md:w-[40%] z-10 mx-[30%]"
+                    />
+                  </div>
+                  <select
+                    value={selectedStock}
+                    onChange={handleStockChange}
+                    className="select select-bordered w-[50%] md:w-[40%] bg-base-100"
+                  >
+                    <option disabled selected className="bg-base-100">
+                      Input stock :
+                    </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
                 </div>
               </div>
             </div>
             <div className="flex-auto">
               <div className="flex flex-col w-full items-center">
                 <div className="max-w-md flex flex-col gap-4">
-                  <div htmlFor="name" className="flex flex-col text-start gap-1">
+                  <div
+                    htmlFor="name"
+                    className="flex flex-col text-start gap-1"
+                  >
                     <span className="text-sm font-bold">Name :</span>
                     <input
                       // onChange={handleChange}
@@ -334,36 +379,75 @@ function NewProduct({ token }) {
                       </span>
                     </div>
                     <div className="flex gap-4">
-                      <div onClick={() => setSize('R')} className={size === 'R' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
+                      <div
+                        onClick={() => setSize("R")}
+                        className={
+                          size === "R"
+                            ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"
+                            : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"
+                        }
+                      >
                         <span className="font-bold text-white">R</span>
                       </div>
-                      <div onClick={() => setSize('L')} className={size === 'L' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
+                      <div
+                        onClick={() => setSize("L")}
+                        className={
+                          size === "L"
+                            ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"
+                            : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"
+                        }
+                      >
                         <span className="font-bold text-white">L</span>
                       </div>
-                      <div onClick={() => setSize('XL')} className={size === 'XL' ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center" : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"}>
+                      <div
+                        onClick={() => setSize("XL")}
+                        className={
+                          size === "XL"
+                            ? "hover:bg-primary bg-primary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"
+                            : "hover:bg-primary bg-secondary cursor-pointer w-10 h-10 rounded-full flex justify-center items-center"
+                        }
+                      >
                         <span className="font-bold text-white">XL</span>
                       </div>
                       <div
                         type="text"
                         value="250 gr"
                         name="firstGr"
-                        onClick={() => setSize('250 gr')}
-                        className={size === '250 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
-                      >250 gr</div>
+                        onClick={() => setSize("250 gr")}
+                        className={
+                          size === "250 gr"
+                            ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"
+                            : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"
+                        }
+                      >
+                        250 gr
+                      </div>
                       <div
                         type="text"
                         value="300 gr"
                         name="secondGr"
-                        onClick={() => setSize('300 gr')}
-                        className={size === '300 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
-                      >300 gr</div>
+                        onClick={() => setSize("300 gr")}
+                        className={
+                          size === "300 gr"
+                            ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"
+                            : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"
+                        }
+                      >
+                        300 gr
+                      </div>
                       <div
                         type="text"
                         value="500 gr"
                         name="thirtGr"
-                        onClick={(e) => setSize('500 gr')}
-                        className={size === '500 gr' ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200" : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"}
-                      >500 gr</div>
+                        onClick={(e) => setSize("500 gr")}
+                        className={
+                          size === "500 gr"
+                            ? "cursor-pointer bg-gray-400 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"
+                            : "cursor-pointer bg-gray-200 w-11 h-11 rounded-full flex justify-center items-center flex-col text-[10px] font-semibold text-center active:bg-gray-300 active:scale-[.9] duration-200"
+                        }
+                      >
+                        500 gr
+                      </div>
                     </div>
                     <div className="flex flex-col gap-2">
                       <span className="font-bold text-sm">
@@ -376,24 +460,54 @@ function NewProduct({ token }) {
                   </div>
                   <div className="flex flex-col gap-14">
                     <div className="flex gap-3 max-w-md">
-                      <div onClick={() => setDeliveryMethod('Home Delivery')} className="w-full">
-                        <label className={deliveryMethod === 'Home Delivery' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
+                      <div
+                        onClick={() => setDeliveryMethod("Home Delivery")}
+                        className="w-full"
+                      >
+                        <label
+                          className={
+                            deliveryMethod === "Home Delivery"
+                              ? "btn btn-primary normal-case w-full"
+                              : "btn btn-secondary normal-case w-full"
+                          }
+                        >
                           <span className="text-white">Home Delivery</span>
                         </label>
                       </div>
-                      <div onClick={() => setDeliveryMethod('Dine in')} className="w-full">
-                        <label className={deliveryMethod === 'Dine in' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
+                      <div
+                        onClick={() => setDeliveryMethod("Dine in")}
+                        className="w-full"
+                      >
+                        <label
+                          className={
+                            deliveryMethod === "Dine in"
+                              ? "btn btn-primary normal-case w-full"
+                              : "btn btn-secondary normal-case w-full"
+                          }
+                        >
                           <span className="text-white">Dine in</span>
                         </label>
                       </div>
-                      <div onClick={() => setDeliveryMethod('Take away')} className="w-full">
-                        <label className={deliveryMethod === 'Take away' ? "btn btn-primary normal-case w-full" : "btn btn-secondary normal-case w-full"}>
+                      <div
+                        onClick={() => setDeliveryMethod("Take away")}
+                        className="w-full"
+                      >
+                        <label
+                          className={
+                            deliveryMethod === "Take away"
+                              ? "btn btn-primary normal-case w-full"
+                              : "btn btn-secondary normal-case w-full"
+                          }
+                        >
                           <span className="text-white">Take away</span>
                         </label>
                       </div>
                     </div>
                     <div className="flex-col flex gap-4 max-w-md">
-                      <button type="submit" className="btn btn-primary normal-case">
+                      <button
+                        type="submit"
+                        className="btn btn-primary normal-case"
+                      >
                         Save Product
                       </button>
                       <button className="btn btn-default normal-case">
@@ -412,7 +526,7 @@ function NewProduct({ token }) {
             <Footer />
           </div>
         </>
-      }
+      )}
     </div>
   )
 }
