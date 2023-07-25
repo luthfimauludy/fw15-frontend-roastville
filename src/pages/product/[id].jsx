@@ -6,14 +6,13 @@ import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import http from "@/helpers/http"
 import { Formik } from "formik"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
 import {
   addSelectedQty,
-  addVoucher,
   clearProduct,
   variantDetail,
 } from "@/redux/reducers/product"
@@ -34,12 +33,16 @@ function DetailProduct({ token }) {
   const dispatch = useDispatch()
   const productDetails = useSelector((state) => state.product.data)
   const [editProduct, setEditProduct] = useState(false)
+  const [isCartAdded, setIsCartAdded] = useState([])
+  const [cartStatus, setCartStatus] = useState(false)
   const [product, setProduct] = useState([])
   const [productId, setProductId] = useState([])
   const [roleId, setRoleId] = useState("")
   const [initialQuantity, setInitialQuantity] = useState(1)
   const [selectedSize, setSelectedSize] = useState(false)
   const [selectedDelivery, setSelectedDelivery] = useState(false)
+  const [remainingProducts, setRemainingProducts] = useState(null)
+  const [cart, setCart] = useState(false)
   const selectSize = useRef()
   const selectDelivery = useRef()
 
@@ -48,9 +51,14 @@ function DetailProduct({ token }) {
       setInitialQuantity(productDetails?.variant?.quantity)
     } else {
       setInitialQuantity(initialQuantity + 1)
+      setRemainingProducts(remainingProducts - 1)
       dispatch(addSelectedQty(initialQuantity + 1))
     }
   }
+
+  const setQuantity = useCallback(() => {
+    setRemainingProducts(productDetails.variant.quantity - 1)
+  }, [productDetails.variant.quantity])
 
   const doCheckout = () => {
     if (selectSize.current.selectedIndex === 0) {
@@ -67,6 +75,7 @@ function DetailProduct({ token }) {
       setInitialQuantity(1)
     } else {
       setInitialQuantity(initialQuantity - 1)
+      setRemainingProducts(remainingProducts + 1)
       dispatch(addSelectedQty(initialQuantity - 1))
     }
   }
@@ -82,7 +91,8 @@ function DetailProduct({ token }) {
     }
 
     getRoleId()
-  }, [token, roleId])
+    setQuantity()
+  }, [token, roleId, setQuantity])
 
   const router = useRouter()
   const { id } = router.query
@@ -97,12 +107,22 @@ function DetailProduct({ token }) {
       }
     }
 
+    async function getCart() {
+      try {
+        const { data } = await http(token).get("/cart")
+        setIsCartAdded(data.results)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
     if (!productDetails) {
       router.replace("/product")
     }
 
+    getCart()
     getProductId()
-  }, [router, productDetails])
+  }, [router, productDetails, token])
 
   const editProductAdmin = async (values) => {
     const form = new FormData()
@@ -135,6 +155,28 @@ function DetailProduct({ token }) {
     }
     router.events.on("routeChangeStart", handleChangeRouter)
   })
+
+  async function addToCart() {
+    if (selectSize.current.selectedIndex === 0) {
+      setSelectedSize(true)
+    } else if (selectDelivery.current.selectedIndex === 0) {
+      setSelectedDelivery(true)
+    } else {
+      const { id, name, picture, variant } = productDetails
+      const parseVariant = JSON.stringify(variant)
+      const form = new URLSearchParams({
+        id,
+        name,
+        picture,
+        variant: parseVariant,
+      }).toString()
+
+      const { data } = await http(token).post("/cart", form)
+      if (data.success === true) {
+        setCart(true)
+      }
+    }
+  }
 
   return (
     <div className="h-min-screen">
@@ -258,10 +300,7 @@ function DetailProduct({ token }) {
                       </div>
                       {productDetails.variant.code ? (
                         <div>
-                          <p>
-                            Remaining quantity:{" "}
-                            {productDetails.variant.quantity}
-                          </p>
+                          <p>Remaining quantity: {remainingProducts}</p>
                         </div>
                       ) : (
                         <div></div>
@@ -292,8 +331,9 @@ function DetailProduct({ token }) {
                           <button
                             type="button"
                             className="btn btn-secondary w-full h-full text-white normal-case text-xl"
+                            onClick={addToCart}
                           >
-                            Add to Cart
+                            {cart ? "Remove from cart" : "Add to cart"}
                           </button>
                         </div>
                       </div>
