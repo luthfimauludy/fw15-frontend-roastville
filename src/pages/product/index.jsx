@@ -15,6 +15,8 @@ import {
   variantDetail,
 } from "@/redux/reducers/product"
 import { withIronSessionSsr } from "iron-session/next"
+import { FaArrowLeft } from "react-icons/fa"
+import { FaArrowRight } from "react-icons/fa"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -29,7 +31,6 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 function ProductCust({ token }) {
   const [product, setProduct] = React.useState([])
   const [categories, setCategories] = React.useState([])
-  const [eventCategories, setEventCategoriesData] = React.useState([])
   const [vouchers, setVouchers] = React.useState([])
   const [selectedVoucher, setSelectedVoucher] = React.useState(null)
   const productInfo = useSelector((state) => state.product.data)
@@ -50,8 +51,7 @@ function ProductCust({ token }) {
       const { data } = await http(token).get("/products", {
         params: { category: name },
       })
-      console.log(data)
-      setProduct(data.results)
+      setProduct(data)
     },
     [token]
   )
@@ -59,11 +59,24 @@ function ProductCust({ token }) {
   const getProduct = React.useCallback(async () => {
     try {
       const { data } = await http().get("/products")
-      setProduct(data.results)
+      setProduct(data)
     } catch (error) {
       console.log(error)
     }
   }, [setProduct])
+
+  async function getProductsPaginated(page = 1) {
+    try {
+      const { data } = await http(token).get("/products", {
+        params: {
+          page: page,
+        },
+      })
+      setProduct(data)
+    } catch (err) {
+      console.log(err.response.data)
+    }
+  }
 
   const getVoucher = React.useCallback(async () => {
     try {
@@ -187,7 +200,7 @@ function ProductCust({ token }) {
           </div>
         </div>
         <div className="w-full flex pt-10 justify-center">
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-20 px-10">
             <div className="flex flex-wrap justify-center gap-10 items-center cursor-pointer">
               {categories.map((c) => {
                 return (
@@ -206,7 +219,7 @@ function ProductCust({ token }) {
               })}
             </div>
             <div className="flex justify-center items-center flex-wrap px-10 gap-10">
-              {product.map((item) => {
+              {product?.results?.rows?.map((item) => {
                 return (
                   <div
                     onClick={() => dispatchEvent(item)}
@@ -227,15 +240,32 @@ function ProductCust({ token }) {
                         {item?.name}
                       </div>
                     </div>
-                    {/* <div className="font-bold text-primary">
-                      {new Intl.NumberFormat("in-IN", {
-                        style: "currency",
-                        currency: "IDR",
-                      }).format(item?.variant[0]?.price)}
-                    </div> */}
                   </div>
                 )
               })}
+            </div>
+            <div className="flex w-full justify-center items-center gap-5 mt-5 md:mt-0">
+              <button
+                disabled={product.results?.pageInfo?.page <= 1}
+                onClick={() =>
+                  getProductsPaginated(product.results?.pageInfo?.page - 1)
+                }
+                className="btn bg-primary text-white border-none normal-case hover:bg-primary"
+              >
+                <FaArrowLeft size={20} />
+              </button>
+              <button
+                disabled={
+                  product.results?.pageInfo?.page ===
+                  product.results?.pageInfo?.totalPage
+                }
+                onClick={() =>
+                  getProductsPaginated(product.results?.pageInfo?.page + 1)
+                }
+                className="btn bg-primary text-white border-none normal-case hover:bg-primary"
+              >
+                <FaArrowRight size={20} />
+              </button>
             </div>
           </div>
         </div>
