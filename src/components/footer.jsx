@@ -8,8 +8,8 @@ function Footer() {
   return (
     <>
       <div className="py-14 bg-gray-200">
-        <div className="w-full flex justify-around">
-          <div className="max-w-lg flex flex-col gap-8">
+        <div className="w-full flex justify-around flex-wrap md:flex-nowrap">
+          <div className="max-w-lg flex flex-col gap-8 px-10">
             <div className="flex items-center gap-2">
               <div className=" h-24 w-24">
                 <Image src={logo} alt="" />
@@ -33,7 +33,7 @@ function Footer() {
             </div>
             <div> ©Roastville&nbsp;2023</div>
           </div>
-          <div className="flex gap-20">
+          <div className="flex gap-20 w-full justify-around pt-10">
             <div className="flex flex-col gap-3">
               <div className="text-xl font-bold">Product</div>
               <div className="flex flex-col gap-3">

@@ -145,30 +145,85 @@ function NewProduct({ token }) {
           <div className="header">
             <Header token={token} />
           </div>
-          <form onSubmit={addProduct} className="flex py-32 flex-col md:flex-row gap-20">
-            <div className="flex-auto flex-col items-center justify-center gap-7 border-[1px] border-black">
-              <div className="flex flex-col gap-10 justify-center items-center">
-                <div className="flex flex-col justify-center items-center gap-5 border-[1px] border-black w-full">
-                  <div>
-                    <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
-                      <FaCamera size={40} />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-3 w-[50%] md:w-[40%]">
-                    <label onClick={() => setCamera(true)} className="btn btn-primary text-gray-100 normal-case">
-                      Take a picture
-                    </label>
-                    <ImageUploading
-                      value={picture}
-                      onChange={(value) => setPicture(value[0].file)}
-                      dataURLKey="data_url"
-                      acceptType={["jpg", "png"]}
-                    >
-                      {({
-                        onImageUpload
-                      }) => (
-                        <div className='md:w-full mb-5'>
-                          <button type='button' onClick={onImageUpload} className='btn bg-secondary text-white border-0 w-full font-bold hover:text-secondary'>Choose from gallery</button>
+          <form onSubmit={addProduct}>
+            <div className="flex justify-center items-center w-full pb-10 pt-32">
+              <div className="flex flex-col w-full justify-center items-center md:flex-row gap-10 md:gap-2">
+                <div className="flex-auto flex-col items-center justify-center gap-7 w-[80%] md:w-[30%]">
+                  <div className="flex flex-col gap-10 justify-center items-center">
+                    <div className="flex flex-col justify-center items-center w-full gap-10">
+                      <div className="flex flex-col justify-center items-center gap-5">
+                        <div>
+                          <div className="bg-gray-200 w-32 h-32 rounded-full flex justify-center items-center ">
+                            <FaCamera size={40} />
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-3 w-96 md:w-full">
+                          <label onClick={() => setCamera(true)} className="btn btn-primary text-gray-100 normal-case">
+                            Take a picture
+                          </label>
+                          <ImageUploading
+                            value={picture}
+                            onChange={(value) => setPicture(value[0].file)}
+                            dataURLKey="data_url"
+                            acceptType={["jpg", "png"]}
+                          >
+                            {({
+                              onImageUpload
+                            }) => (
+                              <div className='md:w-full mb-5'>
+                                <button type='button' onClick={onImageUpload} className='btn bg-secondary text-white border-0 w-full font-bold hover:text-secondary'>Choose from gallery</button>
+                              </div>
+                            )}
+                          </ImageUploading>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-16 w-96 md:w-48">
+                        <div className="flex-col flex gap-1">
+                          <span className="text-sm font-semibold">
+                            Delivery Hour :
+                          </span>
+                          <div className="dropdown w-full md:md-[50%]">
+                            <label tabIndex={0} className="btn my-2 normal-case w-96 md:w-full">
+                              Select start hour
+                            </label>
+                            <input
+                              onChange={(e) => setTime(e.target.value)}
+                              name="startHour"
+                              id="startHour"
+                              type="time"
+                              // onChange={handleChange}
+                              // onBlur={handleBlur}
+                              // value={values.startHour}
+                              tabIndex={0}
+                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box z-10"
+                            />
+                          </div>
+                          <div className="dropdown">
+                            <label tabIndex={0} className="btn p-2 normal-case w-96 md:w-full">
+                              Select end hour
+                            </label>
+                            <input
+                              // onChange={handleChange}
+                              // onBlur={handleBlur}
+                              // value={values.endHour}
+                              onChange={(e) => setTime(e.target.value)}
+                              name="endHour"
+                              id="endHour"
+                              type="time"
+                              tabIndex={0}
+                              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                            />
+                          </div>
+                        </div>
+                        <div className="bg-base-100">
+                          <select
+                            value={selectedStock}
+                            onChange={handleStockChange}
+                            className="select select-bordered bg-base-100 w-full">
+                            <option disabled selected className="bg-base-100 w-96">Input stock :</option>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                          </select>
                         </div>
                       )}
                     </ImageUploading>

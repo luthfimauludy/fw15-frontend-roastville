@@ -6,17 +6,13 @@ import message from "./message"
 import productReducer from "./product"
 import profileReducer from "./profile"
 
-const productConf = {
-  key: "product",
-  storage,
-}
 const profileConfig = {
   key: "profile",
   storage,
 }
 const reducer = combineReducers({
   message,
-  product: persistReducer(productConf, productReducer),
+  product: productReducer,
   profile: persistReducer(profileConfig, profileReducer),
 })
 

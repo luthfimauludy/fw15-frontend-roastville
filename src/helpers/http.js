@@ -6,7 +6,7 @@ const http = (token) => {
     headers.Authorization = `Bearer ${token}`
   }
   const instance = axios.create({
-    baseURL: "https://fw15-backend-roastville.vercel.app",
+    baseURL: "http://localhost:8080",
     headers,
   })
   return instance
