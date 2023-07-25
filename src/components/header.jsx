@@ -103,7 +103,7 @@ export default function Headers({ token }) {
             {userRole === 2 && (
               <>
                 <span className="hover:text-secondary">
-                  <Link href="/">Your Cart</Link>
+                  <Link href="/product/cart">Your Cart</Link>
                 </span>
                 <span className="hover:text-secondary">
                   <Link href="/product/history-cust">History</Link>
@@ -298,7 +298,7 @@ export default function Headers({ token }) {
                 )}
                 {userRole === 2 && (
                   <>
-                    <Link href="" className="text-xl font-bold">
+                    <Link href="/product/cart" className="text-xl font-bold">
                       Your Cart
                     </Link>
                     <Link href="/history-cust" className="text-xl font-bold">
