@@ -103,7 +103,7 @@ export default function Headers({ token }) {
             {userRole === 2 && (
               <>
                 <span className="hover:text-secondary">
-                  <Link href="/">Your Cart</Link>
+                  <Link href="/product/cart">Your Cart</Link>
                 </span>
                 <span className="hover:text-secondary">
                   <Link href="/product/history-cust">History</Link>
@@ -280,18 +280,30 @@ export default function Headers({ token }) {
           <div className="flex flex-col gap-10 w-full h-full px-10">
             <nav>
               <ul className="flex flex-col gap-2">
-                <li className="text-xl font-bold">Home</li>
-                <li className="text-xl font-bold">Product</li>
+                <Link href="/" className="text-xl font-bold">
+                  Home
+                </Link>
+                <Link href="/product" className="text-xl font-bold">
+                  Product
+                </Link>
                 {userRole === 1 && (
                   <>
-                    <li className="text-xl font-bold">Orders</li>
-                    <li className="text-xl font-bold">Dashboard</li>
+                    <Link href="/manage-order" className="text-xl font-bold">
+                      Orders
+                    </Link>
+                    <Link href="/dashboard" className="text-xl font-bold">
+                      Dashboard
+                    </Link>
                   </>
                 )}
                 {userRole === 2 && (
                   <>
-                    <li className="text-xl font-bold">Your Cart</li>
-                    <li className="text-xl font-bold">History</li>
+                    <Link href="/product/cart" className="text-xl font-bold">
+                      Your Cart
+                    </Link>
+                    <Link href="/history-cust" className="text-xl font-bold">
+                      History
+                    </Link>
                   </>
                 )}
               </ul>

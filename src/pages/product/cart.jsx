@@ -6,6 +6,7 @@ import checkCredentials from "@/helpers/checkCredentials"
 import cookieConfig from "@/helpers/cookieConfig"
 import { useEffect, useState } from "react"
 import http from "@/helpers/http"
+import { useRouter } from "next/router"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -17,21 +18,21 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   }
 }, cookieConfig)
 
-const HistoryCust = ({ token }) => {
-  const [transactionsHistory, setTransactionHistory] = useState([])
-  const [errMsg, setErrMsg] = useState("")
+const Cart = ({ token }) => {
+  const [listCart, setListCart] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
-    async function getTranscationHistory() {
+    async function getListCart() {
       try {
-        const { data } = await http(token).get("/transactions/manage")
-        setTransactionHistory(data.results)
+        const { data } = await http(token).get("/cart")
+        setListCart(data.results)
       } catch (err) {
         console.log(err)
       }
     }
 
-    getTranscationHistory()
+    getListCart()
   }, [token])
 
   return (
@@ -40,40 +41,36 @@ const HistoryCust = ({ token }) => {
       <div className="bg-payment bg-no-repeat bg-cover pb-[100px]">
         <div className="flex flex-col justify-center items-center leading-10 pt-20">
           <h1 className="text-white text-4xl font-bold text-center">
-            Let&apos;s see what you have bought!
+            Here&apos;s your cart list
           </h1>
-          <p className="text-white">Long press to delete item</p>
         </div>
         <div className="flex justify-center items-center pt-20">
           <div className="flex justify-center items-center flex-wrap gap-10">
-            {transactionsHistory.map((tr) => {
+            {listCart.map((cart, index) => {
               return (
                 <>
-                  <div className="w-[394px] h-[126px] bg-white rounded-2xl hover:opacity-50 cursor-pointer">
+                  <div
+                    className="w-[394px] h-[126px] bg-white rounded-2xl hover:opacity-50 cursor-pointer"
+                    key={index}
+                  >
                     <div className="py-5 px-5 flex gap-5">
                       <Image
-                        src={tr.picture}
+                        src={cart.picture}
                         width="82"
                         height="90"
                         alt=""
                         className="rounded-full"
                       />
                       <div className="flex-1 text-lg">
-                        <p className="font-bold text-2xl">{tr.name}</p>
+                        <p className="font-bold text-2xl">{cart.name}</p>
+                        <p>{cart.variant.name}</p>
                         <p>
                           {new Intl.NumberFormat("in-IN", {
                             style: "currency",
                             currency: "IDR",
-                          }).format(tr.price)}
+                          }).format(cart.variant.price)}
                         </p>
-                        <p>{tr.status}</p>
                       </div>
-                      <input
-                        className="self-end"
-                        type="checkbox"
-                        name="check"
-                        id=""
-                      />
                     </div>
                   </div>
                 </>
@@ -87,4 +84,4 @@ const HistoryCust = ({ token }) => {
   )
 }
 
-export default HistoryCust
+export default Cart

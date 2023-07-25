@@ -103,7 +103,7 @@ export default function Home({ token }) {
           </div>
         </div>
       </div>
-      <div className="flex justify-around items-center xl:h-[550px] md:mt-28 pt-72 md:pt-36 gap-10 md:gap-0 flex-wrap">
+      <div className="flex justify-around items-center xl:h-[550px] md:mt-28 xl:mt-0 pt-72 md:pt-36 gap-10 md:gap-0 flex-wrap">
         <div>
           <Image alt="" src={TeamWork}></Image>
         </div>
@@ -148,7 +148,7 @@ export default function Home({ token }) {
         </div>
       </div>
       <div className="w-full flex flex-col gap-10 items-center m:h-[900px]">
-        <div className="flex flex-col justify-between gap-10 items-center px-10 py-10 md:px-0 md:py-0">
+        <div className="flex flex-col justify-between gap-10 items-center px-10 py-10 md:pt-32">
           <div className="text-4xl font-bold text-center">
             Here is People&apos;s Favorite
           </div>

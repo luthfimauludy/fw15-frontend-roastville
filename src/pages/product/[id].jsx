@@ -1,20 +1,23 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import React, { useEffect, useRef, useState } from "react"
-import { IoIosArrowForward } from "react-icons/io"
 import Image from "next/image"
 import default_picture from "/public/default.jpg"
+import checkCredentials from "@/helpers/checkCredentials"
+import cookieConfig from "@/helpers/cookieConfig"
+import http from "@/helpers/http"
+import { Formik } from "formik"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { IoIosArrowForward } from "react-icons/io"
 import { FiTrash2 } from "react-icons/fi"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
-import { clearProduct } from "@/redux/reducers/product"
+import {
+  addSelectedQty,
+  clearProduct,
+  variantDetail,
+} from "@/redux/reducers/product"
 import { PURGE } from "redux-persist"
 import { withIronSessionSsr } from "iron-session/next"
-import checkCredentials from "@/helpers/checkCredentials"
-import cookieConfig from "@/helpers/cookieConfig"
-import { Formik } from "formik"
-import http from "@/helpers/http"
-import { variantDetail } from "@/redux/reducers/variant"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -28,45 +31,52 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function DetailProduct({ token }) {
   const dispatch = useDispatch()
-  const variant = useSelector((state) => state.variant.data)
-  const [editProduct, setEditProduct] = React.useState(false)
-  const [product, setProduct] = React.useState([])
-  const [productId, setProductId] = React.useState([])
   const productDetails = useSelector((state) => state.product.data)
+  const [editProduct, setEditProduct] = useState(false)
+  const [isCartAdded, setIsCartAdded] = useState([])
+  const [cartStatus, setCartStatus] = useState(false)
+  const [product, setProduct] = useState([])
+  const [productId, setProductId] = useState([])
   const [roleId, setRoleId] = useState("")
-  const [initialQuantity, setInitialQuantity] = React.useState(0)
-  const [selectedVariant, setSelectedVariant] = React.useState(null)
-  console.log(selectedVariant)
+  const [initialQuantity, setInitialQuantity] = useState(1)
+  const [selectedSize, setSelectedSize] = useState(false)
+  const [selectedDelivery, setSelectedDelivery] = useState(false)
+  const [remainingProducts, setRemainingProducts] = useState(null)
+  const [cart, setCart] = useState(false)
+  const selectSize = useRef()
+  const selectDelivery = useRef()
+
   function increment() {
-    if (initialQuantity === variant.quantity) {
-      setInitialQuantity(variant.quantity)
+    if (initialQuantity === productDetails?.variant?.quantity) {
+      setInitialQuantity(productDetails?.variant?.quantity)
     } else {
       setInitialQuantity(initialQuantity + 1)
-      setSelectedVariant((prevState) => ({
-        ...prevState,
-        selectedQty: initialQuantity + 1,
-      }))
+      setRemainingProducts(remainingProducts - 1)
+      dispatch(addSelectedQty(initialQuantity + 1))
     }
   }
 
+  const setQuantity = useCallback(() => {
+    setRemainingProducts(productDetails.variant.quantity - 1)
+  }, [productDetails.variant.quantity])
+
   const doCheckout = () => {
-    if (initialQuantity === 0) {
-      alert("Please select qty")
+    if (selectSize.current.selectedIndex === 0) {
+      setSelectedSize(true)
+    } else if (selectDelivery.current.selectedIndex === 0) {
+      setSelectedDelivery(true)
     } else {
-      dispatch(variantDetail(selectedVariant))
       router.replace("/payment")
     }
   }
 
   function decrement() {
-    if (initialQuantity === 1) {
+    if (initialQuantity <= 1) {
       setInitialQuantity(1)
     } else {
       setInitialQuantity(initialQuantity - 1)
-      setSelectedVariant((prevState) => ({
-        ...prevState,
-        selectedQty: initialQuantity - 1,
-      }))
+      setRemainingProducts(remainingProducts + 1)
+      dispatch(addSelectedQty(initialQuantity - 1))
     }
   }
 
@@ -81,16 +91,26 @@ function DetailProduct({ token }) {
     }
 
     getRoleId()
-  }, [token, roleId])
+    setQuantity()
+  }, [token, roleId, setQuantity])
 
   const router = useRouter()
   const { id } = router.query
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function getProductId() {
       try {
-        const { data } = await http().get(`/products/1`)
+        const { data } = await http().get(`/products/${productDetails.id}`)
         setProductId(data.results.variant)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    async function getCart() {
+      try {
+        const { data } = await http(token).get("/cart")
+        setIsCartAdded(data.results)
       } catch (err) {
         console.log(err)
       }
@@ -100,8 +120,9 @@ function DetailProduct({ token }) {
       router.replace("/product")
     }
 
+    getCart()
     getProductId()
-  }, [router, productDetails])
+  }, [router, productDetails, token])
 
   const editProductAdmin = async (values) => {
     const form = new FormData()
@@ -117,14 +138,13 @@ function DetailProduct({ token }) {
         },
       })
       setProduct(data.result)
-      console.log(data)
     } catch (err) {
       console.log(err)
     }
     setEditProduct(false)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleChangeRouter = () => {
       dispatch({
         type: PURGE,
@@ -136,20 +156,40 @@ function DetailProduct({ token }) {
     router.events.on("routeChangeStart", handleChangeRouter)
   })
 
+  async function addToCart() {
+    if (selectSize.current.selectedIndex === 0) {
+      setSelectedSize(true)
+    } else if (selectDelivery.current.selectedIndex === 0) {
+      setSelectedDelivery(true)
+    } else {
+      const { id, name, picture, variant } = productDetails
+      const parseVariant = JSON.stringify(variant)
+      const form = new URLSearchParams({
+        id,
+        name,
+        picture,
+        variant: parseVariant,
+      }).toString()
+
+      const { data } = await http(token).post("/cart", form)
+      if (data.success === true) {
+        setCart(true)
+      }
+    }
+  }
+
   return (
     <div className="h-min-screen">
-      <div className="pb-24 header">
-        <Header token={token} />
-      </div>
-      <div className="h-[100%] pt-10">
-        <div className="flex h-full px-16 md:px-24 py-10 flex-col md:flex-row border-[1px] border-black">
-          <div className="flex md:w-[50%] pb-10 border-[1px] border-black">
+      <Header token={token} />
+      <div className="h-full">
+        <div className="flex px-5 md:px-24 py-10 flex-col md:flex-row h-full">
+          <div className="flex md:w-[50%] pb-10">
             <div className="flex flex-col gap-4 w-full">
               <div className="flex font-bold items-center md:text-[20px] ">
-                Favourit & Promo <IoIosArrowForward size={30} />
-                <div>name product</div>
+                Favourite & Promo <IoIosArrowForward size={30} />
+                <div>{id}</div>
               </div>
-              <div className="md:h-[700px] relative  border-[1px] border-black">
+              <div className="md:h-[700px] relative flex justify-center items-center">
                 {productDetails.picture === null ? (
                   <Image
                     src={default_picture}
@@ -162,11 +202,11 @@ function DetailProduct({ token }) {
                     width="400"
                     height="400"
                     src={productDetails.picture}
-                    className="object-cover h-full w-full"
+                    className="object-cover"
                   />
                 )}
                 <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
-                  <FiTrash2 size={30} />
+                  <FiTrash2 size={30} color="white" />
                 </button>
               </div>
             </div>
@@ -177,14 +217,14 @@ function DetailProduct({ token }) {
                 name: productDetails?.name,
                 description: productDetails?.description,
               }}
-              onSubmit={editProductAdmin}
+              onSubmit={doCheckout}
               enableReinitialize
             >
               {({ handleSubmit, handleChange, handleBlur, values }) => (
                 <form onSubmit={handleSubmit} className="flex flex-1">
-                  <div className="flex flex-col gap-4 px-10 w-full border-[1px] border-black">
+                  <div className="flex flex-col gap-4 px-10 w-full">
                     {!editProduct && (
-                      <div className="font-bold text-2xl md:tex-4xl lg:text-6xl">
+                      <div className="font-black text-2xl md:tex-4xl lg:text-6xl">
                         {productDetails.name}
                       </div>
                     )}
@@ -198,26 +238,36 @@ function DetailProduct({ token }) {
                         value={values.name}
                       />
                     )}
-                    <div className="border-t-2 border-b-2 text-2xl md:text-[40px] py-2">
-                      {/* {variant.price} */}
+                    <div className="text-2xl md:text-[40px] py-2">
+                      {!productDetails?.variant?.price
+                        ? ""
+                        : new Intl.NumberFormat("in-IN", {
+                            style: "currency",
+                            currency: "IDR",
+                          }).format(productDetails?.variant?.price)}
                     </div>
-                    <div className="text-2xl md:text-[40px] font-semi-bold py-4 border-b-2 ">
+                    <div className="text-2xl md:text-[20px] font-semi-bold py-4">
                       {productDetails.description}
                     </div>
                     <div className="flex flex-col gap-8">
                       <div className="w-full h-24 pt-8">
                         <select
+                          ref={selectSize}
                           onChange={(e) => {
-                            setSelectedVariant(JSON.parse(e.target.value))
-                            setSelectedVariant((prevState) => ({
-                              ...prevState,
-                              selectedQty: initialQuantity,
-                            }))
+                            setInitialQuantity(1)
                             dispatch(variantDetail(JSON.parse(e.target.value)))
+                            dispatch(addSelectedQty(1))
+                            setSelectedSize(false)
                           }}
-                          className="select select-primary w-full h-full text-lg md:text-[20px]"
+                          className={
+                            !selectedSize
+                              ? "select select-primary w-full h-full text-lg  "
+                              : "select select-error border-4 w-full h-full text-lg "
+                          }
                         >
-                          <option value="">--Select Size--</option>
+                          <option value="" disabled selected>
+                            Select Size
+                          </option>
                           {productId.map((variant, index) => {
                             return (
                               <option
@@ -231,15 +281,30 @@ function DetailProduct({ token }) {
                         </select>
                       </div>
                       <div className="w-full pt-0 h-16">
-                        <select className="select select-primary w-full h-full text-lg md:text-[20px]">
+                        <select
+                          ref={selectDelivery}
+                          onChange={() => setSelectedDelivery(false)}
+                          className={
+                            !selectedDelivery
+                              ? "select select-primary w-full h-full text-lg md:text-[18px]"
+                              : "select select-error border-4 w-full h-full text-lg md:text-[18px]"
+                          }
+                        >
                           <option disabled selected>
-                            --Select Delivery Methods--
+                            Select Delivery Methods
                           </option>
                           <option value="Dine In">Dine In</option>
                           <option value="Door Delivery">Door Delivery</option>
                           <option value="Pick Up">Pick Up</option>
                         </select>
                       </div>
+                      {productDetails.variant.code ? (
+                        <div>
+                          <p>Remaining quantity: {remainingProducts}</p>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                       <div className="flex gap-4 w-full h-16">
                         <div className="h-full rounded-xl flex justify-between items-center w-[40%] border bordered-2 px-4">
                           <button
@@ -249,7 +314,11 @@ function DetailProduct({ token }) {
                           >
                             -
                           </button>
-                          <div className="p-2">{initialQuantity}</div>
+                          <div className="p-2">
+                            {productDetails?.variant?.quantity === 0
+                              ? "0"
+                              : initialQuantity}
+                          </div>
                           <button
                             type="button"
                             onClick={increment}
@@ -261,9 +330,10 @@ function DetailProduct({ token }) {
                         <div className="flex flex-1 h-full ">
                           <button
                             type="button"
-                            className="btn btn-secondary w-full h-full text-white normal-case"
+                            className="btn btn-secondary w-full h-full text-white normal-case text-xl"
+                            onClick={addToCart}
                           >
-                            Add to Chart
+                            {cart ? "Remove from cart" : "Add to cart"}
                           </button>
                         </div>
                       </div>
@@ -290,13 +360,19 @@ function DetailProduct({ token }) {
                       )}
                       {roleId === 2 && (
                         <div>
-                          <button
-                            type="submit"
-                            onClick={() => doCheckout()}
-                            className="btn btn-primary w-full"
-                          >
-                            Checkout
-                          </button>
+                          {productDetails?.variant?.quantity === 0 ? (
+                            <p className="text-xl font-bold text-center text-red-500">
+                              {productDetails?.variant?.name +
+                                " is Out of Stock, please select another!"}
+                            </p>
+                          ) : (
+                            <button
+                              type="submit"
+                              className="btn text-white normal-case btn-primary w-full"
+                            >
+                              Checkout
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
