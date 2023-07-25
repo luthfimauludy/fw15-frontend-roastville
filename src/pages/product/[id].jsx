@@ -31,7 +31,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function DetailProduct({ token }) {
   const dispatch = useDispatch()
-  const profile = useSelector((state) => state.profile.data)
+  const [profile, setProfile] = useState([])
   const productDetails = useSelector((state) => state.product.data)
   const [editProduct, setEditProduct] = useState(false)
   const [isCartAdded, setIsCartAdded] = useState(false)
@@ -59,6 +59,19 @@ function DetailProduct({ token }) {
   const setQuantity = useCallback(() => {
     setRemainingProducts(productDetails.variant.quantity - 1)
   }, [productDetails.variant.quantity])
+
+  const getProfile = useCallback(async () => {
+    try {
+      const { data } = await http(token).get("/profile/user")
+      setProfile(data.results)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [token])
+
+  useEffect(() => {
+    getProfile()
+  }, [getProfile])
 
   const doCheckout = () => {
     if (selectSize.current.selectedIndex === 0) {
@@ -111,7 +124,7 @@ function DetailProduct({ token }) {
       try {
         const { data } = await http(token).get(`/cart/${productDetails.id}`)
         const userId = data.results.userId
-        if (profile[0].id === userId) {
+        if (profile.userId === userId) {
           setIsCartAdded(true)
         }
       } catch (err) {
