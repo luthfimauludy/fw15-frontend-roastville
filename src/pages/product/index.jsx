@@ -79,8 +79,6 @@ function ProductCust({ token }) {
     router.replace(url)
   }
 
-  console.log(selectedVoucher)
-
   return (
     <div className="h-min-screen">
       <Header token={token} />
