@@ -31,10 +31,10 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function DetailProduct({ token }) {
   const dispatch = useDispatch()
+  const profile = useSelector((state) => state.profile.data)
   const productDetails = useSelector((state) => state.product.data)
   const [editProduct, setEditProduct] = useState(false)
-  const [isCartAdded, setIsCartAdded] = useState([])
-  const [cartStatus, setCartStatus] = useState(false)
+  const [isCartAdded, setIsCartAdded] = useState(false)
   const [product, setProduct] = useState([])
   const [productId, setProductId] = useState([])
   const [roleId, setRoleId] = useState("")
@@ -109,8 +109,11 @@ function DetailProduct({ token }) {
 
     async function getCart() {
       try {
-        const { data } = await http(token).get("/cart")
-        setIsCartAdded(data.results)
+        const { data } = await http(token).get(`/cart/${productDetails.id}`)
+        const userId = data.results.userId
+        if (profile[0].id === userId) {
+          setIsCartAdded(true)
+        }
       } catch (err) {
         console.log(err)
       }
@@ -122,7 +125,7 @@ function DetailProduct({ token }) {
 
     getCart()
     getProductId()
-  }, [router, productDetails, token])
+  }, [router, productDetails, token, profile])
 
   const editProductAdmin = async (values) => {
     const form = new FormData()
@@ -157,24 +160,17 @@ function DetailProduct({ token }) {
   })
 
   async function addToCart() {
-    if (selectSize.current.selectedIndex === 0) {
-      setSelectedSize(true)
-    } else if (selectDelivery.current.selectedIndex === 0) {
-      setSelectedDelivery(true)
-    } else {
-      const { id, name, picture, variant } = productDetails
-      const parseVariant = JSON.stringify(variant)
+    try {
+      const productId = productDetails.id
       const form = new URLSearchParams({
-        id,
-        name,
-        picture,
-        variant: parseVariant,
+        productId,
       }).toString()
-
       const { data } = await http(token).post("/cart", form)
       if (data.success === true) {
-        setCart(true)
+        setIsCartAdded(!isCartAdded)
       }
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -333,7 +329,7 @@ function DetailProduct({ token }) {
                             className="btn btn-secondary w-full h-full text-white normal-case text-xl"
                             onClick={addToCart}
                           >
-                            {cart ? "Remove from cart" : "Add to cart"}
+                            {isCartAdded ? "Remove from cart" : "Add to cart"}
                           </button>
                         </div>
                       </div>
