@@ -147,7 +147,7 @@ export default function Home({ token }) {
               </div>
               <div>Healthy meals, you can request the ingredients</div>
             </div>
-            <div className="flex justify-between gap-2">
+            <div className="flex gap-2">
               <div>
                 <Image alt="" src={Checkbox} />
               </div>
