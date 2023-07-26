@@ -309,7 +309,11 @@ function DetailProduct({ token }) {
                       </div>
                       {productDetails.variant.code ? (
                         <div>
-                          <p>Remaining quantity: {remainingProducts}</p>
+                          <p>
+                            {productDetails?.variant?.quantity === 0
+                              ? ""
+                              : `Remaining quantity: ${remainingProducts}`}
+                          </p>
                         </div>
                       ) : (
                         <div></div>
