@@ -1,3 +1,50 @@
+# ROASTVILLE
+![Logo Roastville](https://github.com/hendris27/fw15-tim-frontend-roastville/blob/main/screenshoot_website/logo-roastville.jpg)
+
+#About The Project
+
+Roastville is a coffee shop application, in this app, users can buy some products like coffee, food, drink and many more.
+
+# Feature
+
+- Products always is up to date.
+- Becoming an author to make a product.
+- Buy products using coupons to get discounted price
+- Etc
+
+# Built with
+
+- [fontend](https://roastville.netlify.app/)
+1. [React js ](https://reactjs.org/)
+2. [Tailwind](https://tailwindcss.com/)
+3. [DaisyUi](https://daisyui.com/)
+
+- [Backend](https://fw15-logpose-backend.vercel.app/)
+1. [Node js](https://nodejs.org/en/)
+2. [Express js](https://expressjs.com/en/starter/installing.html)
+
+# Tech stack
+- [Redux](https://redux.js.org/)
+- [Axios](https://axios-http.com/docs/intro)
+- [Argon](https://www.npmjs.com/package/argon2)
+- [jwt token](https://www.npmjs.com/package/jsonwebtoken)
+- [Multer](https://www.npmjs.com/package/multer)
+- [Moment](https://momentjs.com/)
+- [Formik](https://formik.org/)
+
+
+# How to use
+
+##Register Page
+![Register](https://github.com/hendris27/fw15-tim-frontend-roastville/blob/main/screenshoot_website/register_page.png)
+
+##Login Page
+![Login](https://github.com/hendris27/fw15-tim-frontend-roastville/blob/main/screenshoot_website/login_page.png)
+
+##Home Page
+![Home](https://github.com/hendris27/fw15-tim-frontend-roastville/blob/main/screenshoot_website/home_page.png)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
