@@ -203,7 +203,7 @@ function DetailProduct({ token }) {
                   <Image
                     src={default_picture}
                     alt="img-product.png"
-                    className="object-cover h-full w-full"
+                    className="h-full w-full"
                   />
                 ) : (
                   <Image
@@ -220,7 +220,7 @@ function DetailProduct({ token }) {
               </div>
             </div>
           </div>
-          <div className="flex flex-1">
+          <div className="flex flex-1 md:w-[50%]">
             <Formik
               initialValues={{
                 name: productDetails?.name,
@@ -319,7 +319,7 @@ function DetailProduct({ token }) {
                           <button
                             type="button"
                             onClick={decrement}
-                            className="p-2 text-[20px] "
+                            className="p-2 ext-lg md:text-[20px] "
                           >
                             -
                           </button>
@@ -331,7 +331,7 @@ function DetailProduct({ token }) {
                           <button
                             type="button"
                             onClick={increment}
-                            className="p-2 text-[20px]"
+                            className="p-2 ext-lg md:text-[20px]"
                           >
                             +
                           </button>

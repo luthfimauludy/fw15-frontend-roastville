@@ -19,11 +19,14 @@ export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
     const token = req.session?.token
     checkCredentials(token, res, "/auth/login")
-    const { data } = await axios.get("http://localhost:8080/profile/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const { data } = await axios.get(
+      process.env.NEXT_PUBLIC_BACKEND_URL + "/profile/user",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
 
     return {
       props: {
