@@ -33,7 +33,9 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function SearchResults({ token }) {
   const [product, setProduct] = React.useState([])
-  const [selectedVoucher, setSelectedVoucher] = React.useState(null)
+  const [limits, setLimits] = React.useState(null)
+  const [pages, setPages] = React.useState(1)
+  const [sort, setSort] = React.useState(null)
   const message = useSelector((state) => state.message.data)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -47,39 +49,28 @@ function SearchResults({ token }) {
     }
   }, [])
 
-  async function getProductsPaginated(page = 1) {
-    try {
-      const { data } = await http(token).get("/products", {
-        params: {
-          page: page,
-        },
-      })
-      setProduct(data)
-    } catch (err) {
-      console.log(err.response.data)
-    }
-  }
-
-  const getEventSearch = useCallback(
-    async function getEventsBySearch() {
+  const getProducts = React.useCallback(
+    async (page = pages, search = message, limit = limits) => {
       try {
-        const { data } = await http().get("/products", {
+        const { data } = await http(token).get("/products", {
           params: {
-            search: message,
+            page: page,
+            search: search,
+            limit: limit,
           },
         })
         setProduct(data)
       } catch (err) {
-        console.log(err)
+        console.log(err.response.data)
       }
     },
-    [message]
+    [limits, message, token, pages]
   )
 
   React.useEffect(() => {
     dispatch(clearProduct())
-    getEventSearch()
-  }, [dispatch, getProductCategory, getEventSearch])
+    getProducts()
+  }, [dispatch, getProductCategory, getProducts])
 
   const dispatchEvent = (item) => {
     const encodedProductName = encodeURIComponent(item.name)
@@ -98,24 +89,21 @@ function SearchResults({ token }) {
         selectedQty: 1,
       })
     )
-    dispatch(addVoucher(selectedVoucher))
     router.replace(url)
   }
 
   const setLimit = async (event) => {
-    const limit = event.target.value
-    const { data } = await http().get("/products", { params: { limit } })
-    setProduct(data)
+    setLimits(event.target.value)
+    getProducts()
   }
 
   const sortProduct = async (event) => {
-    const sort = event.target.value
-    const { data } = await http().get("/products", { params: { sort } })
-    setProduct(data)
+    setSort(event.target.value)
+    getProducts()
   }
 
   const handleSearch = (values) => {
-    getEventSearch()
+    getProducts()
     dispatch(setMessage(values.search))
   }
 
@@ -156,6 +144,9 @@ function SearchResults({ token }) {
             <div className="flex justify-center items-center gap-2">
               <p className="font-bold text-2xl">Limit</p>
               <select onChange={setLimit} className="select select-bordered">
+                <option disabled selected>
+                  Select Limit
+                </option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -200,9 +191,7 @@ function SearchResults({ token }) {
             <div className="flex w-full justify-center items-center gap-5 mt-5 md:mt-0">
               <button
                 disabled={product.results?.pageInfo?.page <= 1}
-                onClick={() =>
-                  getProductsPaginated(product.results?.pageInfo?.page - 1)
-                }
+                onClick={() => getProducts(product.results?.pageInfo?.page - 1)}
                 className="btn bg-primary text-white border-none normal-case hover:bg-primary"
               >
                 <FaArrowLeft size={20} />
@@ -212,9 +201,7 @@ function SearchResults({ token }) {
                   product.results?.pageInfo?.page ===
                   product.results?.pageInfo?.totalPage
                 }
-                onClick={() =>
-                  getProductsPaginated(product.results?.pageInfo?.page + 1)
-                }
+                onClick={() => getProducts(product.results?.pageInfo?.page + 1)}
                 className="btn bg-primary text-white border-none normal-case hover:bg-primary"
               >
                 <FaArrowRight size={20} />
