@@ -3,13 +3,16 @@ import cookieConfig from "@/helpers/cookieConfig"
 
 export default withIronSessionApiRoute(async function loginRoute(req, res) {
   try {
-    const request = await fetch("http://localhost:8080/auth/login", {
-      method: "POST",
-      body: new URLSearchParams(req.body).toString(),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    })
+    const request = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/login",
+      {
+        method: "POST",
+        body: new URLSearchParams(req.body).toString(),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
     const response = await request.json()
     const token = response?.results?.token
     if (token) {
