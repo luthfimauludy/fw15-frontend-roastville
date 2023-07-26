@@ -2,19 +2,21 @@ import Image from "next/image"
 import Link from "next/link"
 import React, { useState } from "react"
 import logo from "public/logo_roastville.png"
+import DefaultPicture from "../../public/default.jpg"
+import axios from "axios"
+import cookieConfig from "@/helpers/cookieConfig"
+import http from "@/helpers/http"
 import { FiDelete, FiSearch } from "react-icons/fi"
 import { BsChatLeftText } from "react-icons/bs"
-import DefaultPicture from "../../public/default.jpg"
 import { AiOutlineLogout, AiOutlineUser } from "react-icons/ai"
 import { RxCross2 } from "react-icons/rx"
 import { useRouter } from "next/router"
-import axios from "axios"
-import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
 import { useDispatch, useSelector } from "react-redux"
 import { setProfile } from "@/redux/reducers/profile"
 import { Twirl as Hamburger } from "hamburger-react"
-import http from "@/helpers/http"
+import { Formik } from "formik"
+import { setMessage } from "@/redux/reducers/message"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
@@ -69,16 +71,17 @@ export default function Headers({ token }) {
     setSearch(false)
   }
 
-  const clearInput = () => {
-    setInputValue("")
-  }
-
   const handleCheckboxChange = () => {
     setCheckModal(!modal)
   }
 
   function checkModal() {
     setCheckModal(!modal)
+  }
+
+  const handleSearch = (values) => {
+    dispatch(setMessage(values.search))
+    router.push("/search")
   }
 
   return (
@@ -125,31 +128,38 @@ export default function Headers({ token }) {
             {token ? (
               <div className="flex justify-center items-center gap-8">
                 {search && (
-                  <form className="relative">
-                    <input
-                      type="text"
-                      className="input input-bordered bordered-primary w-full px-4"
-                      name="search"
-                      placeholder="search here..."
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                    />
-                    <button
-                      type="reset"
-                      onClick={() => clearInput()}
-                      className="absolute top-2 right-12 "
-                    >
-                      <FiDelete size={25} />
-                    </button>{" "}
-                    <div className="absolute top-2 right-4 ">
-                      <button
-                        onClick={() => handleHide()}
-                        className="text-accent font-bold "
-                      >
-                        <RxCross2 size={25} />
-                      </button>
-                    </div>
-                  </form>
+                  <Formik
+                    initialValues={{ search: "" }}
+                    onSubmit={handleSearch}
+                  >
+                    {({ handleBlur, handleChange, handleSubmit }) => (
+                      <form className="relative" onSubmit={handleSubmit}>
+                        <input
+                          type="text"
+                          className="input input-bordered bordered-primary w-full px-4"
+                          name="search"
+                          placeholder="Search ..."
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        <button
+                          type="reset"
+                          className="absolute top-2 right-12 pt-[2px]"
+                        >
+                          <FiDelete size={25} />
+                        </button>{" "}
+                        <div className="absolute top-2 right-4 ">
+                          <button
+                            onClick={() => handleHide()}
+                            type="button"
+                            className="text-accent font-bold pt-[2px]"
+                          >
+                            <RxCross2 size={25} />
+                          </button>
+                        </div>
+                      </form>
+                    )}
+                  </Formik>
                 )}
                 {!search && (
                   <div>
@@ -301,7 +311,10 @@ export default function Headers({ token }) {
                     <Link href="/product/cart" className="text-xl font-bold">
                       Your Cart
                     </Link>
-                    <Link href="/history-cust" className="text-xl font-bold">
+                    <Link
+                      href="/product/history-cust"
+                      className="text-xl font-bold"
+                    >
                       History
                     </Link>
                   </>
