@@ -1,6 +1,5 @@
 import React from "react"
 import Image from "next/image"
-import image from "/public/img-coupon.png"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import http from "@/helpers/http"
@@ -34,8 +33,8 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function SearchResults({ token }) {
   const [product, setProduct] = React.useState([])
-  const message = useSelector((state) => state.message.data)
   const [selectedVoucher, setSelectedVoucher] = React.useState(null)
+  const message = useSelector((state) => state.message.data)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -47,19 +46,6 @@ function SearchResults({ token }) {
       console.log(err)
     }
   }, [])
-
-  async function getProductsSort(sort = "id") {
-    try {
-      const { data } = await http(token).get("/events", {
-        params: {
-          sort: sort,
-        },
-      })
-      setSearchResults(data)
-    } catch (err) {
-      console.log(err.response.data)
-    }
-  }
 
   async function getProductsPaginated(page = 1) {
     try {
