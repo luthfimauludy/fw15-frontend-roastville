@@ -37,7 +37,7 @@ const HistoryCust = ({ token }) => {
   return (
     <div className="max-w-full max-h-full">
       <Header token={token} />
-      <div className="bg-payment bg-no-repeat bg-cover pb-[100px]">
+      <div className="px-10 bg-payment bg-no-repeat bg-cover pb-[100px]">
         <div className="flex flex-col justify-center items-center leading-10 pt-20">
           <h1 className="text-white text-4xl font-bold text-center">
             Let&apos;s see what you have bought!
@@ -49,7 +49,7 @@ const HistoryCust = ({ token }) => {
             {transactionsHistory.map((tr) => {
               return (
                 <>
-                  <div className="w-[394px] h-[126px] bg-white rounded-2xl hover:opacity-50 cursor-pointer">
+                  <div className="max-w-[394px] h-auto bg-white rounded-2xl hover:opacity-50 cursor-pointer">
                     <div className="py-5 px-5 flex gap-5">
                       <Image
                         src={tr.picture}

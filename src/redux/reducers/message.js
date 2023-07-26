@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-  message: "",
+  data: "",
 }
 
 const MessageSlice = createSlice({
@@ -9,7 +9,7 @@ const MessageSlice = createSlice({
   initialState,
   reducers: {
     setMessage: (state, action) => {
-      state.message = action.payload
+      state.data = action.payload
     },
     clearMessage: () => {
       return initialState

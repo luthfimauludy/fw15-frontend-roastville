@@ -19,6 +19,10 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import cookieConfig from "@/helpers/cookieConfig"
 import { withIronSessionSsr } from "iron-session/next"
+import { useRouter } from "next/router"
+import { Formik } from "formik"
+import { useDispatch } from "react-redux"
+import { setMessage } from "@/redux/reducers/message"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
@@ -30,6 +34,14 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 }, cookieConfig)
 
 export default function Home({ token }) {
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  const handleSearch = (values) => {
+    router.push("/search")
+    dispatch(setMessage(values.search))
+  }
+
   return (
     <>
       <Header token={token} />
@@ -49,20 +61,27 @@ export default function Home({ token }) {
               </button>
             </div>
           </div>
-          <div>
-            <div className="pt-14 z-10">
-              <div className="relative">
-                <input
-                  type="text"
-                  className="input input-bordered w-full sm:max-w-lg pl-14 rounded-full"
-                  placeholder="Search"
-                ></input>
-                <div className="absolute top-2.5 left-6">
-                  <FiSearch size={25} />
+          <Formik initialValues={{ search: "" }} onSubmit={handleSearch}>
+            {({ handleBlur, handleChange, handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <div className="pt-14 z-10">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="input input-bordered w-full sm:max-w-lg pl-14 rounded-full"
+                      placeholder="Search"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      name="search"
+                    ></input>
+                    <div className="absolute top-2.5 left-6">
+                      <FiSearch size={25} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
+              </form>
+            )}
+          </Formik>
         </div>
         <div className="flex flex-col md:flex-row justify-around items-center w-full h-[400px] md:h-[200px] bg-white mt-24 rounded-2xl shadow-2xl">
           <div className="relative">

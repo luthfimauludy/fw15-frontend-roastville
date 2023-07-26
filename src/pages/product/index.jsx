@@ -15,6 +15,8 @@ import {
   variantDetail,
 } from "@/redux/reducers/product"
 import { withIronSessionSsr } from "iron-session/next"
+import { FaArrowLeft } from "react-icons/fa"
+import { FaArrowRight } from "react-icons/fa"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   const token = req.session.token || null
@@ -28,20 +30,53 @@ export const getServerSideProps = withIronSessionSsr(async ({ req, res }) => {
 
 function ProductCust({ token }) {
   const [product, setProduct] = React.useState([])
+  const [categories, setCategories] = React.useState([])
   const [vouchers, setVouchers] = React.useState([])
   const [selectedVoucher, setSelectedVoucher] = React.useState(null)
   const productInfo = useSelector((state) => state.product.data)
   const dispatch = useDispatch()
   const router = useRouter()
 
+  const getProductCategory = React.useCallback(async () => {
+    try {
+      const { data } = await http().get("/categories")
+      setCategories(data.results)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
+
+  const getProductsByCategory = React.useCallback(
+    async function getProductsByCategory(name) {
+      const { data } = await http(token).get("/products", {
+        params: { category: name },
+      })
+      setProduct(data)
+    },
+    [token]
+  )
+
   const getProduct = React.useCallback(async () => {
     try {
       const { data } = await http().get("/products")
-      setProduct(data.results)
+      setProduct(data)
     } catch (error) {
       console.log(error)
     }
   }, [setProduct])
+
+  async function getProductsPaginated(page = 1) {
+    try {
+      const { data } = await http(token).get("/products", {
+        params: {
+          page: page,
+        },
+      })
+      setProduct(data)
+    } catch (err) {
+      console.log(err.response.data)
+    }
+  }
 
   const getVoucher = React.useCallback(async () => {
     try {
@@ -56,7 +91,15 @@ function ProductCust({ token }) {
     getProduct()
     dispatch(clearProduct())
     getVoucher()
-  }, [getProduct, dispatch, getVoucher])
+    getProductCategory()
+    getProductsByCategory()
+  }, [
+    getProduct,
+    dispatch,
+    getVoucher,
+    getProductCategory,
+    getProductsByCategory,
+  ])
 
   const dispatchEvent = (item) => {
     const encodedProductName = encodeURIComponent(item.name)
@@ -157,34 +200,26 @@ function ProductCust({ token }) {
           </div>
         </div>
         <div className="w-full flex pt-10 justify-center">
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-20 px-10">
             <div className="flex flex-wrap justify-center gap-10 items-center cursor-pointer">
-              <div className="flex text-[#9F9F9F] text-xl justify-center w-48 hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:shadow-lg hover:scale-[1.05] hover:text-primary">
-                Favourite & Promo
-              </div>
-              <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
-                <div className="text-[#9F9F9F] text-xl hover:text-primary">
-                  Coffee
-                </div>
-              </div>
-              <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
-                <div className="text-[#9F9F9F] text-xl hover:text-primary">
-                  Non Coffee
-                </div>
-              </div>
-              <div className="flex justify-center border-b-2 border-b-transparent hover:border-b-2 hover:border-primary duration-100 cursor-pointer ">
-                <div className="text-[#9F9F9F] text-xl hover:text-primary hover:scale-[1.05]">
-                  Foods
-                </div>
-              </div>
-              <div className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]">
-                <div className="text-[#9F9F9F] text-xl hover:text-primary">
-                  Add-on
-                </div>
-              </div>
+              {categories.map((c) => {
+                return (
+                  <>
+                    <div
+                      onClick={() => getProductsByCategory(c.name)}
+                      className="flex justify-center hover:border-b-2 hover:border-primary duration-100 cursor-pointer hover:scale-[1.05]"
+                      key={`category-${c.id}`}
+                    >
+                      <div className="text-[#9F9F9F] text-xl hover:text-primary">
+                        {c.name}
+                      </div>
+                    </div>
+                  </>
+                )
+              })}
             </div>
             <div className="flex justify-center items-center flex-wrap px-10 gap-10">
-              {product.map((item) => {
+              {product?.results?.rows?.map((item) => {
                 return (
                   <div
                     onClick={() => dispatchEvent(item)}
@@ -205,15 +240,32 @@ function ProductCust({ token }) {
                         {item?.name}
                       </div>
                     </div>
-                    <div className="font-bold text-primary">
-                      {new Intl.NumberFormat("in-IN", {
-                        style: "currency",
-                        currency: "IDR",
-                      }).format(item?.variant[0]?.price)}
-                    </div>
                   </div>
                 )
               })}
+            </div>
+            <div className="flex w-full justify-center items-center gap-5 mt-5 md:mt-0">
+              <button
+                disabled={product.results?.pageInfo?.page <= 1}
+                onClick={() =>
+                  getProductsPaginated(product.results?.pageInfo?.page - 1)
+                }
+                className="btn bg-primary text-white border-none normal-case hover:bg-primary"
+              >
+                <FaArrowLeft size={20} />
+              </button>
+              <button
+                disabled={
+                  product.results?.pageInfo?.page ===
+                  product.results?.pageInfo?.totalPage
+                }
+                onClick={() =>
+                  getProductsPaginated(product.results?.pageInfo?.page + 1)
+                }
+                className="btn bg-primary text-white border-none normal-case hover:bg-primary"
+              >
+                <FaArrowRight size={20} />
+              </button>
             </div>
           </div>
         </div>
