@@ -27,7 +27,6 @@ const Cart = ({ token }) => {
       try {
         const { data } = await http(token).get("/cart")
         setListCart(data.results)
-        console.log(data)
       } catch (err) {
         console.log(err)
       }
@@ -48,7 +47,6 @@ const Cart = ({ token }) => {
         <div className="flex justify-center items-center pt-20">
           <div className="flex justify-center items-center flex-wrap gap-10">
             {listCart.map((cart, index) => {
-              console.log(cart.picture)
               return (
                 <>
                   <div
