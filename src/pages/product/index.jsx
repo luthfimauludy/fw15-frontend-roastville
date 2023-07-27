@@ -222,31 +222,35 @@ function ProductCust({ token }) {
                 )
               })}
             </div>
-            <div className="flex justify-center items-center flex-wrap px-10 gap-10">
-              {product?.results?.rows?.map((item) => {
-                return (
-                  <div
-                    onClick={() => dispatchEvent(item)}
-                    key={`product-${item.id}`}
-                    className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
-                  >
-                    <div className="flex flex-col gap-5 items-center justify-center w-full h-full">
-                      <div className="w-32 justify-center h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
-                        <Image
-                          src={item.picture}
-                          alt="img-product.png"
-                          width="400"
-                          height="400"
-                          className="object-cover w-full h-full bg-cover flex justify-center self-center"
-                        />
-                      </div>
-                      <div className="text-center font-black text-xl text-accent">
-                        {item?.name}
+            <div className="flex justify-center items-center flex-wrap px-10 gap-10 h-[500px]">
+              {product?.results?.rows.length >= 1 ? (
+                product?.results?.rows?.map((item) => {
+                  return (
+                    <div
+                      onClick={() => dispatchEvent(item)}
+                      key={`product-${item.id}`}
+                      className="flex flex-col justify-between bordered-2 items-center w-48 h-56 border border-none rounded-xl shadow-xl p-3 mb-7 cursor-pointer hover:scale-[1.05] active:scale-[.9] duration-300"
+                    >
+                      <div className="flex flex-col gap-5 items-center justify-center w-full h-full">
+                        <div className="w-32 justify-center h-32 shadow-lg border rounded-full overflow-hidden object-cover flex items-center mt-[-50px]">
+                          <Image
+                            src={item.picture}
+                            alt="img-product.png"
+                            width="400"
+                            height="400"
+                            className="object-cover w-full h-full bg-cover flex justify-center self-center"
+                          />
+                        </div>
+                        <div className="text-center font-black text-xl text-accent">
+                          {item?.name}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })
+              ) : (
+                <div className="font-bold text-xl">No Data</div>
+              )}
             </div>
             <div className="flex w-full justify-center items-center gap-5 mt-5 md:mt-0">
               <button
