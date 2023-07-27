@@ -102,24 +102,28 @@ function ProductCust({ token }) {
   ])
 
   const dispatchEvent = (item) => {
-    const encodedProductName = encodeURIComponent(item.name)
-    const url = `/product/${encodedProductName}`
-    dispatch(
-      productDetail({
-        id: item.id,
-        name: item.name,
-        picture: item.picture,
-        description: item.description,
-      })
-    )
-    dispatch(
-      variantDetail({
-        quantity: 1,
-        selectedQty: 1,
-      })
-    )
-    dispatch(addVoucher(selectedVoucher))
-    router.replace(url)
+    if (!token) {
+      router.replace("/auth/login")
+    } else {
+      const encodedProductName = encodeURIComponent(item.name)
+      const url = `/product/${encodedProductName}`
+      dispatch(
+        productDetail({
+          id: item.id,
+          name: item.name,
+          picture: item.picture,
+          description: item.description,
+        })
+      )
+      dispatch(
+        variantDetail({
+          quantity: 1,
+          selectedQty: 1,
+        })
+      )
+      dispatch(addVoucher(selectedVoucher))
+      router.replace(url)
+    }
   }
 
   return (
