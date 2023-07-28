@@ -115,7 +115,7 @@ export default function Headers({ token }) {
             {userRole === 1 && (
               <>
                 <span className="hover:text-secondary">
-                  <Link href="/manage-order">Orders</Link>
+                  <Link href="/orders/manage-order">Orders</Link>
                 </span>
                 <span className="hover:text-secondary">
                   <Link href="/dashboard">Dashboard</Link>
