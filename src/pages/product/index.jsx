@@ -34,6 +34,7 @@ function ProductCust({ token }) {
   const [vouchers, setVouchers] = React.useState([])
   const [selectedVoucher, setSelectedVoucher] = React.useState(null)
   const productInfo = useSelector((state) => state.product.data)
+  const profile = useSelector((state) => state.profile.data)
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -140,7 +141,7 @@ function ProductCust({ token }) {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center gap-12">
-            <div className="flex flex-wrap xl:flex-col justify-center items-center gap-5">
+            <div className="flex flex-wrap text-white xl:flex-col justify-center items-center gap-5">
               {vouchers.map((v) => {
                 return (
                   <>
@@ -181,14 +182,16 @@ function ProductCust({ token }) {
             ) : (
               <div></div>
             )}
-            <div className="w-80">
-              <div
-                onClick={() => router.replace("/product/new-product")}
-                className="btn btn-primary font-bold normal-case w-full text-white"
-              >
-                Create product
+            {profile.role === "admin" && (
+              <div className="w-80">
+                <div
+                  onClick={() => router.replace("/product/new-product")}
+                  className="btn btn-primary font-bold normal-case w-full text-white"
+                >
+                  Create Product
+                </div>
               </div>
-            </div>
+            )}
             <div className="w-80 text-xs">
               <div className="font-bold">Terms and Condition</div>
               <div>
@@ -252,7 +255,7 @@ function ProductCust({ token }) {
                 <div className="font-bold text-xl">No Data</div>
               )}
             </div>
-            <div className="flex w-full justify-center items-center gap-5 mt-5 md:mt-0">
+            <div className="flex w-full justify-center items-center pb-12 gap-5 mt-5 md:mt-0">
               <button
                 disabled={product.results?.pageInfo?.page <= 1}
                 onClick={() =>
