@@ -132,40 +132,34 @@ const Profile = ({ token, user }) => {
               className="bg-no-repeat bg-cover bg-slate-100 lg:mx-20 rounded-lg p-10 flex flex-col md:flex-row justify-center gap-10"
             >
               <div className="flex flex-col gap-10 items-center md:w-80">
-                <div className="rounded-full overflow-hidden bg-blue-600 flex p-1 w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
-                  <div>
-                    <div>
-                      {!selectedPicture && profile?.picture && (
-                        <Image
-                          className="bg-cover w-full h-full object-cover"
-                          src={profile?.picture}
-                          alt="picture"
-                          width={250}
-                          height={250}
-                        />
-                      )}
-                    </div>
-                    {!profile?.picture && (
-                      <Image
-                        className="w-full h-full rounded-full object-contain"
-                        src={Default}
-                        alt="picture"
-                        width={350}
-                        height={350}
-                      />
-                    )}
-                    {selectedPicture && (
-                      <div>
-                        <Image
-                          className="w-full h-full object-cover bg-cover"
-                          src={pictureURI}
-                          alt="profile"
-                          width={250}
-                          height={250}
-                        />
-                      </div>
-                    )}
-                  </div>
+                <div className="rounded-full overflow-hidden flex border-8 p-1 border-primary w-36 h-36 md:w-32 md:h-32 lg:w-52 lg:h-52">
+                  {!selectedPicture && profile?.picture && (
+                    <Image
+                      className="bg-cover rounded-full w-full h-full object-cover"
+                      src={profile?.picture}
+                      alt="picture"
+                      width={350}
+                      height={350}
+                    />
+                  )}
+                  {!profile?.picture && !selectedPicture && (
+                    <Image
+                      className="w-full h-full rounded-full object-cover"
+                      src={Default}
+                      alt="picture"
+                      width={350}
+                      height={350}
+                    />
+                  )}
+                  {selectedPicture && (
+                    <Image
+                      className="w-full h-full rounded-full object-cover bg-cover"
+                      src={pictureURI}
+                      alt="profile"
+                      width={350}
+                      height={350}
+                    />
+                  )}
                 </div>
                 <div className="flex flex-col justify-center items-center m-2 gap-3">
                   <div className="text-xl font-bold">
@@ -187,7 +181,7 @@ const Profile = ({ token, user }) => {
                 <div className="flex flex-col gap-5">
                   <div>
                     <label className="w-48 md:w-32 lg:w-48 btn btn-primary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case text-white rounded-xl">
-                      <span>Chosse Photo</span>
+                      <span>Choose Photo</span>
                       <input
                         onChange={changePicture}
                         type="file"
@@ -219,7 +213,7 @@ const Profile = ({ token, user }) => {
                   >
                     Save Change
                   </button>
-                  <label className="w-48 md:w-32 lg:w-48 btn btn-secondary text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
+                  <label className="w-48 md:w-32 text-white lg:w-48 btn btn-secondary border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl">
                     Cancel
                   </label>
                 </div>
@@ -227,7 +221,7 @@ const Profile = ({ token, user }) => {
                   <Link href="/">
                     <button
                       onClick={doLogout}
-                      className="w-48 md:w-32 lg:w-48 btn btn-error text-black border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl"
+                      className="w-48 md:w-32 lg:w-48 btn btn-error text-white border-none hover:bg-gray-400 active:bg-slate-600 active:scale-[.9] duration-300 normal-case rounded-xl"
                     >
                       Logout
                     </button>
@@ -246,7 +240,7 @@ const Profile = ({ token, user }) => {
                           onClick={() => setEditProfilUser(true)}
                           className="flex justify-center items-center"
                         >
-                          <FiEdit2 size={20} />
+                          <FiEdit2 size={20} color="white" />
                         </button>
                       )}
                     </div>
@@ -472,10 +466,9 @@ const Profile = ({ token, user }) => {
                           disabled={!editProfileUser}
                           className="radio radio-primary"
                         />
-                        <span className="font-bold">Male</span>
+                        <span className="font-bold cursor-pointer">Male</span>
                       </label>
                     </div>
-
                     <div className="flex items-center gap-2">
                       <label className="flex gap-2">
                         <Field
@@ -485,7 +478,7 @@ const Profile = ({ token, user }) => {
                           disabled={!editProfileUser}
                           className="radio radio-primary"
                         />
-                        <span className="font-bold">Female</span>
+                        <span className="font-bold cursor-pointer">Female</span>
                       </label>
                     </div>
                   </div>
