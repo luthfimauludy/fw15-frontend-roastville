@@ -192,7 +192,7 @@ function DetailProduct({ token }) {
       <Header token={token} />
       <div className="h-full">
         <div className="flex px-5 md:px-24 py-10 flex-col md:flex-row h-full">
-          <div className="flex md:w-[50%] pb-10">
+          <div className="flex md:w-[50%] px-10 py-10">
             <div className="flex flex-col gap-4 w-full">
               <div className="flex font-bold items-center md:text-[20px] ">
                 Favourite & Promo <IoIosArrowForward size={30} />
@@ -214,13 +214,10 @@ function DetailProduct({ token }) {
                     className="object-cover"
                   />
                 )}
-                <button className="absolute top-10 right-10 bg-secondary h-14 w-14 rounded-full flex justify-center items-center">
-                  <FiTrash2 size={30} color="white" />
-                </button>
               </div>
             </div>
           </div>
-          <div className="flex flex-1 md:w-[50%]">
+          <div className="flex flex-1 md:w-[50%] px-10 py-10">
             <Formik
               initialValues={{
                 name: productDetails?.name,

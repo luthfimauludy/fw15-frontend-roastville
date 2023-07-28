@@ -37,26 +37,25 @@ const HistoryCust = ({ token }) => {
   return (
     <div className="max-w-full max-h-full">
       <Header token={token} />
-      <div className="px-10 bg-payment bg-no-repeat bg-cover pb-[100px]">
+      <div className="px-10 bg-payment h-screen bg-no-repeat bg-cover pb-[100px]">
         <div className="flex flex-col justify-center items-center leading-10 pt-20">
           <h1 className="text-white text-4xl font-bold text-center">
             Let&apos;s see what you have bought!
           </h1>
-          <p className="text-white">Long press to delete item</p>
         </div>
         <div className="flex justify-center items-center pt-20">
           <div className="flex justify-center items-center flex-wrap gap-10">
             {transactionsHistory.map((tr) => {
               return (
                 <>
-                  <div className="max-w-[394px] h-auto bg-white rounded-2xl hover:opacity-50 cursor-pointer">
-                    <div className="py-5 px-5 flex gap-5">
+                  <div className="flex items-center justify-center max-w-[394px] md:h-[180px] px-10 py-10 bg-white rounded-2xl hover:opacity-50 cursor-pointer">
+                    <div className="flex flex-row flex-wrap">
                       <Image
                         src={tr.picture}
                         width="82"
                         height="90"
                         alt=""
-                        className="rounded-full"
+                        className="rounded-full object-contain"
                       />
                       <div className="flex-1 text-lg">
                         <p className="font-bold text-2xl">{tr.name}</p>

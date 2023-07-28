@@ -38,7 +38,7 @@ const Cart = ({ token }) => {
   return (
     <div className="max-w-full max-h-full">
       <Header token={token} />
-      <div className="bg-payment bg-no-repeat bg-cover pb-[100px] px-10">
+      <div className="bg-payment bg-no-repeat bg-cover h-screen pb-[100px] px-10">
         <div className="flex flex-col justify-center items-center leading-10 pt-20">
           <h1 className="text-white text-4xl font-bold text-center">
             Here&apos;s your cart list
@@ -50,21 +50,19 @@ const Cart = ({ token }) => {
               return (
                 <>
                   <div
-                    className="max-w-[394px] h-auto bg-white rounded-2xl hover:opacity-50 cursor-pointer"
+                    className="max-w-[400px] md:h-[150px] py-5 px-5 md:px-10 md:py-10 bg-white rounded-2xl hover:opacity-50 cursor-pointer flex justify-center items-center"
                     key={index}
                   >
-                    <div className="py-5 px-5 flex flex-wrap gap-5">
-                      <Image
-                        src={cart.picture}
-                        width="82"
-                        height="90"
-                        alt=""
-                        className="rounded-full"
-                      />
-                      <div className="flex-1 text-lg">
-                        <p className="font-bold text-2xl">{cart.name}</p>
-                        <p>{cart.name}</p>
-                      </div>
+                    <Image
+                      src={cart.picture}
+                      width={50}
+                      height={50}
+                      alt=""
+                      className="max-w-sm object-cover"
+                    />
+                    <div className="flex-1 text-lg">
+                      <p className="font-bold text-2xl">{cart.name}</p>
+                      <p>{cart.name}</p>
                     </div>
                   </div>
                 </>
