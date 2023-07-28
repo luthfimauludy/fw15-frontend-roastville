@@ -23,6 +23,7 @@ import { useRouter } from "next/router"
 import { Formik } from "formik"
 import { useDispatch } from "react-redux"
 import { setMessage } from "@/redux/reducers/message"
+import { useRef } from "react"
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const token = req.session.token || null
@@ -34,8 +35,17 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
 }, cookieConfig)
 
 export default function Home({ token }) {
+  const listCarousel = useRef()
   const router = useRouter()
   const dispatch = useDispatch()
+
+  const scrollLeft = () => {
+    listCarousel.current.scrollLeft += 580
+  }
+
+  const scrollRight = () => {
+    listCarousel.current.scrollLeft -= 580
+  }
 
   const handleSearch = (values) => {
     router.push("/search")
@@ -147,7 +157,7 @@ export default function Home({ token }) {
               </div>
               <div>Healthy meals, you can request the ingredients</div>
             </div>
-            <div className="flex justify-between gap-2">
+            <div className="flex gap-2">
               <div>
                 <Image alt="" src={Checkbox} />
               </div>
@@ -179,7 +189,7 @@ export default function Home({ token }) {
         <div>
           <div className="carousel carousel-center max-w-[300px] md:max-w-3xl xl:max-w-7xl p-4 space-x-4 bg-neutral rounded-box">
             <div className="carousel-item">
-              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[760px] border-2 rounded-xl">
+              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[660px] cursor-pointer duration-500 hover:scale-[1.05] border-2 rounded-xl">
                 <div className="w-28 h-28 rounded-full overflow-hidden">
                   <Image alt="" src={ChickenWings}></Image>
                 </div>
@@ -199,13 +209,13 @@ export default function Home({ token }) {
               </div>
             </div>
             <div className="carousel-item">
-              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[760px] border-2 rounded-xl">
+              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[660px] cursor-pointer duration-500 hover:scale-[1.05] border-2 rounded-xl">
                 <div className="w-28 h-28 rounded-full overflow-hidden">
                   <Image alt="" src={Hazelnut}></Image>
                 </div>
                 <div className="font-bold">Hazelnut Latte</div>
                 <div className="flex flex-col gap-2">
-                  <div>HazelnutSyrup</div>
+                  <div>Hazelnut Syrup</div>
                   <div>Wanilla Whipped Cream</div>
                   <div>Ice / Hot</div>
                   <div>Sliced Banana on Top</div>
@@ -219,13 +229,13 @@ export default function Home({ token }) {
               </div>
             </div>
             <div className="carousel-item">
-              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[760px] border-2 rounded-xl">
+              <div className="flex flex-col gap-10 justify-center items-center w-[240px] h-[560px] md:h-[660px] cursor-pointer duration-500 hover:scale-[1.05] border-2 rounded-xl">
                 <div className="w-28 h-28 rounded-full overflow-hidden">
                   <Image alt="" src={PinkyPromise}></Image>
                 </div>
                 <div className="font-bold">Hazelnut Latte</div>
                 <div className="flex flex-col gap-2">
-                  <div>HazelnutSyrup</div>
+                  <div>Hazelnut Syrup</div>
                   <div>Wanilla Whipped Cream</div>
                   <div>Ice / Hot</div>
                   <div>Sliced Banana on Top</div>
@@ -285,8 +295,11 @@ export default function Home({ token }) {
           These are the stories of our customers who have visited us with great
           pleasure.
         </div>
-        <div className="flex max-w-[1200px] gap-10 overflow-scroll items-center">
-          <div className="carousel carousel-center max-w-[300px] md:max-w-7xl p-4 space-x-4 bg-neutral rounded-box">
+        <div className="flex max-w-3xl gap-10 overflow-scroll items-center">
+          <div
+            ref={listCarousel}
+            className="carousel carousel-center max-w-[300px] md:max-w-7xl p-4 space-x-4 bg-neutral rounded-box"
+          >
             <div className="carousel-item">
               <div className="flex flex-col p-6 max-w-[200px] md:max-w-[400px] justify-around items-center rounded-lg border-2">
                 <div className="flex w-full justify-between items-center">
@@ -394,10 +407,16 @@ export default function Home({ token }) {
         </div>
         <div className="max-w-[1200px]">
           <div className="flex justify-end gap-5">
-            <div className="rounded-full border-2 p-2 border-gray-300">
+            <div
+              className="rounded-full border-2 p-2 border-gray-300 cursor-pointer"
+              onClick={scrollRight}
+            >
               <FiArrowLeft size={30} />
             </div>
-            <div className="rounded-full border-2 p-2 border-gray-300 bg-primary">
+            <div
+              className="rounded-full border-2 p-2 border-gray-300 bg-primary cursor-pointer"
+              onClick={scrollLeft}
+            >
               <FiArrowRight size={30} color="white" />
             </div>
           </div>

@@ -33,12 +33,11 @@ export default function Headers({ token }) {
   const [userRole, setUser] = useState({})
   const [search, setSearch] = useState(false)
   const [modal, setCheckModal] = useState(false)
-  const [inputValue, setInputValue] = useState("")
   const user = useSelector((state) => state.profile.data)
   const [isOpen, setOpen] = useState(false)
   React.useEffect(() => {
     async function getData() {
-      const { data } = await http(token).get("/profile")
+      const { data } = await http(token).get("/profile/user")
       dispatch(setProfile(data.results))
     }
 
@@ -116,7 +115,7 @@ export default function Headers({ token }) {
             {userRole === 1 && (
               <>
                 <span className="hover:text-secondary">
-                  <Link href="/manage-order">Orders</Link>
+                  <Link href="/orders/manage-order">Orders</Link>
                 </span>
                 <span className="hover:text-secondary">
                   <Link href="/dashboard">Dashboard</Link>
