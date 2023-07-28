@@ -182,7 +182,7 @@ function ProductCust({ token }) {
             ) : (
               <div></div>
             )}
-            {profile.role === "admin" && (
+            {profile.role === "superadmin" && (
               <div className="w-80">
                 <div
                   onClick={() => router.replace("/product/new-product")}
