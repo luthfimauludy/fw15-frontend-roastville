@@ -65,7 +65,7 @@ function ConfirmOrder({ token }) {
     } catch (err) {
       console.log(err)
     }
-    // router.replace("/orders/manage-order")
+    router.replace("/orders/manage-order")
   }
   console.log(product.id)
 
