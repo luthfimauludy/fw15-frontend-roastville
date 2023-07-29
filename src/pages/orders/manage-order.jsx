@@ -27,7 +27,7 @@ const ManageOrder = ({ token }) => {
   const [listTransactions, setListTransactions] = useState([])
   const dispatch = useDispatch()
   const router = useRouter()
-
+  console.log(listTransactions)
   const getListTransactions = useCallback(
     async (page = 1) => {
       try {
@@ -92,6 +92,7 @@ const ManageOrder = ({ token }) => {
                     <div className="flex-1 text-lg">
                       <p className="font-bold text-2xl">{transactions.name}</p>
                       <p>{transactions.name}</p>
+                      <p>{transactions.status}</p>
                     </div>
                   </div>
                 </>
