@@ -225,7 +225,7 @@ function ProductCust({ token }) {
                 )
               })}
             </div>
-            <div className="flex justify-center items-center flex-wrap px-10 gap-10 h-[500px]">
+            <div className="flex justify-center items-center flex-wrap px-10 gap-10 h-auto">
               {product?.results?.rows.length >= 1 ? (
                 product?.results?.rows?.map((item) => {
                   return (
